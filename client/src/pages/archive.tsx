@@ -294,11 +294,13 @@ export default function Archive() {
                             <Button 
                               className="w-full bg-poppy hover:bg-ladybug text-white font-semibold py-3 rounded-lg transition-all duration-300 group-hover:scale-105"
                               onClick={() => {
-                                // Simulate PDF download
-                                const link = document.createElement('a');
-                                link.href = '#'; // In real implementation, this would be the actual PDF URL
-                                link.download = `CNS_Journal_Vol${issue.volume}_Issue${issue.issue}.pdf`;
-                                link.click();
+                                if (issue.pdfUrl) {
+                                  const link = document.createElement('a');
+                                  link.href = issue.pdfUrl;
+                                  link.download = `CNS_Journal_Vol${issue.volume}_Issue${issue.issue}.pdf`;
+                                  link.target = '_blank';
+                                  link.click();
+                                }
                               }}
                             >
                               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -309,7 +311,7 @@ export default function Archive() {
                             
                             <div className="flex justify-between text-xs text-white/60">
                               <span>PDF Format</span>
-                              <span>~2.5 MB</span>
+                              <span>{issue.pdfSize || '~2.5 MB'}</span>
                             </div>
                           </div>
                         </div>

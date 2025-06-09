@@ -1,8 +1,13 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import path from "path";
+import express from "express";
 import { storage } from "./storage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Serve PDF files from attached_assets/Issues
+  app.use('/attached_assets', express.static(path.join(process.cwd(), 'attached_assets')));
+
   // Articles routes
   app.get("/api/articles", async (req, res) => {
     try {
