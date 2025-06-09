@@ -52,7 +52,7 @@ export default function HeroSection() {
                 <h1 className="text-5xl md:text-6xl font-bold leading-tight animate-slide-up">
                   Welcome to the Website of the{" "}
                   <span className="relative">
-                    <span className="text-white animate-pulse">
+                    <span className="text-white">
                       Cognitive Neuroscience Journal!
                     </span>
                     <div className="absolute -top-2 -right-2 w-4 h-4 bg-yellow-400 rounded-full animate-float-1 opacity-60"></div>
