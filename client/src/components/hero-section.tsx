@@ -19,8 +19,8 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
-      <NeuralBackground />
+    <section className="relative bg-gradient-to-br from-red-impact via-berry to-maroon text-white overflow-hidden">
+      <div className="absolute inset-0 bg-black/20"></div>
       
       {/* Main Content Area */}
       <div className="relative z-10 min-h-[80vh] flex items-center">
@@ -32,7 +32,7 @@ export default function HeroSection() {
               <div className="space-y-6">
                 <h1 className="text-5xl md:text-6xl font-bold leading-tight">
                   Welcome to the Website of the{" "}
-                  <span className="text-gradient bg-gradient-to-r from-poppy to-orange-400 bg-clip-text text-transparent">
+                  <span className="text-gradient bg-gradient-to-r from-yellow to-orange bg-clip-text text-transparent">
                     Cognitive Neuroscience Journal!
                   </span>
                 </h1>
@@ -40,10 +40,10 @@ export default function HeroSection() {
                 <p className="text-xl text-white/80 leading-relaxed max-w-3xl">
                   Since 2006, our student-led journal has been publishing peer-reviewed articles based on master 
                   theses from our programme. Since we now publish issues as{" "}
-                  <span className="text-poppy font-semibold">free download</span>, we invite you to{" "}
+                  <span className="text-yellow font-semibold">free download</span>, we invite you to{" "}
                   <Button 
                     variant="link" 
-                    className="text-poppy hover:text-orange-400 p-0 h-auto font-semibold underline"
+                    className="text-yellow hover:text-orange p-0 h-auto font-semibold underline"
                     onClick={() => setLocation("/archive")}
                   >
                     download any of our current and previous issues of the journal

@@ -173,8 +173,8 @@ export default function Home() {
               {articles.slice(0, 6).map((article, index) => (
                 <div key={article.id} className={`stagger-${(index % 4) + 1}`}>
                   <div className="card-enhanced rounded-2xl overflow-hidden hover:shadow-neural-lg transition-all duration-300 p-6">
-                    <h3 className="font-bold text-lg mb-2 text-maroon">
-                      <Link href={`/article/${article.id}`} className="hover:text-ladybug transition-colors">
+                    <h3 className="font-bold text-lg mb-2 text-red-impact">
+                      <Link href={`/article/${article.id}`} className="hover:text-berry transition-colors">
                         {article.title}
                       </Link>
                     </h3>

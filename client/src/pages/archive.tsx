@@ -16,7 +16,7 @@ export default function Archive() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-maroon mb-4">Archive</h1>
+          <h1 className="text-4xl font-bold text-red-impact mb-4">Archive</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Download our complete collection of published journal issues
           </p>
@@ -26,7 +26,7 @@ export default function Archive() {
 
         {/* Journal Issues Download Section */}
         <div className="mt-20">
-          <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white rounded-2xl p-12 relative overflow-hidden">
+          <div className="bg-gradient-to-br from-red-impact via-berry to-maroon text-white rounded-2xl p-12 relative overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,66,75,0.3),transparent_40%)] animate-pulse"></div>
@@ -35,11 +35,11 @@ export default function Archive() {
             
             <div className="relative z-10">
               <div className="text-center mb-12">
-                <div className="w-20 h-20 bg-poppy rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <div className="w-20 h-20 bg-yellow rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <BookOpen className="h-10 w-10 text-white" />
                 </div>
                 <h2 className="text-4xl font-bold mb-4">
-                  Download Journal <span className="text-poppy">Issues</span>
+                  Download Journal <span className="text-yellow">Issues</span>
                 </h2>
                 <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
                   Access our complete collection of published journal issues. All publications are available 
@@ -74,10 +74,10 @@ export default function Archive() {
                     <Card key={issue.id} className="bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300 group overflow-hidden">
                       <CardContent className="p-0">
                         {/* Issue Cover/Preview */}
-                        <div className="h-48 bg-gradient-to-br from-poppy/20 to-ladybug/20 flex items-center justify-center relative">
+                        <div className="h-48 bg-gradient-to-br from-red-impact/20 to-berry/20 flex items-center justify-center relative">
                           <div className="text-center">
                             <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-                              <BookOpen className="h-8 w-8 text-poppy" />
+                              <BookOpen className="h-8 w-8 text-red-impact" />
                             </div>
                             <div className="text-white font-bold text-lg">
                               Vol. {issue.volume}, Issue {issue.issue}
@@ -85,19 +85,19 @@ export default function Archive() {
                           </div>
                           {issue.current && (
                             <div className="absolute top-4 right-4">
-                              <Badge className="bg-yellow-500 text-black font-bold">Latest</Badge>
+                              <Badge className="bg-yellow text-black font-bold">Latest</Badge>
                             </div>
                           )}
                           {index === 0 && (
                             <div className="absolute top-4 left-4">
-                              <Badge className="bg-green-500 text-white">New</Badge>
+                              <Badge className="bg-green text-white">New</Badge>
                             </div>
                           )}
                         </div>
 
                         <div className="p-6">
                           <div className="mb-4">
-                            <h3 className="font-bold text-white text-lg mb-2 group-hover:text-poppy transition-colors">
+                            <h3 className="font-bold text-white text-lg mb-2 group-hover:text-yellow transition-colors">
                               {issue.title}
                             </h3>
                             {issue.description && (
@@ -107,7 +107,7 @@ export default function Archive() {
                             )}
                             {issue.publishedAt && (
                               <div className="flex items-center space-x-2 text-white/60 text-sm">
-                                <Calendar className="h-4 w-4 text-poppy" />
+                                <Calendar className="h-4 w-4 text-yellow" />
                                 <span>Published {formatDate(issue.publishedAt)}</span>
                               </div>
                             )}
