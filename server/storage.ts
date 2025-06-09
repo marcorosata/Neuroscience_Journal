@@ -28,7 +28,7 @@ export interface IStorage {
     publishedArticles: number;
     authors: number;
     monthlyReaders: number;
-    totalCitations: number;
+    totalSponsors: number;
   }>;
 
   // Requests
@@ -660,26 +660,13 @@ export class MemStorage implements IStorage {
     publishedArticles: number;
     authors: number;
     monthlyReaders: number;
-    totalCitations: number;
+    totalSponsors: number;
   }> {
-    const publishedArticles = Array.from(this.articles.values()).filter(
-      article => article.status === "published"
-    );
-    
-    const uniqueAuthors = new Set();
-    publishedArticles.forEach(article => {
-      article.authors.forEach(author => uniqueAuthors.add(author));
-    });
-
-    const totalCitations = publishedArticles.reduce(
-      (sum, article) => sum + (article.citations || 0), 0
-    );
-
     return {
-      publishedArticles: publishedArticles.length,
-      authors: uniqueAuthors.size,
-      monthlyReaders: 15200, // Static for demo
-      totalCitations
+      publishedArticles: 120,
+      authors: 300,
+      monthlyReaders: 1,
+      totalSponsors: 12
     };
   }
 
