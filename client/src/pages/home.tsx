@@ -7,6 +7,7 @@ import ArticleCard from "@/components/article-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "wouter";
+import neuralBgGif from "@assets/20250609_1453_Ethereal Neuronal Lightning_simple_compose_01jxac05xmenrts2jkcqhkrbzj_1749474641545.gif";
 import type { Article, Issue, Editor } from "@shared/schema";
 
 export default function Home() {
@@ -29,8 +30,23 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <HeroSection />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Neural Lightning Background */}
+      <div 
+        className="fixed inset-0 opacity-20 dark:opacity-15"
+        style={{
+          backgroundImage: `url(${neuralBgGif})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      />
+      
+      {/* Gradient Overlay */}
+      <div className="fixed inset-0 bg-gradient-to-b from-gray-50/95 to-white/95 dark:from-gray-900/95 dark:to-black/95" />
+      
+      <div className="relative z-10">
+        <HeroSection />
 
       {/* Featured Research Section */}
       <section className="py-20 bg-white relative overflow-hidden">
@@ -244,6 +260,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 }

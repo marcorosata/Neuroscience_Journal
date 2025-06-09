@@ -10,10 +10,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import { Download, FileText, RefreshCw } from "lucide-react";
+import { Download, RefreshCw } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import neuralBackgroundUrl from "@assets/20250609_1453_Ethereal Neuronal Lightning_simple_compose_01jxac05xmenrts2jkcqhkrbzj_1749474641545.gif";
 
 const requestFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -49,7 +49,16 @@ export default function RequestIssue() {
   const [captchaAnswer, setCaptchaAnswer] = useState("");
   const { toast } = useToast();
 
-  // Initialize CAPTCHA on component mount
+  const generateCaptcha = () => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let result = "";
+    for (let i = 0; i < 5; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setCaptchaText(result);
+    setCaptchaAnswer(result);
+  };
+
   useEffect(() => {
     generateCaptcha();
   }, []);
@@ -69,16 +78,6 @@ export default function RequestIssue() {
       captcha: "",
     },
   });
-
-  const generateCaptcha = () => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let result = "";
-    for (let i = 0; i < 5; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    setCaptchaText(result);
-    setCaptchaAnswer(result);
-  };
 
   const requestMutation = useMutation({
     mutationFn: async (data: RequestFormData) => {
@@ -102,7 +101,7 @@ export default function RequestIssue() {
       form.reset();
       generateCaptcha();
     },
-    onError: (error) => {
+    onError: () => {
       toast({
         title: "Error submitting request",
         description: "Please try again later.",
@@ -158,23 +157,34 @@ export default function RequestIssue() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-red-50/30 to-red-100/20 dark:from-black dark:via-red-950/20 dark:to-red-900/10">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <div 
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        backgroundImage: `url(${neuralBackgroundUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Overlay for better readability */}
+      <div className="absolute inset-0 bg-black/70 dark:bg-black/80" />
+      
+      <div className="relative z-10 container mx-auto px-4 py-8 max-w-4xl">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-4xl font-bold text-white mb-4">
             Request Your Issue
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
+          <p className="text-lg text-gray-200">
             Please fill out the form below.
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-            Fields marked with <span className="text-red-500">*</span> are mandatory.
+          <p className="text-sm text-gray-300 mt-2">
+            Fields marked with <span className="text-red-400">*</span> are mandatory.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Request Form */}
-          <Card className="bg-white/80 dark:bg-black/40 backdrop-blur-sm border-red-200 dark:border-red-800">
+          <Card className="bg-white/95 dark:bg-black/90 backdrop-blur-sm border-red-200 dark:border-red-800">
             <CardHeader>
               <CardTitle className="text-2xl text-gray-900 dark:text-white">
                 Request Form
@@ -409,7 +419,7 @@ export default function RequestIssue() {
           </Card>
 
           {/* Issue 18 Downloads */}
-          <Card className="bg-white/80 dark:bg-black/40 backdrop-blur-sm border-red-200 dark:border-red-800">
+          <Card className="bg-white/95 dark:bg-black/90 backdrop-blur-sm border-red-200 dark:border-red-800">
             <CardHeader>
               <CardTitle className="text-2xl text-gray-900 dark:text-white">
                 Print Edition - Issue 18
@@ -425,7 +435,7 @@ export default function RequestIssue() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-4 max-h-96 overflow-y-auto">
                 {issue18Articles.map((article, index) => (
                   <div 
                     key={index}
