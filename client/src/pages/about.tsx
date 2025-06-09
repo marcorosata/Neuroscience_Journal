@@ -294,55 +294,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* Journal History */}
-        <div className="py-20">
-          <div className="bg-gradient-to-br from-gray-50 via-white to-gray-50 p-12 rounded-3xl shadow-lg border border-gray-100">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center px-4 py-2 bg-maroon/10 text-maroon rounded-full text-sm font-medium mb-6">
-                <BookOpen className="w-4 h-4 mr-2" />
-                Our Journey
-              </div>
-              <h2 className="text-4xl font-bold text-maroon mb-6">Journal History</h2>
-            </div>
-            
-            <div className="max-w-4xl mx-auto">
-              <div className="space-y-8">
-                {[
-                  {
-                    year: "2022",
-                    title: "Journal Founded",
-                    description: "The Student Neuroscience Journal was established at Radboud University to provide a dedicated platform for student research in neuroscience.",
-                    color: "from-poppy to-red-500"
-                  },
-                  {
-                    year: "2023",
-                    title: "First Issues Published",
-                    description: "The journal published its first volume with groundbreaking student research in cognitive and computational neuroscience.",
-                    color: "from-ladybug to-red-600"
-                  },
-                  {
-                    year: "2024",
-                    title: "International Recognition",
-                    description: "The journal gained international recognition and established partnerships with leading neuroscience institutions worldwide.",
-                    color: "from-berry to-purple-600"
-                  }
-                ].map((milestone, index) => (
-                  <div key={milestone.year} className="flex items-start space-x-6 group">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${milestone.color} rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <span className="text-white font-bold">{milestone.year}</span>
-                    </div>
-                    <div className="flex-1 pt-2">
-                      <h4 className="text-xl font-semibold text-maroon mb-2">{milestone.title}</h4>
-                      <p className="text-gray-600 leading-relaxed">
-                        {milestone.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
   );
