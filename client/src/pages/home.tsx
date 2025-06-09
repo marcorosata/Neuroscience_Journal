@@ -88,71 +88,7 @@ export default function Home() {
             )}
           </div>
 
-          {/* Featured Article */}
-          {featuredLoading ? (
-            <div className="mb-16">
-              <div className="bg-white rounded-2xl shadow-neural-lg p-8 animate-pulse">
-                <div className="flex flex-col lg:flex-row gap-8">
-                  <div className="lg:w-1/3">
-                    <div className="h-48 bg-gray-200 rounded-xl"></div>
-                  </div>
-                  <div className="lg:w-2/3 space-y-4">
-                    <div className="h-8 bg-gray-200 rounded w-3/4"></div>
-                    <div className="h-4 bg-gray-200 rounded w-full"></div>
-                    <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : featuredArticles && featuredArticles.length > 0 ? (
-            <div className="mb-16">
-              <div className="bg-white rounded-2xl shadow-neural-lg p-8 hover:shadow-neural-lg transition-all duration-300 border border-poppy/10">
-                <div className="flex flex-col lg:flex-row gap-8">
-                  <div className="lg:w-1/3">
-                    <div className="h-48 bg-gradient-to-br from-poppy/10 to-ladybug/10 rounded-xl flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="w-16 h-16 bg-poppy rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Brain className="h-8 w-8 text-white" />
-                        </div>
-                        <p className="text-sm text-gray-600">Featured Research</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="lg:w-2/3">
-                    <div className="bg-gradient-to-r from-gray-50 to-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow p-8">
-                      <div className="flex items-start space-x-6">
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-3 mb-3">
-                            <span className="bg-poppy text-white px-3 py-1 rounded-full text-sm font-medium">Featured</span>
-                          </div>
-                          <h3 className="text-2xl font-bold text-maroon mb-3">
-                            <Link href={`/article/${featuredArticles[0].id}`} className="hover:text-ladybug transition-colors">
-                              {featuredArticles[0].title}
-                            </Link>
-                          </h3>
-                          <p className="text-gray-600 mb-4 line-clamp-3">
-                            {featuredArticles[0].abstract}
-                          </p>
-                          <div className="flex items-center justify-between">
-                            <div className="text-sm text-gray-500">
-                              {featuredArticles[0].authors.join(", ")}
-                            </div>
-                            <Link 
-                              href={`/article/${featuredArticles[0].id}`}
-                              className="text-ladybug hover:text-berry font-medium flex items-center space-x-1"
-                            >
-                              <span>Read Full Article</span>
-                              <span>→</span>
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : null}
+          
 
           {/* Research Highlights Grid */}
           {articlesLoading ? (
@@ -234,10 +170,7 @@ export default function Home() {
                   <CheckCircle className="text-poppy h-5 w-5" />
                   <span className="text-gray-700">Open access publication</span>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="text-poppy h-5 w-5" />
-                  <span className="text-gray-700">Student-led editorial board</span>
-                </div>
+                
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="text-poppy h-5 w-5" />
                   <span className="text-gray-700">International readership</span>
