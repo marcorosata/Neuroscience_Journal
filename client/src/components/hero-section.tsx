@@ -124,14 +124,12 @@ export default function HeroSection() {
                 <CardContent className="p-6">
                   <div className="text-center mb-4">
                     <Badge className="bg-poppy text-white mb-3">Current Issue</Badge>
-                    <div className="w-48 h-64 mx-auto bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg shadow-neural-lg flex items-center justify-center mb-4 border border-poppy/20">
-                      <div className="text-center text-white">
-                        <div className="w-12 h-12 bg-poppy rounded-full flex items-center justify-center mx-auto mb-3">
-                          <FileText className="h-6 w-6" />
-                        </div>
-                        <h3 className="font-bold text-lg mb-1">CNS Journal</h3>
-                        <p className="text-sm text-white/70">Volume 3, Issue 2</p>
-                      </div>
+                    <div className="w-48 h-64 mx-auto rounded-lg shadow-neural-lg mb-4 border border-poppy/20 overflow-hidden">
+                      <img 
+                        src="/attached_assets/Cover-1_1749482985712.png"
+                        alt="CNS Journal Volume 18, Issue 1 Cover"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <Button 
                       size="sm" 
