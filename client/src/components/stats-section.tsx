@@ -54,7 +54,7 @@ export default function StatsSection() {
             Our <span className="text-poppy">Numbers</span>
           </h2>
           <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-            Building tomorrow's neuroscience community through rigorous peer-reviewed research and international collaboration
+            Creating an inclusive space where passionate students share groundbreaking neuroscience discoveries with the world
           </p>
         </div>
 
