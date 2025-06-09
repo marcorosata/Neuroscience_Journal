@@ -245,13 +245,7 @@ export default function Home() {
               </div>
             </div>
             
-            <div>
-              <img 
-                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" 
-                alt="Students collaborating in university lab" 
-                className="rounded-xl shadow-lg w-full"
-              />
-            </div>
+
           </div>
 
           {/* Editorial Board Preview */}
