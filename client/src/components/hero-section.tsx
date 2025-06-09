@@ -123,7 +123,7 @@ export default function HeroSection() {
               <Card className="card-enhanced">
                 <CardContent className="p-6">
                   <div className="text-center mb-4">
-                    <Badge className="bg-poppy text-white mb-3">Current Issue</Badge>
+                    <Badge className="bg-poppy text-red-500 mb-3">Current Issue</Badge>
                     <div className="w-48 h-64 mx-auto rounded-lg shadow-neural-lg mb-4 border border-poppy/20 overflow-hidden">
                       <img 
                         src="/attached_assets/Cover-1_1749482985712.png"
