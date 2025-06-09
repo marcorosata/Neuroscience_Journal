@@ -30,6 +30,10 @@ export interface IStorage {
     monthlyReaders: number;
     totalCitations: number;
   }>;
+
+  // Requests
+  getRequests(): Promise<Request[]>;
+  createRequest(request: InsertRequest): Promise<Request>;
 }
 
 export class MemStorage implements IStorage {
@@ -37,6 +41,7 @@ export class MemStorage implements IStorage {
   private articles: Map<number, Article>;
   private editors: Map<number, Editor>;
   private issues: Map<number, Issue>;
+  private requests: Map<number, Request>;
   private currentId: number;
 
   constructor() {
@@ -44,6 +49,7 @@ export class MemStorage implements IStorage {
     this.articles = new Map();
     this.editors = new Map();
     this.issues = new Map();
+    this.requests = new Map();
     this.currentId = 1;
     this.seedData();
   }
@@ -421,11 +427,15 @@ export class MemStorage implements IStorage {
   async createArticle(insertArticle: InsertArticle): Promise<Article> {
     const id = this.currentId++;
     const article: Article = { 
-      ...insertArticle, 
+      ...insertArticle,
+      status: insertArticle.status || "draft",
+      issue: insertArticle.issue || null,
+      volume: insertArticle.volume || null,
+      doi: insertArticle.doi || null,
       id, 
       createdAt: new Date(),
       publishedAt: insertArticle.status === "published" ? new Date() : null,
-      citations: 0
+      citations: insertArticle.citations || 0
     };
     this.articles.set(id, article);
     return article;
@@ -437,7 +447,12 @@ export class MemStorage implements IStorage {
 
   async createEditor(insertEditor: InsertEditor): Promise<Editor> {
     const id = this.currentId++;
-    const editor: Editor = { ...insertEditor, id };
+    const editor: Editor = { 
+      ...insertEditor, 
+      id,
+      imageUrl: insertEditor.imageUrl || null,
+      bio: insertEditor.bio || null
+    };
     this.editors.set(id, editor);
     return editor;
   }
@@ -455,7 +470,11 @@ export class MemStorage implements IStorage {
     const issue: Issue = { 
       ...insertIssue, 
       id, 
-      publishedAt: new Date()
+      publishedAt: new Date(),
+      description: insertIssue.description || null,
+      current: insertIssue.current || null,
+      pdfUrl: insertIssue.pdfUrl || null,
+      pdfSize: insertIssue.pdfSize || null
     };
     this.issues.set(id, issue);
     return issue;
@@ -486,6 +505,22 @@ export class MemStorage implements IStorage {
       monthlyReaders: 15200, // Static for demo
       totalCitations
     };
+  }
+
+  async getRequests(): Promise<Request[]> {
+    return Array.from(this.requests.values());
+  }
+
+  async createRequest(insertRequest: InsertRequest): Promise<Request> {
+    const id = this.currentId++;
+    const request: Request = { 
+      ...insertRequest, 
+      id,
+      status: "pending",
+      createdAt: new Date()
+    };
+    this.requests.set(id, request);
+    return request;
   }
 }
 
