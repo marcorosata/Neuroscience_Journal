@@ -7,39 +7,9 @@ import { Calendar, BookOpen } from "lucide-react";
 import type { Issue } from "@shared/schema";
 
 export default function Archive() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedIssue, setSelectedIssue] = useState("all");
-
-  const { data: articles, isLoading: articlesLoading } = useQuery<Article[]>({
-    queryKey: ["/api/articles"],
-  });
-
   const { data: issues, isLoading: issuesLoading } = useQuery<Issue[]>({
     queryKey: ["/api/issues"],
   });
-
-  // Filter articles based on search and filters
-  const filteredArticles = articles?.filter(article => {
-    const matchesSearch = !searchQuery || 
-      article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      article.abstract.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      article.authors.some(author => author.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      article.keywords.some(keyword => keyword.toLowerCase().includes(searchQuery.toLowerCase()));
-
-    const matchesCategory = selectedCategory === "all" || article.category === selectedCategory;
-    
-    const matchesIssue = selectedIssue === "all" || 
-      (selectedIssue && `${article.volume}-${article.issue}` === selectedIssue);
-
-    return matchesSearch && matchesCategory && matchesIssue;
-  });
-
-  const categories = ["research", "review", "methods", "case-study"];
-  const uniqueIssues = issues?.map(issue => ({ 
-    value: `${issue.volume}-${issue.issue}`, 
-    label: `Vol. ${issue.volume}, Issue ${issue.issue}` 
-  })) || [];
 
   return (
     <div className="min-h-screen py-16 bg-gray-50">
@@ -48,7 +18,7 @@ export default function Archive() {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-maroon mb-4">Archive</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Browse through our complete collection of published articles and past issues
+            Download our complete collection of published journal issues
           </p>
         </div>
 
