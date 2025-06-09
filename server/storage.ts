@@ -234,15 +234,15 @@ export class MemStorage implements IStorage {
     // Seed actual journal issues from attached assets
     const actualIssues = [
       {
-        volume: "17",
+        volume: "18",
         issue: "1",
-        title: "CNS Journal - Volume 17, Issue 1",
-        publishedAt: new Date("2025-01-01"),
+        title: "Proceedings of the Master's Programme in Cognitive Neuroscience",
+        publishedAt: new Date("2024-10-01"),
         current: true,
-        description: "The latest issue of the CNS Journal featuring cutting-edge research in cognitive neuroscience from Radboud University students and researchers.",
+        description: "Volume 18 of the CNS Journal featuring the latest research in cognitive neuroscience from Radboud University's Master's Programme students and researchers.",
         pdfUrl: "https://drive.google.com/uc?export=download&id=1DDiOAY5pcIx6PDwiKLaau5elOU3JRPpC",
         pdfSize: "150 MB",
-        coverImageUrl: "/attached_assets/image_1749466181150.png"
+        coverImageUrl: "/attached_assets/Cover_1749482711394.pdf"
       },
       {
         volume: "16",
