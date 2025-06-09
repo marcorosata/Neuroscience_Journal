@@ -136,7 +136,7 @@ export default function HeroSection() {
                       className="w-full bg-poppy hover:bg-red-600"
                       onClick={() => setLocation("/current-issue")}
                     >
-                      Read Online
+                      Download it
                     </Button>
                   </div>
                 </CardContent>
