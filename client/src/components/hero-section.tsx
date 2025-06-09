@@ -161,25 +161,7 @@ export default function HeroSection() {
                 </CardContent>
               </Card>
 
-              <Card className="card-enhanced">
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-maroon mb-3">News</h3>
-                  <div className="space-y-3">
-                    <div className="text-sm">
-                      <p className="font-medium text-gray-900">Check out the newest issue of the journal here!</p>
-                      <p className="text-gray-600 text-xs mt-1">Published October 2024</p>
-                    </div>
-                    <Button 
-                      variant="link" 
-                      size="sm" 
-                      className="text-poppy p-0 h-auto"
-                      onClick={() => setLocation("/current-issue")}
-                    >
-                      Read more <ExternalLink className="h-3 w-3 ml-1" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              
             </div>
           </div>
         </div>
