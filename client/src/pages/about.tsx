@@ -107,52 +107,161 @@ export default function About() {
           </div>
         </div>
 
-        {/* Editorial Board */}
+        {/* CNS Journal Team 2024-25 */}
         <div>
-          <h2 className="text-3xl font-bold text-maroon mb-8 text-center">Editorial Board</h2>
-          {editorsLoading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="text-center space-y-4">
-                  <Skeleton className="w-32 h-32 rounded-full mx-auto" />
-                  <Skeleton className="h-4 w-3/4 mx-auto" />
-                  <Skeleton className="h-4 w-1/2 mx-auto" />
-                  <Skeleton className="h-3 w-2/3 mx-auto" />
+          <h2 className="text-3xl font-bold text-maroon mb-8 text-center">CNS Journal Team 2024-25</h2>
+          <div className="text-center mb-8">
+            <p className="text-gray-600 mb-2">Contact: <a href="mailto:nijmegencns@gmail.com" className="text-poppy hover:text-red-600">nijmegencns@gmail.com</a></p>
+          </div>
+
+          <div className="space-y-12">
+            {/* Managing Editors */}
+            <div>
+              <h3 className="text-2xl font-bold text-ladybug mb-6 text-center">Managing Editors</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="text-center bg-gray-50 p-4 rounded-xl">
+                  <h4 className="font-bold text-maroon">Emanuela Pirani</h4>
+                  <p className="text-sm text-poppy font-medium">Senior</p>
                 </div>
-              ))}
-            </div>
-          ) : editors ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {editors.map((editor) => (
-                <div key={editor.id} className="text-center bg-gray-50 p-6 rounded-xl">
-                  {editor.imageUrl && (
-                    <img 
-                      src={editor.imageUrl}
-                      alt={editor.name}
-                      className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-                    />
-                  )}
-                  <h4 className="font-bold text-maroon text-lg">{editor.name}</h4>
-                  <p className="text-ladybug text-sm font-medium mb-1">{editor.title}</p>
-                  <p className="text-gray-500 text-sm mb-3">{editor.specialization}</p>
-                  {editor.bio && (
-                    <p className="text-gray-600 text-xs mb-3 leading-relaxed">{editor.bio}</p>
-                  )}
-                  <a 
-                    href={`mailto:${editor.email}`}
-                    className="inline-flex items-center space-x-1 text-poppy hover:text-red-600 text-sm"
-                  >
-                    <Mail className="h-4 w-4" />
-                    <span>Contact</span>
-                  </a>
+                <div className="text-center bg-gray-50 p-4 rounded-xl">
+                  <h4 className="font-bold text-maroon">Marco Rosata</h4>
+                  <p className="text-sm text-poppy font-medium">Senior</p>
                 </div>
-              ))}
+                <div className="text-center bg-gray-50 p-4 rounded-xl">
+                  <h4 className="font-bold text-maroon">Julia van den Anker</h4>
+                </div>
+                <div className="text-center bg-gray-50 p-4 rounded-xl">
+                  <h4 className="font-bold text-maroon">Monika Kazlauskaite</h4>
+                </div>
+              </div>
             </div>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-gray-600">Editorial board information is currently unavailable.</p>
+
+            {/* Review Editors */}
+            <div>
+              <h3 className="text-2xl font-bold text-ladybug mb-6 text-center">Review Editors</h3>
+              
+              {/* Track 1: LC */}
+              <div className="mb-8">
+                <h4 className="text-xl font-semibold text-berry mb-4">Track 1: Language & Communication (LC)</h4>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {['Beatrice Caddeo', 'Anna Mao', 'Siena Verger', 'Tamara Gunters', 'Nele Haferkorn', 'Caitlin Schirbach'].map((name) => (
+                    <div key={name} className="text-center bg-blue-50 p-3 rounded-lg">
+                      <h5 className="font-semibold text-maroon text-sm">{name}</h5>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Track 2: PAC */}
+              <div className="mb-8">
+                <h4 className="text-xl font-semibold text-berry mb-4">Track 2: Perception, Action & Control (PAC)</h4>
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="text-center bg-green-50 p-3 rounded-lg">
+                    <h5 className="font-semibold text-maroon text-sm">Caroline Wunn</h5>
+                  </div>
+                  <div className="text-center bg-green-50 p-3 rounded-lg">
+                    <h5 className="font-semibold text-maroon text-sm">Pia Kath</h5>
+                  </div>
+                  <div className="text-center bg-green-50 p-3 rounded-lg">
+                    <h5 className="font-semibold text-maroon text-sm">Lena Holzner</h5>
+                    <p className="text-xs text-poppy font-medium">Senior</p>
+                  </div>
+                  <div className="text-center bg-green-50 p-3 rounded-lg">
+                    <h5 className="font-semibold text-maroon text-sm">Kevin Reniers</h5>
+                    <p className="text-xs text-poppy font-medium">Senior</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Track 3: DLP */}
+              <div className="mb-8">
+                <h4 className="text-xl font-semibold text-berry mb-4">Track 3: Development, Learning & Plasticity (DLP)</h4>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[
+                    { name: 'Juulke Castelijn', senior: false },
+                    { name: 'Maja Anuszewska', senior: false },
+                    { name: 'Nina Koepke', senior: false },
+                    { name: 'Gabriele Lucchesi', senior: false },
+                    { name: 'Maria Aydin', senior: false },
+                    { name: 'Lena Kohler', senior: false },
+                    { name: 'Judith Bläsing', senior: false },
+                    { name: 'Sebastian Reichstein', senior: true },
+                    { name: 'Emile Zweistra', senior: true }
+                  ].map((member) => (
+                    <div key={member.name} className="text-center bg-purple-50 p-3 rounded-lg">
+                      <h5 className="font-semibold text-maroon text-sm">{member.name}</h5>
+                      {member.senior && <p className="text-xs text-poppy font-medium">Senior</p>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Track 4: NCN */}
+              <div className="mb-8">
+                <h4 className="text-xl font-semibold text-berry mb-4">Track 4: Neural Computation & Neurotechnology (NCN)</h4>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="text-center bg-orange-50 p-3 rounded-lg">
+                    <h5 className="font-semibold text-maroon text-sm">Timon Crouzen</h5>
+                    <p className="text-xs text-poppy font-medium">Senior</p>
+                  </div>
+                  <div className="text-center bg-orange-50 p-3 rounded-lg">
+                    <h5 className="font-semibold text-maroon text-sm">Inga Schöyen</h5>
+                  </div>
+                  <div className="text-center bg-orange-50 p-3 rounded-lg">
+                    <h5 className="font-semibold text-maroon text-sm">Eefke van Straaten</h5>
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
+
+            {/* Layout Editors */}
+            <div>
+              <h3 className="text-2xl font-bold text-ladybug mb-6 text-center">Layout Editors</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="text-center bg-yellow-50 p-4 rounded-xl">
+                  <h4 className="font-bold text-maroon">Anushree Ganesh</h4>
+                  <p className="text-sm text-poppy font-medium">Senior</p>
+                </div>
+                <div className="text-center bg-yellow-50 p-4 rounded-xl">
+                  <h4 className="font-bold text-maroon">Siena Vergeer</h4>
+                </div>
+                <div className="text-center bg-yellow-50 p-4 rounded-xl">
+                  <h4 className="font-bold text-maroon">Lila Gianni</h4>
+                </div>
+                <div className="text-center bg-yellow-50 p-4 rounded-xl">
+                  <h4 className="font-bold text-maroon">Kathleen Thornsberry</h4>
+                </div>
+              </div>
+            </div>
+
+            {/* Web Management */}
+            <div>
+              <h3 className="text-2xl font-bold text-ladybug mb-6 text-center">Web Management</h3>
+              <div className="grid md:grid-cols-2 gap-4 max-w-md mx-auto">
+                <div className="text-center bg-teal-50 p-4 rounded-xl">
+                  <h4 className="font-bold text-maroon">Inga Schöyen</h4>
+                  <p className="text-sm text-poppy font-medium">Senior</p>
+                </div>
+                <div className="text-center bg-teal-50 p-4 rounded-xl">
+                  <h4 className="font-bold text-maroon">Eefke van Straaten</h4>
+                </div>
+              </div>
+            </div>
+
+            {/* PR Team */}
+            <div>
+              <h3 className="text-2xl font-bold text-ladybug mb-6 text-center">Public Relations</h3>
+              <div className="grid md:grid-cols-2 gap-4 max-w-md mx-auto">
+                <div className="text-center bg-pink-50 p-4 rounded-xl">
+                  <h4 className="font-bold text-maroon">Maye Cano</h4>
+                  <p className="text-sm text-poppy font-medium">Senior</p>
+                </div>
+                <div className="text-center bg-pink-50 p-4 rounded-xl">
+                  <h4 className="font-bold text-maroon">Ann Katigbak</h4>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Journal History */}

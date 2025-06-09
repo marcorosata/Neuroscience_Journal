@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import NeuralBackground from "./neural-background";
 
 export default function HeroSection() {
@@ -61,7 +61,12 @@ export default function HeroSection() {
 
                 <p className="text-lg text-white/70">
                   Every year, we work with a{" "}
-                  <span className="text-yellow-400 font-semibold">new, motivated team</span>, aiming to produce a consistently evolving and 
+                  <span 
+                    className="text-yellow-400 font-semibold hover:text-yellow-300 transition-colors cursor-pointer"
+                    onClick={() => setLocation("/about")}
+                  >
+                    new, motivated team
+                  </span>, aiming to produce a consistently evolving and 
                   up-to-date journal, allowing all kinds of research within our programme.
                 </p>
 
