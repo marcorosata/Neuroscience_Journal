@@ -1,8 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { FileText, Users, Eye, Heart } from "lucide-react";
 
+interface StatsData {
+  publishedArticles: number;
+  authors: number;
+  monthlyReaders: number;
+  totalSponsors: number;
+}
+
 export default function StatsSection() {
-  const { data: stats, isLoading } = useQuery({
+  const { data: stats, isLoading } = useQuery<StatsData>({
     queryKey: ["/api/stats"],
   });
 
@@ -90,7 +97,7 @@ export default function StatsSection() {
             <div className="w-20 h-20 bg-maroon rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
               <Heart className="text-white text-2xl" />
             </div>
-            <div className="text-4xl font-bold text-white mb-2 tabular-nums">{stats.totalSponsors}</div>
+            <div className="text-4xl font-bold text-white mb-2 tabular-nums">{stats?.totalSponsors ?? 0}</div>
             <div className="text-white font-semibold mb-2">Sponsors</div>
             <div className="text-white/60 text-sm">Supporting partners</div>
           </div>
