@@ -8,11 +8,13 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-poppy rounded-lg flex items-center justify-center">
-                <Brain className="text-white" />
-              </div>
+              <img 
+                src="/attached_assets/channels4_profile_1749476651261.jpg" 
+                alt="Radboud University Logo"
+                className="w-10 h-10 rounded-lg"
+              />
               <div>
-                <h3 className="font-bold text-lg">Student Neuroscience Journal</h3>
+                <h3 className="font-bold text-lg">CNS Journal</h3>
                 <p className="text-gray-300 text-sm">Radboud University</p>
               </div>
             </div>

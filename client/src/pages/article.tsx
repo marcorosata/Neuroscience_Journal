@@ -263,7 +263,7 @@ export default function ArticlePage() {
         {/* Related Articles */}
         {related && related.length > 0 && (
           <div>
-            <h2 className="text-2xl font-bold text-maroon mb-8">Related Articles</h2>
+            <h2 className="text-2xl font-bold text-red-impact mb-8">Related Articles</h2>
             {relatedLoading ? (
               <div className="grid md:grid-cols-3 gap-6">
                 {[...Array(3)].map((_, i) => (
@@ -278,8 +278,8 @@ export default function ArticlePage() {
               <div className="grid md:grid-cols-3 gap-6">
                 {related.map((relatedArticle) => (
                   <div key={relatedArticle.id} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow p-6">
-                    <h3 className="font-bold text-lg mb-2 text-maroon">
-                      <Link href={`/article/${relatedArticle.id}`} className="hover:text-ladybug transition-colors">
+                    <h3 className="font-bold text-lg mb-2 text-red-impact">
+                      <Link href={`/article/${relatedArticle.id}`} className="hover:text-berry transition-colors">
                         {relatedArticle.title}
                       </Link>
                     </h3>

@@ -115,7 +115,7 @@ export default function CurrentIssue() {
             {/* Featured Article */}
             {featuredArticle && (
               <div className="mb-12">
-                <h2 className="text-2xl font-bold text-maroon mb-6 flex items-center space-x-2">
+                <h2 className="text-2xl font-bold text-red-impact mb-6 flex items-center space-x-2">
                   <BookOpen className="h-6 w-6" />
                   <span>Featured Article</span>
                 </h2>
@@ -154,12 +154,12 @@ export default function CurrentIssue() {
             {/* Regular Articles */}
             {regularArticles && regularArticles.length > 0 && (
               <div>
-                <h2 className="text-2xl font-bold text-maroon mb-6">All Articles</h2>
+                <h2 className="text-2xl font-bold text-red-impact mb-6">All Articles</h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {regularArticles.map((article) => (
                     <div key={article.id} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow p-6">
-                      <h3 className="font-bold text-lg mb-2 text-maroon">
-                        <a href={`/article/${article.id}`} className="hover:text-ladybug transition-colors">
+                      <h3 className="font-bold text-lg mb-2 text-red-impact">
+                        <a href={`/article/${article.id}`} className="hover:text-berry transition-colors">
                           {article.title}
                         </a>
                       </h3>

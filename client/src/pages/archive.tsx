@@ -115,7 +115,7 @@ export default function Archive() {
 
                           <div className="space-y-3">
                             <Button 
-                              className="w-full bg-poppy hover:bg-ladybug text-white font-semibold py-3 rounded-lg transition-all duration-300 group-hover:scale-105"
+                              className="w-full bg-red-impact hover:bg-berry text-white font-semibold py-3 rounded-lg transition-all duration-300 group-hover:scale-105"
                               onClick={() => {
                                 if (issue.pdfUrl) {
                                   const link = document.createElement('a');
