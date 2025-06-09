@@ -41,7 +41,8 @@ export const issues = pgTable("issues", {
   publishedAt: timestamp("published_at"),
   current: boolean("current").default(false),
   pdfUrl: text("pdf_url"),
-  pdfSize: text("pdf_size")
+  pdfSize: text("pdf_size"),
+  coverImageUrl: text("cover_image_url")
 });
 
 export const insertArticleSchema = createInsertSchema(articles).omit({

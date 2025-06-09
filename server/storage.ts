@@ -241,7 +241,8 @@ export class MemStorage implements IStorage {
         current: true,
         description: "The latest issue of the CNS Journal featuring cutting-edge research in cognitive neuroscience from Radboud University students and researchers.",
         pdfUrl: "https://drive.google.com/uc?export=download&id=1DDiOAY5pcIx6PDwiKLaau5elOU3JRPpC",
-        pdfSize: "150 MB"
+        pdfSize: "150 MB",
+        coverImageUrl: "/attached_assets/image_1749466181150.png"
       },
       {
         volume: "16",
@@ -251,7 +252,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "The latest research in cognitive neuroscience, featuring breakthrough studies in neural plasticity and memory formation.",
         pdfUrl: "/attached_assets/Issues/16_2_print_edition.pdf",
-        pdfSize: "3.2 MB"
+        pdfSize: "3.2 MB",
+        coverImageUrl: null
       },
       {
         volume: "16",
@@ -261,7 +263,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Exploring new methodologies in brain imaging and network analysis techniques.",
         pdfUrl: "/attached_assets/Issues/16_1_print_edition.pdf",
-        pdfSize: "2.8 MB"
+        pdfSize: "2.8 MB",
+        coverImageUrl: null
       },
       {
         volume: "15",
@@ -271,7 +274,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Highlighting new methodological approaches that are revolutionizing neuroscience research.",
         pdfUrl: "/attached_assets/Issues/15_2.pdf",
-        pdfSize: "2.5 MB"
+        pdfSize: "2.5 MB",
+        coverImageUrl: null
       },
       {
         volume: "15",
@@ -281,7 +285,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Comprehensive studies on learning processes and memory consolidation in the brain.",
         pdfUrl: "/attached_assets/Issues/15_1_final.pdf",
-        pdfSize: "3.1 MB"
+        pdfSize: "3.1 MB",
+        coverImageUrl: null
       },
       {
         volume: "14",
@@ -291,7 +296,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Bridging the gap between basic research and clinical applications in neuroscience.",
         pdfUrl: "/attached_assets/Issues/14_2_update_2_1.pdf",
-        pdfSize: "2.7 MB"
+        pdfSize: "2.7 MB",
+        coverImageUrl: null
       },
       {
         volume: "14",
@@ -301,7 +307,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Exploring computational models and their applications in understanding brain function.",
         pdfUrl: "/attached_assets/Issues/cns_journal_14_1.pdf",
-        pdfSize: "2.9 MB"
+        pdfSize: "2.9 MB",
+        coverImageUrl: null
       },
       {
         volume: "13",
@@ -311,7 +318,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Investigating the neural basis of social cognition and interpersonal behavior.",
         pdfUrl: "/attached_assets/Issues/cns_journal_vol13_iss2_2.pdf",
-        pdfSize: "2.4 MB"
+        pdfSize: "2.4 MB",
+        coverImageUrl: null
       },
       {
         volume: "13",

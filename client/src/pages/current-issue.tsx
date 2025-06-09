@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 import { formatDate } from "@/lib/utils";
-import { Calendar, BookOpen } from "lucide-react";
+import { Calendar, BookOpen, Download, FileText } from "lucide-react";
 import type { Article, Issue } from "@shared/schema";
 
 export default function CurrentIssue() {
