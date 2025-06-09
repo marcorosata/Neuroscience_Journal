@@ -1,15 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import ArticleCard from "@/components/article-card";
-import { formatDate, getCategoryColor, getCategoryLabel } from "@/lib/utils";
-import { Search, Calendar, BookOpen, Filter } from "lucide-react";
-import type { Article, Issue } from "@shared/schema";
+import { formatDate } from "@/lib/utils";
+import { Calendar, BookOpen } from "lucide-react";
+import type { Issue } from "@shared/schema";
 
 export default function Archive() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -57,149 +52,7 @@ export default function Archive() {
           </p>
         </div>
 
-        {/* Search and Filters */}
-        <Card className="mb-8">
-          <CardContent className="p-6">
-            <div className="space-y-4 md:space-y-0 md:flex md:items-center md:space-x-4">
-              <div className="flex-1">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                  <Input
-                    placeholder="Search articles, authors, or keywords..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
-              </div>
-              
-              <div className="flex space-x-4">
-                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    {categories.map(category => (
-                      <SelectItem key={category} value={category}>
-                        {getCategoryLabel(category)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
 
-                <Select value={selectedIssue} onValueChange={setSelectedIssue}>
-                  <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Issue" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Issues</SelectItem>
-                    {uniqueIssues.map(issue => (
-                      <SelectItem key={issue.value} value={issue.value}>
-                        {issue.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {/* Active Filters */}
-            {(searchQuery || selectedCategory !== "all" || selectedIssue !== "all") && (
-              <div className="mt-4 flex flex-wrap gap-2">
-                {searchQuery && (
-                  <Badge variant="secondary" className="flex items-center space-x-1">
-                    <span>Search: {searchQuery}</span>
-                    <button 
-                      onClick={() => setSearchQuery("")}
-                      className="ml-1 hover:text-red-600"
-                    >
-                      ×
-                    </button>
-                  </Badge>
-                )}
-                {selectedCategory !== "all" && (
-                  <Badge variant="secondary" className="flex items-center space-x-1">
-                    <span>Category: {getCategoryLabel(selectedCategory)}</span>
-                    <button 
-                      onClick={() => setSelectedCategory("all")}
-                      className="ml-1 hover:text-red-600"
-                    >
-                      ×
-                    </button>
-                  </Badge>
-                )}
-                {selectedIssue !== "all" && (
-                  <Badge variant="secondary" className="flex items-center space-x-1">
-                    <span>Issue: {uniqueIssues.find(i => i.value === selectedIssue)?.label}</span>
-                    <button 
-                      onClick={() => setSelectedIssue("all")}
-                      className="ml-1 hover:text-red-600"
-                    >
-                      ×
-                    </button>
-                  </Badge>
-                )}
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={() => {
-                    setSearchQuery("");
-                    setSelectedCategory("all");
-                    setSelectedIssue("all");
-                  }}
-                  className="text-xs"
-                >
-                  Clear All
-                </Button>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Results Summary */}
-        {!articlesLoading && filteredArticles && (
-          <div className="mb-6 text-gray-600">
-            <span className="font-medium">{filteredArticles.length}</span> articles found
-          </div>
-        )}
-
-        {/* Articles Grid */}
-        {articlesLoading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(9)].map((_, i) => (
-              <div key={i} className="space-y-4">
-                <Skeleton className="h-48 w-full" />
-                <Skeleton className="h-4 w-3/4" />
-                <Skeleton className="h-4 w-1/2" />
-              </div>
-            ))}
-          </div>
-        ) : filteredArticles && filteredArticles.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredArticles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16">
-            <BookOpen className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-600 mb-2">No Articles Found</h3>
-            <p className="text-gray-500 mb-4">
-              No articles match your current search criteria.
-            </p>
-            <Button 
-              variant="outline"
-              onClick={() => {
-                setSearchQuery("");
-                setSelectedCategory("all");
-                setSelectedIssue("all");
-              }}
-            >
-              Clear Filters
-            </Button>
-          </div>
-        )}
 
         {/* Journal Issues Download Section */}
         <div className="mt-20">
