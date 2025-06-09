@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useLocation, Link } from "wouter";
+import { useLocation } from "wouter";
 import NeuralBackground from "./neural-background";
 
 export default function HeroSection() {
@@ -133,7 +133,7 @@ export default function HeroSection() {
                     </div>
                     <Button 
                       size="sm" 
-                      className="w-full bg-poppy hover:bg-red-600"
+                      className="w-full bg-red-600 hover:bg-red-700 text-white"
                       onClick={() => setLocation("/current-issue")}
                     >
                       Download it
