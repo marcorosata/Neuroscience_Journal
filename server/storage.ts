@@ -432,6 +432,8 @@ export class MemStorage implements IStorage {
       issue: insertArticle.issue || null,
       volume: insertArticle.volume || null,
       doi: insertArticle.doi || null,
+      featured: insertArticle.featured || null,
+      imageUrl: insertArticle.imageUrl || null,
       id, 
       createdAt: new Date(),
       publishedAt: insertArticle.status === "published" ? new Date() : null,
@@ -517,7 +519,12 @@ export class MemStorage implements IStorage {
       ...insertRequest, 
       id,
       status: "pending",
-      createdAt: new Date()
+      createdAt: new Date(),
+      address: insertRequest.address || null,
+      zipCode: insertRequest.zipCode || null,
+      city: insertRequest.city || null,
+      country: insertRequest.country || null,
+      howDidYouLearn: insertRequest.howDidYouLearn || null
     };
     this.requests.set(id, request);
     return request;

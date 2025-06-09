@@ -87,6 +87,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Issue requests route
+  app.post("/api/requests", async (req, res) => {
+    try {
+      const requestData = req.body;
+      const request = await storage.createRequest(requestData);
+      res.status(201).json(request);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to submit request" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

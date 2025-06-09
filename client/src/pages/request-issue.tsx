@@ -45,9 +45,14 @@ const issueNumbers = [
 ];
 
 export default function RequestIssue() {
-  const [captchaText, setCaptchaText] = useState("VERIFY");
-  const [captchaAnswer, setCaptchaAnswer] = useState("VERIFY");
+  const [captchaText, setCaptchaText] = useState("");
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
   const { toast } = useToast();
+
+  // Initialize CAPTCHA on component mount
+  React.useEffect(() => {
+    generateCaptcha();
+  }, []);
 
   const form = useForm<RequestFormData>({
     resolver: zodResolver(requestFormSchema),

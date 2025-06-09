@@ -12,6 +12,7 @@ import Archive from "@/pages/archive";
 import ForAuthors from "@/pages/for-authors";
 import ForReviewers from "@/pages/for-reviewers";
 import Contact from "@/pages/contact";
+import RequestIssue from "@/pages/request-issue";
 import Article from "@/pages/article";
 import NotFound from "@/pages/not-found";
 
@@ -28,6 +29,7 @@ function Router() {
           <Route path="/for-authors" component={ForAuthors} />
           <Route path="/for-reviewers" component={ForReviewers} />
           <Route path="/contact" component={Contact} />
+          <Route path="/request-issue" component={RequestIssue} />
           <Route path="/article/:id" component={Article} />
           <Route component={NotFound} />
         </Switch>
