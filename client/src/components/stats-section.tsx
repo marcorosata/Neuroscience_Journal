@@ -63,7 +63,7 @@ export default function StatsSection() {
             <div className="w-20 h-20 bg-poppy rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
               <FileText className="text-white text-2xl" />
             </div>
-            <div className="text-4xl font-bold text-white mb-2 tabular-nums">{stats.publishedArticles}</div>
+            <div className="text-4xl font-bold text-white mb-2 tabular-nums">120</div>
             <div className="text-white font-semibold mb-2">Published Articles</div>
             <div className="text-white/60 text-sm">Peer-reviewed research</div>
           </div>
@@ -72,8 +72,8 @@ export default function StatsSection() {
             <div className="w-20 h-20 bg-ladybug rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
               <Users className="text-white text-2xl" />
             </div>
-            <div className="text-4xl font-bold text-white mb-2 tabular-nums">{stats.authors}</div>
-            <div className="text-white font-semibold mb-2">Student Authors</div>
+            <div className="text-4xl font-bold text-white mb-2 tabular-nums">300</div>
+            <div className="text-white font-semibold mb-2">Contributors</div>
             <div className="text-white/60 text-sm">Graduate researchers</div>
           </div>
           
@@ -81,7 +81,7 @@ export default function StatsSection() {
             <div className="w-20 h-20 bg-berry rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
               <Eye className="text-white text-2xl" />
             </div>
-            <div className="text-4xl font-bold text-white mb-2 tabular-nums">{stats.monthlyReaders.toLocaleString()}</div>
+            <div className="text-4xl font-bold text-white mb-2 tabular-nums">1</div>
             <div className="text-white font-semibold mb-2">Monthly Readers</div>
             <div className="text-white/60 text-sm">Global community</div>
           </div>
@@ -90,9 +90,9 @@ export default function StatsSection() {
             <div className="w-20 h-20 bg-maroon rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
               <Quote className="text-white text-2xl" />
             </div>
-            <div className="text-4xl font-bold text-white mb-2 tabular-nums">{stats.totalCitations}</div>
-            <div className="text-white font-semibold mb-2">Total Citations</div>
-            <div className="text-white/60 text-sm">Academic impact</div>
+            <div className="text-4xl font-bold text-white mb-2 tabular-nums">5</div>
+            <div className="text-white font-semibold mb-2">Sponsors</div>
+            <div className="text-white/60 text-sm">Supporting partners</div>
           </div>
         </div>
       </div>
