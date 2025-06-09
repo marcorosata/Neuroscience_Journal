@@ -242,7 +242,7 @@ export class MemStorage implements IStorage {
         description: "Volume 18 of the CNS Journal featuring the latest research in cognitive neuroscience from Radboud University's Master's Programme students and researchers.",
         pdfUrl: "https://drive.google.com/uc?export=download&id=1DDiOAY5pcIx6PDwiKLaau5elOU3JRPpC",
         pdfSize: "150 MB",
-        coverImageUrl: "/attached_assets/Cover_1749482711394.pdf"
+        coverImageUrl: "/attached_assets/image_1749466181150.png"
       },
       {
         volume: "16",
