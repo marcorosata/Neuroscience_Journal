@@ -329,7 +329,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Understanding brain development and plasticity across the lifespan.",
         pdfUrl: "/attached_assets/Issues/cns_journal_vol13_issue12.pdf",
-        pdfSize: "2.6 MB"
+        pdfSize: "2.6 MB",
+        coverImageUrl: null
       },
       {
         volume: "12",
@@ -339,7 +340,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Research on cognitive control mechanisms and executive function networks.",
         pdfUrl: "/attached_assets/Issues/cns_journal_vol12_issue2.pdf",
-        pdfSize: "2.8 MB"
+        pdfSize: "2.8 MB",
+        coverImageUrl: null
       },
       {
         volume: "11",
@@ -349,7 +351,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Studies on attentional mechanisms and perceptual processing in neural networks.",
         pdfUrl: "/attached_assets/Issues/cnsjournal_vol11_iss2_20160719_compressed.pdf",
-        pdfSize: "2.2 MB"
+        pdfSize: "2.2 MB",
+        coverImageUrl: null
       },
       {
         volume: "11",
@@ -359,7 +362,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Exploring the neural basis of language processing and communication.",
         pdfUrl: "/attached_assets/Issues/cns_journal_vol11_iss1_final_compressed.pdf",
-        pdfSize: "2.3 MB"
+        pdfSize: "2.3 MB",
+        coverImageUrl: null
       },
       {
         volume: "10",
@@ -369,7 +373,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Understanding the interplay between emotional and cognitive processes.",
         pdfUrl: "/attached_assets/Issues/cns_journal_vol10_issue1_compressed.pdf",
-        pdfSize: "2.1 MB"
+        pdfSize: "2.1 MB",
+        coverImageUrl: null
       },
       {
         volume: "9",
@@ -379,7 +384,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Research on motor control systems and action perception mechanisms.",
         pdfUrl: "/attached_assets/Issues/9_1_compressed.pdf",
-        pdfSize: "1.9 MB"
+        pdfSize: "1.9 MB",
+        coverImageUrl: null
       },
       {
         volume: "8",
@@ -389,7 +395,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Neural mechanisms underlying decision-making processes and risk evaluation.",
         pdfUrl: "/attached_assets/Issues/volume_8_-_issue_2.pdf",
-        pdfSize: "2.4 MB"
+        pdfSize: "2.4 MB",
+        coverImageUrl: null
       },
       {
         volume: "8",
@@ -399,7 +406,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Comprehensive analysis of memory systems and plasticity mechanisms.",
         pdfUrl: "/attached_assets/Issues/vol8iss1.pdf",
-        pdfSize: "2.6 MB"
+        pdfSize: "2.6 MB",
+        coverImageUrl: null
       },
       {
         volume: "7",
@@ -409,7 +417,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Investigating the neural correlates of consciousness and awareness.",
         pdfUrl: "/attached_assets/Issues/vol7_iss2_withcover.pdf",
-        pdfSize: "2.3 MB"
+        pdfSize: "2.3 MB",
+        coverImageUrl: null
       },
       {
         volume: "7",
@@ -419,7 +428,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Advances in brain imaging techniques and analysis methods.",
         pdfUrl: "/attached_assets/Issues/vol7iss1.pdf",
-        pdfSize: "2.7 MB"
+        pdfSize: "2.7 MB",
+        coverImageUrl: null
       },
       {
         volume: "6",
@@ -429,7 +439,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Studies on cognitive changes across development and aging processes.",
         pdfUrl: "/attached_assets/Issues/fulltext_vol6_iss2_pdf.pdf",
-        pdfSize: "2.1 MB"
+        pdfSize: "2.1 MB",
+        coverImageUrl: null
       },
       {
         volume: "6",
@@ -439,7 +450,8 @@ export class MemStorage implements IStorage {
         current: false,
         description: "Understanding information processing in neural network architectures.",
         pdfUrl: "/attached_assets/Issues/fulltext_vol6_iss1.pdf",
-        pdfSize: "2.0 MB"
+        pdfSize: "2.0 MB",
+        coverImageUrl: null
       }
     ];
 
@@ -637,7 +649,8 @@ export class MemStorage implements IStorage {
       description: insertIssue.description || null,
       current: insertIssue.current || null,
       pdfUrl: insertIssue.pdfUrl || null,
-      pdfSize: insertIssue.pdfSize || null
+      pdfSize: insertIssue.pdfSize || null,
+      coverImageUrl: insertIssue.coverImageUrl || null
     };
     this.issues.set(id, issue);
     return issue;

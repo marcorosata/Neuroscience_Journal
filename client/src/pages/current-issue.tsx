@@ -58,6 +58,48 @@ export default function CurrentIssue() {
                   {currentIssue.description}
                 </p>
               )}
+              
+              {/* Cover Image and Download Section */}
+              <div className="mt-8 flex flex-col lg:flex-row items-center justify-center gap-8 max-w-4xl mx-auto">
+                {currentIssue.coverImageUrl && (
+                  <div className="flex-shrink-0">
+                    <img 
+                      src={currentIssue.coverImageUrl}
+                      alt={`${currentIssue.title} cover`}
+                      className="w-64 h-auto rounded-lg shadow-lg border border-gray-200"
+                    />
+                  </div>
+                )}
+                
+                <div className="flex flex-col items-center space-y-4">
+                  {currentIssue.pdfUrl && (
+                    <div className="text-center">
+                      <Button 
+                        size="lg"
+                        className="bg-poppy hover:bg-berry text-white px-8 py-4 text-lg font-semibold"
+                        onClick={() => window.open(currentIssue.pdfUrl!, '_blank')}
+                      >
+                        <Download className="h-5 w-5 mr-2" />
+                        Download Full Issue
+                      </Button>
+                      <p className="text-sm text-gray-500 mt-2">
+                        PDF • {currentIssue.pdfSize}
+                      </p>
+                    </div>
+                  )}
+                  
+                  <div className="flex items-center space-x-6 text-sm text-gray-600">
+                    <div className="flex items-center space-x-1">
+                      <FileText className="h-4 w-4" />
+                      <span>Full Research Papers</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <BookOpen className="h-4 w-4" />
+                      <span>Peer Reviewed</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           ) : (
             <div>
