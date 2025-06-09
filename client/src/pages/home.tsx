@@ -1,14 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "wouter";
+import { Brain, FileText, CheckCircle } from "lucide-react";
 import HeroSection from "@/components/hero-section";
 import StatsSection from "@/components/stats-section";
 import ArticleCard from "@/components/article-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "wouter";
-import { CheckCircle } from "lucide-react";
 import type { Article, Issue, Editor } from "@shared/schema";
 
 export default function Home() {
+  const [, setLocation] = useLocation();
+  
   const { data: featuredArticles, isLoading: featuredLoading } = useQuery<Article[]>({
     queryKey: ["/api/articles?featured=true"],
   });
@@ -26,64 +29,124 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <HeroSection />
 
-      {/* Current Issue Highlights */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+      {/* Featured Research Section */}
+      <section className="py-20 bg-white relative overflow-hidden">
+        <div className="absolute inset-0 grid-pattern opacity-30"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
             {issueLoading ? (
-              <Skeleton className="h-8 w-96 mx-auto mb-4" />
+              <div className="space-y-4">
+                <Skeleton className="h-12 w-96 mx-auto" />
+                <Skeleton className="h-6 w-2xl mx-auto" />
+              </div>
             ) : currentIssue ? (
-              <h2 className="text-3xl font-bold text-maroon mb-4">
-                Current Issue - Volume {currentIssue.volume}, Issue {currentIssue.issue}
-              </h2>
+              <div className="space-y-6">
+                <h2 className="text-4xl md:text-5xl font-bold text-maroon">
+                  Featured Research
+                </h2>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                  {currentIssue.title}
+                </p>
+                <div className="flex items-center justify-center space-x-4">
+                  <span className="px-4 py-2 bg-poppy/10 text-poppy rounded-full font-medium">
+                    Volume {currentIssue.volume}, Issue {currentIssue.issue}
+                  </span>
+                  <span className="text-gray-400">•</span>
+                  <span className="text-gray-600">
+                    {currentIssue.publishedAt && new Date(currentIssue.publishedAt).toLocaleDateString()}
+                  </span>
+                </div>
+              </div>
             ) : (
-              <h2 className="text-3xl font-bold text-maroon mb-4">Latest Articles</h2>
+              <div className="space-y-6">
+                <h2 className="text-4xl md:text-5xl font-bold text-maroon">
+                  Latest Research
+                </h2>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                  Discover cutting-edge neuroscience research from the next generation of scientists
+                </p>
+              </div>
             )}
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Exploring the frontiers of neuroscience through student-led research and innovative methodologies
-            </p>
           </div>
 
           {/* Featured Article */}
           {featuredLoading ? (
-            <div className="mb-8">
-              <Skeleton className="h-64 w-full rounded-xl" />
+            <div className="mb-16">
+              <div className="bg-white rounded-2xl shadow-neural-lg p-8 animate-pulse">
+                <div className="flex flex-col lg:flex-row gap-8">
+                  <div className="lg:w-1/3">
+                    <div className="h-48 bg-gray-200 rounded-xl"></div>
+                  </div>
+                  <div className="lg:w-2/3 space-y-4">
+                    <div className="h-8 bg-gray-200 rounded w-3/4"></div>
+                    <div className="h-4 bg-gray-200 rounded w-full"></div>
+                    <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           ) : featuredArticles && featuredArticles.length > 0 ? (
-            <div className="mb-8">
-              <ArticleCard article={featuredArticles[0]} featured />
+            <div className="mb-16">
+              <div className="bg-white rounded-2xl shadow-neural-lg p-8 hover:shadow-neural-lg transition-all duration-300 border border-poppy/10">
+                <div className="flex flex-col lg:flex-row gap-8">
+                  <div className="lg:w-1/3">
+                    <div className="h-48 bg-gradient-to-br from-poppy/10 to-ladybug/10 rounded-xl flex items-center justify-center">
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-poppy rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Brain className="h-8 w-8 text-white" />
+                        </div>
+                        <p className="text-sm text-gray-600">Featured Research</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="lg:w-2/3">
+                    <ArticleCard article={featuredArticles[0]} featured />
+                  </div>
+                </div>
+              </div>
             </div>
           ) : null}
 
-          {/* Article Grid */}
+          {/* Research Highlights Grid */}
           {articlesLoading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="space-y-4">
-                  <Skeleton className="h-48 w-full" />
-                  <Skeleton className="h-4 w-3/4" />
-                  <Skeleton className="h-4 w-1/2" />
+                <div key={i} className="card-enhanced rounded-2xl p-6 animate-pulse">
+                  <div className="space-y-4">
+                    <div className="h-32 bg-gray-200 rounded-xl"></div>
+                    <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+                    <div className="h-4 bg-gray-200 rounded w-full"></div>
+                    <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                  </div>
                 </div>
               ))}
             </div>
           ) : articles ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {articles.slice(0, 6).map((article) => (
-                <ArticleCard key={article.id} article={article} />
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+              {articles.slice(0, 6).map((article, index) => (
+                <div key={article.id} className={`stagger-${(index % 4) + 1}`}>
+                  <div className="card-enhanced rounded-2xl overflow-hidden hover:shadow-neural-lg transition-all duration-300">
+                    <ArticleCard article={article} />
+                  </div>
+                </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-12">
-              <p className="text-gray-600">No articles available at this time.</p>
+            <div className="text-center py-16">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Brain className="h-8 w-8 text-gray-400" />
+              </div>
+              <p className="text-gray-600 text-lg">No articles available at this time.</p>
             </div>
           )}
 
           <div className="text-center">
-            <Button className="bg-poppy hover:bg-red-600 text-white px-8 py-3 rounded-lg font-medium transition-colors">
-              <Link href="/current-issue">View All Articles</Link>
+            <Button className="btn-neural px-12 py-4 text-lg font-semibold" onClick={() => setLocation("/current-issue")}>
+              <FileText className="h-5 w-5 mr-2" />
+              Explore All Research
             </Button>
           </div>
         </div>
