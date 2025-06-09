@@ -1,0 +1,129 @@
+Colours
+Radboud University has a colour palette for all corporate marketing & communications. The main colour is 'Red Impact'. This colour is used prominently in expressions of Radboud University.
+
+Red Impact is de belangrijkste kleur van de Radboud Universiteit
+ 	HEX	RGB	CMYK	PMS	RAL
+Red Impact	#e3000b	227/0/11	0/100/100/0	186	3020
+ 
+
+Additional main colours
+To complement the base colour, there are several types of red you can use. These colours are lighter or darker reds than Red Impact and can be used in combination with each other. Make sure there is a high contrast between the colours. This way we maintain our solid look.
+
+De aanvullende kleuren uit het kleurenpalet van de Radboud Universiteit
+ 
+
+HEX
+
+RGB
+
+CMYK
+
+Poppy
+
+#ff424b
+
+255/66/75
+
+0/80/60/0
+
+Lady Bug
+
+#be311e
+
+190/49/26
+
+0/92/90/27
+
+Berry
+
+#8f2011
+
+143/32/17
+
+15/92/90/40
+
+Maroon
+
+#730e04
+
+115/14/4
+
+20/100/80/50
+
+Mahogany
+
+#4a0004
+
+74/0/4
+
+45/100/75/70
+
+Secondary colours
+The red gamut is leading in colour use. But when the main colours are not sufficient, for example in illustrations, banners or graphics, you can use the secondary colour palette for detailing. In doing so, always stay within the colour's own shades. Do not use complementary colours on top of each other.
+
+Please note!
+It is not permitted for faculties or divisions of the university to appropriate a colour from the red range or the secondary colour palette. We communicate as one strong brand and therefore all use the Red Impact as the main colour, with complementary shades of red to support it.
+
+De secundaire kleuren van het kleurenpalet van de Radboud Universiteit
+ 
+
+HEX
+
+RGB
+
+CMYK
+
+Gray
+
+#797777
+
+121/119/119
+
+15/0/0/60
+
+Orange
+
+#cf5107
+
+207/82/8
+
+0/75/100/15
+
+Blue
+
+#008acb
+
+0/138/203
+
+82/28/0/0
+
+Petrol
+
+#008f89
+
+0/143/137
+
+100/0/50/10
+
+Green
+
+#4aa943
+
+74/169/67
+
+80/0/100/10
+
+Yellow
+
+#ccaf00
+
+204/175/0
+
+0/10/100/30
+
+Contact
+Need help? You can contact:
+
+communicatie@ru.nl
+Contact department
+Corporate Communication

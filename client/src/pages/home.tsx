@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Brain, FileText, CheckCircle } from "lucide-react";
 import HeroSection from "@/components/hero-section";
 import StatsSection from "@/components/stats-section";
-import ArticleCard from "@/components/article-card";
+
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "wouter";
@@ -119,7 +119,35 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="lg:w-2/3">
-                    <ArticleCard article={featuredArticles[0]} featured />
+                    <div className="bg-gradient-to-r from-gray-50 to-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow p-8">
+                      <div className="flex items-start space-x-6">
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-3 mb-3">
+                            <span className="bg-poppy text-white px-3 py-1 rounded-full text-sm font-medium">Featured</span>
+                          </div>
+                          <h3 className="text-2xl font-bold text-maroon mb-3">
+                            <Link href={`/article/${featuredArticles[0].id}`} className="hover:text-ladybug transition-colors">
+                              {featuredArticles[0].title}
+                            </Link>
+                          </h3>
+                          <p className="text-gray-600 mb-4 line-clamp-3">
+                            {featuredArticles[0].abstract}
+                          </p>
+                          <div className="flex items-center justify-between">
+                            <div className="text-sm text-gray-500">
+                              {featuredArticles[0].authors.join(", ")}
+                            </div>
+                            <Link 
+                              href={`/article/${featuredArticles[0].id}`}
+                              className="text-ladybug hover:text-berry font-medium flex items-center space-x-1"
+                            >
+                              <span>Read Full Article</span>
+                              <span>→</span>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -144,8 +172,18 @@ export default function Home() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
               {articles.slice(0, 6).map((article, index) => (
                 <div key={article.id} className={`stagger-${(index % 4) + 1}`}>
-                  <div className="card-enhanced rounded-2xl overflow-hidden hover:shadow-neural-lg transition-all duration-300">
-                    <ArticleCard article={article} />
+                  <div className="card-enhanced rounded-2xl overflow-hidden hover:shadow-neural-lg transition-all duration-300 p-6">
+                    <h3 className="font-bold text-lg mb-2 text-maroon">
+                      <Link href={`/article/${article.id}`} className="hover:text-ladybug transition-colors">
+                        {article.title}
+                      </Link>
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                      {article.abstract}
+                    </p>
+                    <div className="text-sm text-gray-500">
+                      {article.authors.join(", ")}
+                    </div>
                   </div>
                 </div>
               ))}

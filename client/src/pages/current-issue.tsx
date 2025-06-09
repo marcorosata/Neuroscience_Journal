@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import ArticleCard from "@/components/article-card";
+
 import { formatDate } from "@/lib/utils";
 import { Calendar, BookOpen } from "lucide-react";
 import type { Article, Issue } from "@shared/schema";
@@ -119,7 +119,35 @@ export default function CurrentIssue() {
                   <BookOpen className="h-6 w-6" />
                   <span>Featured Article</span>
                 </h2>
-                <ArticleCard article={featuredArticle} featured />
+                <div className="bg-gradient-to-r from-gray-50 to-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow p-8">
+                  <div className="flex items-start space-x-6">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-3 mb-3">
+                        <span className="bg-poppy text-white px-3 py-1 rounded-full text-sm font-medium">Featured</span>
+                      </div>
+                      <h3 className="text-2xl font-bold text-maroon mb-3">
+                        <a href={`/article/${featuredArticle.id}`} className="hover:text-ladybug transition-colors">
+                          {featuredArticle.title}
+                        </a>
+                      </h3>
+                      <p className="text-gray-600 mb-4 line-clamp-3">
+                        {featuredArticle.abstract}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm text-gray-500">
+                          {featuredArticle.authors.join(", ")}
+                        </div>
+                        <a 
+                          href={`/article/${featuredArticle.id}`}
+                          className="text-ladybug hover:text-berry font-medium flex items-center space-x-1"
+                        >
+                          <span>Read Full Article</span>
+                          <span>→</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -129,7 +157,19 @@ export default function CurrentIssue() {
                 <h2 className="text-2xl font-bold text-maroon mb-6">All Articles</h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {regularArticles.map((article) => (
-                    <ArticleCard key={article.id} article={article} />
+                    <div key={article.id} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow p-6">
+                      <h3 className="font-bold text-lg mb-2 text-maroon">
+                        <a href={`/article/${article.id}`} className="hover:text-ladybug transition-colors">
+                          {article.title}
+                        </a>
+                      </h3>
+                      <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                        {article.abstract}
+                      </p>
+                      <div className="text-sm text-gray-500">
+                        {article.authors.join(", ")}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>

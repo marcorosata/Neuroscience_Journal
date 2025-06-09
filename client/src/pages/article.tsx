@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import ArticleCard from "@/components/article-card";
+
 import { formatDate, formatAuthors, getCategoryColor, getCategoryLabel } from "@/lib/utils";
 import { 
   Calendar, 
@@ -277,7 +277,19 @@ export default function ArticlePage() {
             ) : (
               <div className="grid md:grid-cols-3 gap-6">
                 {related.map((relatedArticle) => (
-                  <ArticleCard key={relatedArticle.id} article={relatedArticle} />
+                  <div key={relatedArticle.id} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow p-6">
+                    <h3 className="font-bold text-lg mb-2 text-maroon">
+                      <Link href={`/article/${relatedArticle.id}`} className="hover:text-ladybug transition-colors">
+                        {relatedArticle.title}
+                      </Link>
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                      {relatedArticle.abstract}
+                    </p>
+                    <div className="text-sm text-gray-500">
+                      {relatedArticle.authors.join(", ")}
+                    </div>
+                  </div>
                 ))}
               </div>
             )}
