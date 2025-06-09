@@ -20,7 +20,7 @@ export default function About() {
         </div>
 
         {/* Mission Section */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+        <div className="mb-16">
           <div>
             <h2 className="text-3xl font-bold text-maroon mb-6">Our Mission</h2>
             <p className="text-gray-600 mb-6 leading-relaxed">
@@ -62,13 +62,7 @@ export default function About() {
             </div>
           </div>
           
-          <div>
-            <img 
-              src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" 
-              alt="Students collaborating in university lab" 
-              className="rounded-xl shadow-lg w-full"
-            />
-          </div>
+          
         </div>
 
         {/* Values Section */}
