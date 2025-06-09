@@ -22,11 +22,11 @@ export function formatAuthors(authors: string[]): string {
 
 export function getCategoryColor(category: string): string {
   switch (category) {
-    case 'research': return 'bg-berry/10 text-berry';
-    case 'review': return 'bg-ladybug/10 text-ladybug';
-    case 'methods': return 'bg-maroon/10 text-maroon';
-    case 'case-study': return 'bg-poppy/10 text-poppy';
-    default: return 'bg-gray-100 text-gray-600';
+    case 'research': return 'bg-red-impact/10 text-red-impact border-red-impact/20';
+    case 'review': return 'bg-berry/10 text-berry border-berry/20';
+    case 'methods': return 'bg-maroon/10 text-maroon border-maroon/20';
+    case 'case-study': return 'bg-ladybug/10 text-ladybug border-ladybug/20';
+    default: return 'bg-gray/10 text-gray border-gray/20';
   }
 }
 

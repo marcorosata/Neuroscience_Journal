@@ -13,7 +13,7 @@
   --card-foreground: hsl(220, 10%, 15%);
   --border: hsl(214, 32%, 91%);
   --input: hsl(214, 32%, 91%);
-  --primary: hsl(1, 100%, 63%); /* Poppy #ff424b */
+  --primary: hsl(358, 100%, 45%); /* Red Impact #e3000b */
   --primary-foreground: hsl(0, 0%, 100%);
   --secondary: hsl(210, 40%, 98%);
   --secondary-foreground: hsl(222.2, 84%, 4.9%);
@@ -24,12 +24,21 @@
   --ring: hsl(215, 20.2%, 65.1%);
   --radius: 0.75rem;
   
-  /* Custom colors for the journal */
-  --poppy: hsl(1, 100%, 63%); /* #ff424b */
-  --ladybug: hsl(10, 72%, 42%); /* #be311e */
+  /* Official Radboud University colors */
+  --red-impact: hsl(358, 100%, 45%); /* #e3000b */
+  --poppy: hsl(357, 100%, 63%); /* #ff424b */
+  --ladybug: hsl(10, 76%, 42%); /* #be311e */
   --berry: hsl(10, 78%, 31%); /* #8f2011 */
   --maroon: hsl(6, 93%, 23%); /* #730e04 */
-  --mahogany: hsl(358, 95%, 15%); /* #4a0004 */
+  --mahogany: hsl(358, 100%, 15%); /* #4a0004 */
+  
+  /* Secondary Radboud colors */
+  --gray: hsl(0, 1%, 47%); /* #797777 */
+  --orange: hsl(23, 95%, 42%); /* #cf5107 */
+  --blue: hsl(203, 100%, 40%); /* #008acb */
+  --petrol: hsl(177, 100%, 28%); /* #008f89 */
+  --green: hsl(117, 43%, 46%); /* #4aa943 */
+  --yellow: hsl(52, 100%, 40%); /* #ccaf00 */
   
   /* Neural network pattern variables */
   --neural-primary: hsl(220, 100%, 50%);

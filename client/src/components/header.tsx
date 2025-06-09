@@ -13,8 +13,8 @@ export default function Header() {
   const isActive = (path: string) => location === path;
 
   return (
-    <header className="relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-neural-lg sticky top-0 z-50 overflow-hidden">
-      <NeuralBackground />
+    <header className="relative bg-gradient-to-r from-red-impact via-ladybug to-berry text-white shadow-lg sticky top-0 z-50 overflow-hidden">
+      <div className="absolute inset-0 bg-black/10"></div>
       
       {/* University Branding Bar */}
       <div className="bg-black/20 backdrop-blur-sm border-b border-white/10">
@@ -48,14 +48,15 @@ export default function Header() {
             {/* Logo and Branding */}
             <Link href="/" className="flex items-center space-x-4 group">
               <div className="relative">
-                <div className="w-16 h-16 bg-gradient-to-br from-poppy to-ladybug rounded-xl flex items-center justify-center shadow-neural-lg group-hover:scale-105 transition-transform">
-                  <Brain className="text-white text-2xl" />
-                </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full animate-pulse"></div>
+                <img 
+                  src="/attached_assets/channels4_profile_1749476651261.jpg" 
+                  alt="Radboud University Logo"
+                  className="w-16 h-16 rounded-xl shadow-lg group-hover:scale-105 transition-transform"
+                />
               </div>
               <div>
                 <h1 className="font-bold text-xl text-white text-glow">CNS Journal</h1>
-                <p className="text-sm text-white/70">Cognitive Neuroscience Student Publication</p>
+                <p className="text-sm text-white/80">Radboud University • Cognitive Neuroscience</p>
               </div>
             </Link>
 

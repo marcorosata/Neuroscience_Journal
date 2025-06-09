@@ -51,6 +51,20 @@ export default {
           "4": "var(--chart-4)",
           "5": "var(--chart-5)",
         },
+        // Official Radboud University colors
+        "red-impact": "var(--red-impact)",
+        poppy: "var(--poppy)",
+        ladybug: "var(--ladybug)", 
+        berry: "var(--berry)",
+        maroon: "var(--maroon)",
+        mahogany: "var(--mahogany)",
+        // Secondary colors
+        gray: "var(--gray)",
+        orange: "var(--orange)",
+        blue: "var(--blue)",
+        petrol: "var(--petrol)",
+        green: "var(--green)",
+        yellow: "var(--yellow)",
         sidebar: {
           DEFAULT: "var(--sidebar-background)",
           foreground: "var(--sidebar-foreground)",
