@@ -167,22 +167,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Embedded Content Section */}
-      <div className="relative z-10 bg-black/20 backdrop-blur-sm border-t border-white/10 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              THE CNS JOURNAL - Proceedings of the Master's Programme ...
-            </h2>
-            <div className="flex items-center justify-center space-x-4 text-white/60">
-              <Button variant="ghost" size="sm" className="text-white/60 hover:text-white">
-                <ExternalLink className="h-4 w-4 mr-2" />
-                Copia link
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
   );
 }
