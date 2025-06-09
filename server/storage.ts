@@ -55,35 +55,178 @@ export class MemStorage implements IStorage {
   }
 
   private seedData() {
-    // Seed editors
-    const sampleEditors: Omit<Editor, 'id'>[] = [
+    // CNS Journal Team 2024-25
+    const actualEditors: Omit<Editor, 'id'>[] = [
+      // Managing Editors
       {
-        name: "Dr. Emma Verschoor",
-        title: "Editor-in-Chief",
-        specialization: "Cognitive Neuroscience",
-        email: "e.verschoor@ru.nl",
-        imageUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
-        bio: "Leading researcher in cognitive neuroscience with focus on memory and learning."
+        name: "Emanuela Pirani",
+        title: "Senior Managing Editor",
+        specialization: "CNS Journal Management",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Senior Managing Editor responsible for overall journal operations and editorial oversight."
       },
       {
-        name: "Dr. Jan Peters",
-        title: "Associate Editor",
-        specialization: "Computational Neuroscience",
-        email: "j.peters@ru.nl",
-        imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
-        bio: "Expert in computational models of neural networks and brain simulation."
+        name: "Marco Rosata",
+        title: "Senior Managing Editor",
+        specialization: "CNS Journal Management",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Senior Managing Editor overseeing publication processes and editorial coordination."
       },
       {
-        name: "Dr. Sarah Ahmed",
+        name: "Julia van den Anker",
         title: "Managing Editor",
-        specialization: "Behavioral Neuroscience",
-        email: "s.ahmed@ru.nl",
-        imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
-        bio: "Specialist in behavioral neuroscience and neural basis of behavior."
+        specialization: "Editorial Coordination",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Managing Editor handling day-to-day editorial operations and manuscript processing."
+      },
+      {
+        name: "Monika Kazlauskaite",
+        title: "Managing Editor",
+        specialization: "Editorial Coordination",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Managing Editor responsible for editorial workflow and peer review coordination."
+      },
+      // Review Editors - Track 1: LC
+      {
+        name: "Beatrice Caddeo",
+        title: "Review Editor - Track 1 (LC)",
+        specialization: "Language and Communication",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Review Editor specializing in Language and Communication research track."
+      },
+      {
+        name: "Anna Mao",
+        title: "Review Editor - Track 1 (LC)",
+        specialization: "Language and Communication",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Review Editor for Language and Communication manuscripts and peer review."
+      },
+      {
+        name: "Siena Verger",
+        title: "Review Editor - Track 1 (LC)",
+        specialization: "Language and Communication",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Review Editor handling Language and Communication research submissions."
+      },
+      // Review Editors - Track 2: PAC
+      {
+        name: "Caroline Wunn",
+        title: "Review Editor - Track 2 (PAC)",
+        specialization: "Perception, Action and Control",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Review Editor specializing in Perception, Action and Control research."
+      },
+      {
+        name: "Lena Holzner",
+        title: "Senior Review Editor - Track 2 (PAC)",
+        specialization: "Perception, Action and Control",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Senior Review Editor for Perception, Action and Control manuscripts."
+      },
+      {
+        name: "Kevin Reniers",
+        title: "Senior Review Editor - Track 2 (PAC)",
+        specialization: "Perception, Action and Control",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Senior Review Editor handling Perception, Action and Control research track."
+      },
+      // Review Editors - Track 3: DLP
+      {
+        name: "Sebastian Reichstein",
+        title: "Senior Review Editor - Track 3 (DLP)",
+        specialization: "Development, Learning and Plasticity",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Senior Review Editor for Development, Learning and Plasticity research."
+      },
+      {
+        name: "Emile Zweistra",
+        title: "Senior Review Editor - Track 3 (DLP)",
+        specialization: "Development, Learning and Plasticity",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Senior Review Editor specializing in Development, Learning and Plasticity."
+      },
+      {
+        name: "Juulke Castelijn",
+        title: "Review Editor - Track 3 (DLP)",
+        specialization: "Development, Learning and Plasticity",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Review Editor for Development, Learning and Plasticity manuscripts."
+      },
+      // Review Editors - Track 4: NCN
+      {
+        name: "Timon Crouzen",
+        title: "Senior Review Editor - Track 4 (NCN)",
+        specialization: "Neural Computation and Neurotechnology",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Senior Review Editor for Neural Computation and Neurotechnology research."
+      },
+      {
+        name: "Inga Schöyen",
+        title: "Review Editor - Track 4 (NCN)",
+        specialization: "Neural Computation and Neurotechnology",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Review Editor handling Neural Computation and Neurotechnology submissions."
+      },
+      {
+        name: "Eefke van Straaten",
+        title: "Review Editor - Track 4 (NCN)",
+        specialization: "Neural Computation and Neurotechnology",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Review Editor for Neural Computation and Neurotechnology manuscripts."
+      },
+      // Layout Editors
+      {
+        name: "Anushree Ganesh",
+        title: "Senior Layout Editor",
+        specialization: "Journal Design and Layout",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Senior Layout Editor responsible for journal design and visual presentation."
+      },
+      {
+        name: "Siena Vergeer",
+        title: "Layout Editor",
+        specialization: "Journal Design and Layout",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Layout Editor handling journal formatting and visual design."
+      },
+      // Web Management and PR
+      {
+        name: "Maye Cano",
+        title: "Senior PR Manager",
+        specialization: "Public Relations and Outreach",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "Senior PR Manager handling journal promotion and public outreach."
+      },
+      {
+        name: "Ann Katigbak",
+        title: "PR Manager",
+        specialization: "Public Relations and Communications",
+        email: "nijmegencns@gmail.com",
+        imageUrl: null,
+        bio: "PR Manager responsible for communications and promotional activities."
       }
     ];
 
-    sampleEditors.forEach(editor => {
+    actualEditors.forEach(editor => {
       const id = this.currentId++;
       this.editors.set(id, { ...editor, id });
     });
