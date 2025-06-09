@@ -79,3 +79,29 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+// Issue request schema
+export const requests = pgTable("requests", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  address: text("address"),
+  zipCode: text("zip_code"),
+  city: text("city"),
+  country: text("country"),
+  issueType: text("issue_type").notNull(),
+  issueNumber: text("issue_number").notNull(),
+  affiliation: text("affiliation").notNull(),
+  howDidYouLearn: text("how_did_you_learn"),
+  status: text("status").notNull().default("pending"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertRequestSchema = createInsertSchema(requests).omit({
+  id: true,
+  createdAt: true,
+  status: true,
+});
+
+export type InsertRequest = z.infer<typeof insertRequestSchema>;
+export type Request = typeof requests.$inferSelect;
