@@ -180,51 +180,6 @@ export default function Home() {
                   </Button>
                 </div>
               </div>
-              
-              {/* Interactive visualization panel */}
-              <div className={`transition-all duration-1000 delay-500 ${
-                isAboutVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
-              }`}>
-                <div className="relative">
-                  <div className="bg-gradient-to-br from-white to-blue-50 p-8 rounded-3xl shadow-2xl border border-blue-100/50 backdrop-blur-sm">
-                    <div className="flex items-center justify-between mb-6">
-                      <Brain className="text-blue-600 h-8 w-8" />
-                      <div className="text-right">
-                        <div className="text-2xl font-bold text-maroon">2024-25</div>
-                        <div className="text-sm text-gray-500">Current Volume</div>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
-                        <span className="text-gray-600">Publication Frequency</span>
-                        <span className="font-bold text-green-600">Bi-annual</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
-                        <span className="text-gray-600">Review Time</span>
-                        <span className="font-bold text-purple-600">8-12 weeks</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
-                        <span className="text-gray-600">Founded</span>
-                        <span className="font-bold text-maroon">2006</span>
-                      </div>
-                    </div>
-                    
-                    {/* Student Journal Disclaimer */}
-                    <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                      <p className="text-sm text-gray-700 leading-relaxed">
-                        <strong>Student Publication Notice:</strong> We are a student-run neuroscience journal established in 2006, 
-                        focused on selecting and peer-reviewing quality academic articles. We do not currently have a DOI 
-                        registration, as our primary mission is to provide students with publishing and editorial experience.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  {/* Decorative elements */}
-                  <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-yellow-400/20 to-pink-400/20 rounded-full blur-xl" />
-                  <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-tr from-green-400/20 to-blue-400/20 rounded-full blur-xl" />
-                </div>
-              </div>
             </div>
 
             {/* Enhanced Editorial Board Preview */}
