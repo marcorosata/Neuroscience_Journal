@@ -31,11 +31,31 @@ export default function StarlinkHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          {/* Primary heading */}
+          {/* Primary heading with Radboud colors and animations */}
           <h1 className="text-6xl md:text-8xl font-light tracking-tight mb-6">
-            <span className="font-extralight">CNS</span>
+            <motion.span 
+              className="font-extralight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              CNS
+            </motion.span>
             <br />
-            <span className="font-normal">Journal</span>
+            <motion.span 
+              className="font-normal bg-gradient-to-r from-red-500 via-red-600 to-red-700 bg-clip-text text-transparent"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              style={{
+                background: 'linear-gradient(135deg, var(--red-impact), var(--poppy), var(--lady-bug))',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+            >
+              Journal
+            </motion.span>
           </h1>
           
           {/* Subtitle */}
@@ -69,19 +89,39 @@ export default function StarlinkHero() {
             transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Button 
-              className="bg-white text-black hover:bg-gray-200 font-medium px-8 py-3 rounded-xl transition-all duration-300"
-            >
-              Browse Articles
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button 
+                className="font-medium px-8 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
+                style={{
+                  background: 'linear-gradient(135deg, var(--red-impact), var(--poppy))',
+                  color: 'white'
+                }}
+              >
+                Browse Articles
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </motion.div>
             
-            <Button 
-              variant="outline"
-              className="border-white/20 text-white hover:bg-white/10 font-medium px-8 py-3 rounded-xl transition-all duration-300"
-            >
-              Submit Research
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button 
+                variant="outline"
+                className="border-2 text-white font-medium px-8 py-3 rounded-xl transition-all duration-300 hover:shadow-lg"
+                style={{
+                  borderColor: 'var(--red-impact)',
+                  color: 'var(--red-impact)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'var(--red-impact)';
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = 'var(--red-impact)';
+                }}
+              >
+                Submit Research
+              </Button>
+            </motion.div>
           </motion.div>
         </motion.div>
 

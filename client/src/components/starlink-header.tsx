@@ -23,14 +23,20 @@ export default function StarlinkHeader() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {/* Logo with Radboud branding */}
           <Link href="/">
             <motion.div 
-              className="text-white font-light text-xl tracking-tight hover:opacity-80 transition-opacity"
+              className="text-white font-light text-xl tracking-tight hover:opacity-80 transition-all duration-300"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              CNS Journal
+              <span className="text-white">CNS</span>
+              <span 
+                className="ml-2 font-medium"
+                style={{ color: 'var(--red-impact)' }}
+              >
+                Journal
+              </span>
             </motion.div>
           </Link>
 
@@ -49,7 +55,8 @@ export default function StarlinkHeader() {
                   {item.name}
                   {isActive(item.href) && (
                     <motion.div
-                      className="absolute -bottom-1 left-0 right-0 h-px bg-white"
+                      className="absolute -bottom-1 left-0 right-0 h-px"
+                      style={{ backgroundColor: 'var(--red-impact)' }}
                       layoutId="activeNav"
                       initial={false}
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}

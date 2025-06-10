@@ -4,6 +4,7 @@ import { ArrowRight, BookOpen } from "lucide-react";
 import StarlinkHero from "@/components/starlink-hero";
 import { StarlinkCard, StarlinkGrid } from "@/components/starlink-card";
 import { ScrollReveal } from "@/components/scroll-reveal";
+import { RabouldParticles, AnimatedBorder, PulseGlow, StaggerContainer } from "@/components/radboud-animations";
 import { Button } from "@/components/ui/button";
 import type { Article } from "@shared/schema";
 

@@ -36,13 +36,26 @@ export function StarlinkCard({
       whileHover={{ y: -4 }}
       transition={{ type: "tween", ease: [0.22, 1, 0.36, 1], duration: 0.3 }}
     >
-      <Card className="bg-white/5 border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors duration-300 h-full">
-        <CardContent className="p-6">
+      <Card className="bg-white/5 border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300 h-full group overflow-hidden">
+        <CardContent className="p-6 relative">
+          {/* Subtle Radboud accent */}
+          <div 
+            className="absolute top-0 left-0 w-full h-1 opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+            style={{
+              background: 'linear-gradient(90deg, var(--red-impact), var(--poppy), var(--radboud-blue))'
+            }}
+          />
+          
           {/* Category badge */}
           {category && (
             <Badge 
               variant="secondary"
-              className="bg-white/10 text-white border-white/20 mb-4 text-xs font-medium"
+              className="mb-4 text-xs font-medium border transition-all duration-300"
+              style={{
+                backgroundColor: 'rgba(227, 0, 11, 0.1)',
+                borderColor: 'var(--red-impact)',
+                color: 'var(--red-impact)'
+              }}
             >
               {category}
             </Badge>
