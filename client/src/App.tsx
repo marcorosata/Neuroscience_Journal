@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { PageTransition } from "@/components/page-transition";
 import DynamicParticles from "@/components/dynamic-particles";
-import Header from "@/components/header";
+import StarlinkHeader from "@/components/starlink-header";
 import Footer from "@/components/footer";
 import Home from "@/pages/home";
 import About from "@/pages/about";
@@ -24,7 +24,7 @@ function Router() {
       {/* Dynamic particle background */}
       <DynamicParticles density={20} speed={0.2} />
       
-      <Header />
+      <StarlinkHeader />
       <main className="flex-1 relative z-10">
         <PageTransition>
           <Switch>

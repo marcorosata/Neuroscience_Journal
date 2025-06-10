@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { useEffect, useRef, useState } from "react";
 import { Brain, FileText, CheckCircle, ArrowRight, Sparkles, Calendar, User, BookOpen } from "lucide-react";
-import HeroSection from "@/components/hero-section";
+import StarlinkHero from "@/components/starlink-hero";
 import StatsSection from "@/components/stats-section";
 import { PreviewCard, PreviewGrid } from "@/components/preview-card";
 import { ScrollReveal, StaggeredReveal } from "@/components/scroll-reveal";
@@ -109,22 +109,21 @@ export default function Home() {
       </div>
       
       <div className="relative z-10">
-        <HeroSection />
+        <StarlinkHero />
         <StatsSection />
 
         {/* Featured Articles Section with Preview Cards */}
-        <ScrollReveal direction="up" className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <div className="flex items-center justify-center mb-4">
-                <BookOpen className="text-red-impact h-6 w-6 mr-3" />
-                <span className="text-red-impact font-semibold text-sm uppercase tracking-wider">Latest Research</span>
+        <ScrollReveal direction="up" className="py-20 bg-black">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <div className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">
+                Latest Research
               </div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-impact to-berry">Articles</span>
+              <h2 className="text-4xl md:text-5xl font-light text-white mb-6">
+                Featured Articles
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Discover groundbreaking research from our student neuroscience community
+              <p className="text-xl font-light text-gray-400 max-w-2xl mx-auto">
+                Groundbreaking research from our student neuroscience community
               </p>
             </div>
 
