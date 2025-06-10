@@ -10,6 +10,24 @@ html {
 
 body {
   overflow-x: hidden;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Enhanced smooth scrolling with momentum */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Custom scrollbar styling */
