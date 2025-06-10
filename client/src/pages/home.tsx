@@ -1,13 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { useEffect, useRef, useState } from "react";
-import { Brain, FileText, CheckCircle, ArrowRight, Sparkles } from "lucide-react";
+import { Brain, FileText, CheckCircle, ArrowRight, Sparkles, Calendar, User, BookOpen } from "lucide-react";
 import HeroSection from "@/components/hero-section";
 import StatsSection from "@/components/stats-section";
+import { PreviewCard, PreviewGrid } from "@/components/preview-card";
+import { ScrollReveal, StaggeredReveal } from "@/components/scroll-reveal";
 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
+import { formatDate, formatAuthors, getCategoryColor } from "@/lib/utils";
 import neuralBgGif from "@assets/20250609_1453_Ethereal Neuronal Lightning_simple_compose_01jxac05xmenrts2jkcqhkrbzj_1749474641545.gif";
 import type { Article, Issue, Editor } from "@shared/schema";
 
