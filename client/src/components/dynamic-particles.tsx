@@ -20,9 +20,9 @@ interface DynamicParticlesProps {
 }
 
 export default function DynamicParticles({
-  density = 50,
-  speed = 0.5,
-  colors = ["rgba(255, 66, 75, 0.8)", "rgba(190, 49, 30, 0.6)", "rgba(255, 204, 0, 0.4)"],
+  density = 30,
+  speed = 0.3,
+  colors = ["rgba(255, 66, 75, 0.4)", "rgba(190, 49, 30, 0.3)", "rgba(255, 204, 0, 0.2)"],
   className = ""
 }: DynamicParticlesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -71,20 +71,15 @@ export default function DynamicParticles({
         particle.y += particle.vy;
         particle.life += 16; // Approximate 60fps
 
-        // Enhanced mouse interaction - attract and repel particles
+        // Subtle mouse interaction
         const dx = mouseRef.current.x - particle.x;
         const dy = mouseRef.current.y - particle.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance < 150) {
-          const force = (150 - distance) / 150;
-          const attraction = distance < 75 ? -1 : 1; // Repel when very close, attract when farther
-          particle.vx += (dx / distance) * force * 0.02 * attraction;
-          particle.vy += (dy / distance) * force * 0.02 * attraction;
-          
-          // Increase particle size and opacity near mouse
-          particle.size = Math.min(particle.size * (1 + force * 0.5), 6);
-          particle.opacity = Math.min(particle.opacity * (1 + force), 1);
+        if (distance < 100) {
+          const force = (100 - distance) / 100;
+          particle.vx += (dx / distance) * force * 0.005;
+          particle.vy += (dy / distance) * force * 0.005;
         }
 
         // Boundary checking with wrapping
@@ -125,9 +120,9 @@ export default function DynamicParticles({
         ctx.restore();
       });
 
-      // Draw dynamic connections between nearby particles
-      ctx.strokeStyle = "rgba(255, 66, 75, 0.2)";
-      ctx.lineWidth = 1;
+      // Draw minimal connections between nearby particles
+      ctx.strokeStyle = "rgba(255, 66, 75, 0.08)";
+      ctx.lineWidth = 0.5;
       
       for (let i = 0; i < particlesRef.current.length; i++) {
         for (let j = i + 1; j < particlesRef.current.length; j++) {
@@ -137,16 +132,9 @@ export default function DynamicParticles({
           const dy = p1.y - p2.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
-          if (distance < 120) {
-            const opacity = (120 - distance) / 120 * 0.4;
+          if (distance < 80) {
+            const opacity = (80 - distance) / 80 * 0.1;
             ctx.globalAlpha = opacity;
-            
-            // Create gradient line
-            const gradient = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
-            gradient.addColorStop(0, p1.color);
-            gradient.addColorStop(1, p2.color);
-            ctx.strokeStyle = gradient;
-            
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);

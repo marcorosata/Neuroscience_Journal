@@ -9,29 +9,22 @@ interface PageTransitionProps {
 const pageVariants = {
   initial: {
     opacity: 0,
-    y: 50,
-    scale: 0.95,
-    rotateX: 10,
+    y: 24,
   },
   in: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    rotateX: 0,
   },
   out: {
     opacity: 0,
-    y: -30,
-    scale: 1.05,
-    rotateX: -5,
+    y: -12,
   },
 };
 
 const pageTransition = {
-  type: "spring",
-  stiffness: 300,
-  damping: 30,
-  duration: 0.6,
+  type: "tween",
+  ease: [0.22, 1, 0.36, 1],
+  duration: 0.4,
 };
 
 export function PageTransition({ children }: PageTransitionProps) {
@@ -47,15 +40,14 @@ export function PageTransition({ children }: PageTransitionProps) {
 
   return (
     <div className="relative overflow-hidden">
-      {/* Page transition overlay */}
+      {/* Minimal page transition overlay */}
       <motion.div
-        className="fixed inset-0 bg-gradient-to-br from-red-impact via-berry to-maroon z-50 pointer-events-none"
-        initial={{ scaleX: 0 }}
+        className="fixed inset-0 bg-white z-50 pointer-events-none"
+        initial={{ opacity: 0 }}
         animate={{ 
-          scaleX: transitionStage === "out" ? 1 : 0,
-          transformOrigin: transitionStage === "out" ? "left" : "right"
+          opacity: transitionStage === "out" ? 0.3 : 0,
         }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
         onAnimationComplete={() => {
           if (transitionStage === "out") {
             setDisplayLocation(location);

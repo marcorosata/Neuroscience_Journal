@@ -22,7 +22,7 @@ function Router() {
   return (
     <div className="min-h-screen flex flex-col relative">
       {/* Dynamic particle background */}
-      <DynamicParticles density={40} speed={0.3} />
+      <DynamicParticles density={20} speed={0.2} />
       
       <Header />
       <main className="flex-1 relative z-10">
