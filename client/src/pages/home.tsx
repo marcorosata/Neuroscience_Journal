@@ -197,10 +197,6 @@ export default function Home() {
                     
                     <div className="space-y-4">
                       <div className="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
-                        <span className="text-gray-600">Impact Factor</span>
-                        <span className="font-bold text-blue-600">Emerging</span>
-                      </div>
-                      <div className="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
                         <span className="text-gray-600">Publication Frequency</span>
                         <span className="font-bold text-green-600">Bi-annual</span>
                       </div>
@@ -208,6 +204,19 @@ export default function Home() {
                         <span className="text-gray-600">Review Time</span>
                         <span className="font-bold text-purple-600">8-12 weeks</span>
                       </div>
+                      <div className="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm">
+                        <span className="text-gray-600">Founded</span>
+                        <span className="font-bold text-maroon">2006</span>
+                      </div>
+                    </div>
+                    
+                    {/* Student Journal Disclaimer */}
+                    <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <p className="text-sm text-gray-700 leading-relaxed">
+                        <strong>Student Publication Notice:</strong> We are a student-run neuroscience journal established in 2006, 
+                        focused on selecting and peer-reviewing quality academic articles. We do not currently have a DOI 
+                        registration, as our primary mission is to provide students with publishing and editorial experience.
+                      </p>
                     </div>
                   </div>
                   
