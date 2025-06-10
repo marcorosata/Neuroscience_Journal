@@ -112,6 +112,70 @@ export default function Home() {
         <HeroSection />
         <StatsSection />
 
+        {/* Featured Articles Section with Preview Cards */}
+        <ScrollReveal direction="up" className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <div className="flex items-center justify-center mb-4">
+                <BookOpen className="text-red-impact h-6 w-6 mr-3" />
+                <span className="text-red-impact font-semibold text-sm uppercase tracking-wider">Latest Research</span>
+              </div>
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-impact to-berry">Articles</span>
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Discover groundbreaking research from our student neuroscience community
+              </p>
+            </div>
+
+            {articlesLoading ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="animate-pulse">
+                    <div className="h-48 bg-gray-200 rounded-t-xl"></div>
+                    <div className="p-6 space-y-4">
+                      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                      <div className="h-4 bg-gray-200 rounded w-full"></div>
+                      <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : articles && articles.length > 0 ? (
+              <PreviewGrid className="max-w-none">
+                {articles.slice(0, 6).map((article) => (
+                  <Link key={article.id} href={`/article/${article.id}`}>
+                    <PreviewCard
+                      title={article.title}
+                      description={article.abstract}
+                      category={article.category}
+                      authors={article.authors}
+                      publishedAt={article.publishedAt ? new Date(article.publishedAt).toISOString() : undefined}
+                      readTime="8-12 min"
+                      className="h-full cursor-pointer"
+                    />
+                  </Link>
+                ))}
+              </PreviewGrid>
+            ) : (
+              <div className="text-center py-16">
+                <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">No Articles Available</h3>
+                <p className="text-gray-600">Featured articles will appear here once published.</p>
+              </div>
+            )}
+
+            <ScrollReveal direction="up" delay={600} className="text-center mt-12">
+              <Link href="/archive">
+                <Button className="bg-red-impact hover:bg-berry text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  View All Articles
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+            </ScrollReveal>
+          </div>
+        </ScrollReveal>
+
         {/* Enhanced About Section with scroll animations */}
         <section 
           ref={aboutRef}

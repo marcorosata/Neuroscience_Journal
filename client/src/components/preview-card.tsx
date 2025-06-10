@@ -50,16 +50,18 @@ export function PreviewCard({
       rotateX: 0,
       rotateY: 0,
       z: 0,
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
     },
     hover: {
-      scale: 1.05,
-      rotateX: mousePosition.y / 10 - 5,
-      rotateY: mousePosition.x / 10 - 5,
+      scale: 1.08,
+      rotateX: (mousePosition.y - 150) / 30,
+      rotateY: (mousePosition.x - 150) / 30,
       z: 50,
+      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 30px rgba(255, 66, 75, 0.3)",
       transition: {
         type: "spring",
-        stiffness: 300,
-        damping: 20,
+        stiffness: 400,
+        damping: 25,
       },
     },
   };

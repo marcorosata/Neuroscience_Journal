@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { formatDate } from "@/lib/utils";
 import { Calendar, BookOpen, Download, FileText } from "lucide-react";
 import { ScrollReveal, StaggeredReveal } from "@/components/scroll-reveal";
+import { PreviewCard, PreviewGrid } from "@/components/preview-card";
 import type { Issue } from "@shared/schema";
 
 export default function Archive() {

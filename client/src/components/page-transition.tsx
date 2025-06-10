@@ -9,25 +9,29 @@ interface PageTransitionProps {
 const pageVariants = {
   initial: {
     opacity: 0,
-    y: 20,
-    scale: 0.98,
+    y: 50,
+    scale: 0.95,
+    rotateX: 10,
   },
   in: {
     opacity: 1,
     y: 0,
     scale: 1,
+    rotateX: 0,
   },
   out: {
     opacity: 0,
-    y: -20,
-    scale: 1.02,
+    y: -30,
+    scale: 1.05,
+    rotateX: -5,
   },
 };
 
 const pageTransition = {
-  type: "tween",
-  ease: "anticipate",
-  duration: 0.5,
+  type: "spring",
+  stiffness: 300,
+  damping: 30,
+  duration: 0.6,
 };
 
 export function PageTransition({ children }: PageTransitionProps) {
