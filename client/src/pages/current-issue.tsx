@@ -217,15 +217,7 @@ export default function CurrentIssue() {
               </div>
             )}
           </div>
-        ) : (
-          <div className="text-center py-16">
-            <BookOpen className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-600 mb-2">No Articles Available</h3>
-            <p className="text-gray-500">
-              There are currently no articles available for this issue.
-            </p>
-          </div>
-        )}
+        ) : null}
 
         {/* Navigation */}
         {currentIssueArticles && currentIssueArticles.length > 0 && (
