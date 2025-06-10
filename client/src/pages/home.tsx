@@ -135,25 +135,26 @@ export default function Home() {
                   <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">About The Journal</span>
                 </div>
                 <h2 className="text-4xl font-bold text-maroon mb-6 leading-tight">
-                  Advancing Student 
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"> Research</span>
+                  Where Student 
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"> Ideas Come to Life</span>
                 </h2>
                 <p className="text-gray-600 mb-6 leading-relaxed text-lg">
-                  The Student Neuroscience Journal at Radboud University provides a platform for undergraduate 
-                  and graduate students to publish their research findings, reviews, and innovative methodologies 
-                  in the field of neuroscience.
+                  Hey there! We're a group of passionate students at Radboud University who believe amazing 
+                  research shouldn't stay hidden in thesis folders. Our journal gives you a real chance to 
+                  share your discoveries, reviews, and cool new methods with the world!
                 </p>
                 <p className="text-gray-600 mb-8 leading-relaxed">
-                  Founded in 2022, our journal maintains rigorous peer-review standards while fostering 
-                  the next generation of neuroscientists. We encourage interdisciplinary approaches and 
-                  cutting-edge research across all areas of neuroscience.
+                  Since 2006, we've been helping students take their first steps into the publishing world. 
+                  Don't worry - we'll guide you through the process while making sure your work meets 
+                  professional standards. Whether you're into brain imaging, behavioral studies, or anything 
+                  neuroscience-related, we'd love to hear from you!
                 </p>
                 
                 <div className="space-y-4">
                   {[
-                    { icon: CheckCircle, text: "Rigorous peer-review process", delay: "delay-500" },
-                    { icon: CheckCircle, text: "Open access publication", delay: "delay-700" },
-                    { icon: CheckCircle, text: "International readership", delay: "delay-900" }
+                    { icon: CheckCircle, text: "Supportive peer-review with helpful feedback", delay: "delay-500" },
+                    { icon: CheckCircle, text: "Free for everyone to read online", delay: "delay-700" },
+                    { icon: CheckCircle, text: "Readers from around the globe", delay: "delay-900" }
                   ].map((item, index) => (
                     <div 
                       key={index}
