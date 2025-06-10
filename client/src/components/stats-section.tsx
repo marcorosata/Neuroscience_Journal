@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { FileText, Users, Eye, Heart } from "lucide-react";
+import { ScrollReveal, CountUp } from "./scroll-reveal";
 
 interface StatsData {
   publishedArticles: number;
