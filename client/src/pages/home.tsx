@@ -201,41 +201,109 @@ export default function Home() {
                 </p>
               </div>
               
-              {editorsLoading ? (
-                <div className="grid md:grid-cols-3 gap-8">
-                  {[...Array(3)].map((_, i) => (
+{editorsLoading ? (
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                  {[...Array(4)].map((_, i) => (
                     <div key={i} className="text-center space-y-4">
-                      <Skeleton className="w-32 h-32 rounded-full mx-auto" />
+                      <Skeleton className="w-28 h-28 rounded-full mx-auto" />
                       <Skeleton className="h-4 w-3/4 mx-auto" />
-                      <Skeleton className="h-4 w-1/2 mx-auto" />
+                      <Skeleton className="h-3 w-1/2 mx-auto" />
                     </div>
                   ))}
                 </div>
               ) : editors ? (
-                <div className="grid md:grid-cols-3 gap-8">
-                  {editors.slice(0, 3).map((editor, index) => (
-                    <div 
-                      key={editor.id} 
-                      className={`group text-center transition-all duration-700 delay-${(index + 1) * 200} ${
-                        isEditorialVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                      }`}
-                    >
-                      <div className="relative mb-6">
-                        {editor.imageUrl && (
-                          <img 
-                            src={editor.imageUrl}
-                            alt={editor.name}
-                            className="w-32 h-32 rounded-full mx-auto object-cover shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105"
-                          />
-                        )}
-                        <div className="absolute inset-0 w-32 h-32 mx-auto rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all duration-300" />
-                      </div>
-                      <h4 className="font-bold text-maroon text-lg group-hover:text-blue-600 transition-colors">{editor.name}</h4>
-                      <p className="text-gray-600 text-sm font-medium">{editor.title}</p>
-                      <p className="text-gray-500 text-xs mt-1">{editor.specialization}</p>
+                <>
+                  {/* Managing Editors Section */}
+                  <div className="mb-16">
+                    <div className="text-center mb-8">
+                      <h4 className="text-xl font-bold text-maroon mb-2">Managing Editors</h4>
+                      <p className="text-gray-600 text-sm">Leading our editorial operations and publication standards</p>
                     </div>
-                  ))}
-                </div>
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                      {editors
+                        .filter(editor => editor.title.includes('Managing Editor'))
+                        .map((editor, index) => (
+                        <div 
+                          key={editor.id} 
+                          className={`group text-center transition-all duration-700 delay-${(index + 1) * 150} ${
+                            isEditorialVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                          }`}
+                        >
+                          <div className="relative mb-4">
+                            <div className="w-28 h-28 mx-auto rounded-full bg-gradient-to-br from-maroon/10 to-blue-600/10 border-2 border-maroon/20 group-hover:border-maroon/40 transition-all duration-300 flex items-center justify-center">
+                              {editor.imageUrl ? (
+                                <img 
+                                  src={editor.imageUrl}
+                                  alt={editor.name}
+                                  className="w-24 h-24 rounded-full object-cover shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105"
+                                />
+                              ) : (
+                                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-maroon to-blue-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                                  <span className="text-white font-bold text-lg">
+                                    {editor.name.split(' ').map(n => n[0]).join('')}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                            <div className="absolute inset-0 w-28 h-28 mx-auto rounded-full bg-gradient-to-r from-maroon/10 to-blue-600/10 group-hover:from-maroon/20 group-hover:to-blue-600/20 transition-all duration-300" />
+                          </div>
+                          <div className="space-y-1">
+                            <h5 className="font-bold text-maroon text-sm group-hover:text-blue-600 transition-colors leading-tight">
+                              {editor.name}
+                            </h5>
+                            <p className="text-gray-600 text-xs font-medium">{editor.title}</p>
+                            <p className="text-gray-500 text-xs">{editor.specialization}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Other Editorial Team Preview */}
+                  <div>
+                    <div className="text-center mb-8">
+                      <h4 className="text-xl font-bold text-maroon mb-2">Review Editors</h4>
+                      <p className="text-gray-600 text-sm">Our specialized review team across different research tracks</p>
+                    </div>
+                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+                      {editors
+                        .filter(editor => editor.title.includes('Review Editor'))
+                        .slice(0, 6)
+                        .map((editor, index) => (
+                        <div 
+                          key={editor.id} 
+                          className={`group text-center transition-all duration-700 delay-${(index + 1) * 100} ${
+                            isEditorialVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                          }`}
+                        >
+                          <div className="relative mb-4">
+                            <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-purple-100 to-blue-100 border border-purple-200 group-hover:border-purple-300 transition-all duration-300 flex items-center justify-center">
+                              {editor.imageUrl ? (
+                                <img 
+                                  src={editor.imageUrl}
+                                  alt={editor.name}
+                                  className="w-20 h-20 rounded-full object-cover shadow-sm group-hover:shadow-md transition-all duration-300"
+                                />
+                              ) : (
+                                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300">
+                                  <span className="text-white font-semibold text-sm">
+                                    {editor.name.split(' ').map(n => n[0]).join('')}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <div className="space-y-1">
+                            <h5 className="font-semibold text-gray-800 text-xs group-hover:text-purple-600 transition-colors leading-tight">
+                              {editor.name}
+                            </h5>
+                            <p className="text-gray-500 text-xs">{editor.specialization}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
               ) : (
                 <div className="text-center">
                   <p className="text-gray-600">Editorial board information unavailable.</p>
