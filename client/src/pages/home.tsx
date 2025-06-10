@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Brain, FileText, CheckCircle, ArrowRight, Sparkles, Calendar, User, BookOpen } from "lucide-react";
 import StarlinkHero from "@/components/starlink-hero";
 import StatsSection from "@/components/stats-section";
-import { PreviewCard, PreviewGrid } from "@/components/preview-card";
+import { StarlinkCard, StarlinkGrid } from "@/components/starlink-card";
 import { ScrollReveal, StaggeredReveal } from "@/components/scroll-reveal";
 
 import { Button } from "@/components/ui/button";
@@ -141,10 +141,10 @@ export default function Home() {
                 ))}
               </div>
             ) : articles && articles.length > 0 ? (
-              <PreviewGrid className="max-w-none">
+              <StarlinkGrid className="max-w-none">
                 {articles.slice(0, 6).map((article) => (
                   <Link key={article.id} href={`/article/${article.id}`}>
-                    <PreviewCard
+                    <StarlinkCard
                       title={article.title}
                       description={article.abstract}
                       category={article.category}
@@ -155,7 +155,7 @@ export default function Home() {
                     />
                   </Link>
                 ))}
-              </PreviewGrid>
+              </StarlinkGrid>
             ) : (
               <div className="text-center py-16">
                 <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />

@@ -7,10 +7,10 @@ import { PageTransition } from "@/components/page-transition";
 import DynamicParticles from "@/components/dynamic-particles";
 import StarlinkHeader from "@/components/starlink-header";
 import Footer from "@/components/footer";
-import Home from "@/pages/home";
+import Home from "@/pages/home-starlink";
 import About from "@/pages/about";
 import CurrentIssue from "@/pages/current-issue";
-import Archive from "@/pages/archive";
+import Archive from "@/pages/archive-starlink";
 import ForAuthors from "@/pages/for-authors";
 import ForReviewers from "@/pages/for-reviewers";
 import Contact from "@/pages/contact";
@@ -20,10 +20,7 @@ import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
-    <div className="min-h-screen flex flex-col relative">
-      {/* Dynamic particle background */}
-      <DynamicParticles density={20} speed={0.2} />
-      
+    <div className="min-h-screen flex flex-col relative bg-black">
       <StarlinkHeader />
       <main className="flex-1 relative z-10">
         <PageTransition>
