@@ -14,7 +14,8 @@ export default function Home() {
   });
 
   return (
-    <div className="bg-black">
+    <div className="bg-black relative">
+      <RabouldParticles />
       <StarlinkHero />
 
       {/* Featured Articles Section */}
@@ -66,12 +67,18 @@ export default function Home() {
 
           <ScrollReveal direction="up" delay={600} className="text-center mt-16">
             <Link href="/archive">
-              <Button 
-                className="bg-white text-black hover:bg-gray-200 font-medium px-8 py-3 rounded-xl transition-all duration-300"
-              >
-                View All Articles
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <PulseGlow color="var(--red-impact)">
+                <Button 
+                  className="font-medium px-8 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
+                  style={{
+                    background: 'linear-gradient(135deg, var(--red-impact), var(--poppy))',
+                    color: 'white'
+                  }}
+                >
+                  View All Articles
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </PulseGlow>
             </Link>
           </ScrollReveal>
         </div>
@@ -92,22 +99,26 @@ export default function Home() {
             We maintain rigorous peer-review standards while fostering the next generation of researchers.
           </p>
           
-          <div className="grid md:grid-cols-2 gap-8 text-left">
-            <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-              <h3 className="text-lg font-medium text-white mb-4">Open Access</h3>
-              <p className="text-gray-400 font-light">
-                All articles are freely available to researchers and students worldwide, 
-                supporting the open science movement.
-              </p>
-            </div>
-            <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-              <h3 className="text-lg font-medium text-white mb-4">Peer Review</h3>
-              <p className="text-gray-400 font-light">
-                Rigorous review process ensures high-quality publications while 
-                providing valuable feedback to student researchers.
-              </p>
-            </div>
-          </div>
+          <StaggerContainer stagger={0.2} className="grid md:grid-cols-2 gap-8 text-left">
+            <AnimatedBorder>
+              <div className="bg-black rounded-xl p-6">
+                <h3 className="text-lg font-medium text-white mb-4">Open Access</h3>
+                <p className="text-gray-400 font-light">
+                  All articles are freely available to researchers and students worldwide, 
+                  supporting the open science movement.
+                </p>
+              </div>
+            </AnimatedBorder>
+            <AnimatedBorder>
+              <div className="bg-black rounded-xl p-6">
+                <h3 className="text-lg font-medium text-white mb-4">Peer Review</h3>
+                <p className="text-gray-400 font-light">
+                  Rigorous review process ensures high-quality publications while 
+                  providing valuable feedback to student researchers.
+                </p>
+              </div>
+            </AnimatedBorder>
+          </StaggerContainer>
         </div>
       </ScrollReveal>
     </div>
