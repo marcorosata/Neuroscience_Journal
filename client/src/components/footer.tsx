@@ -67,7 +67,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-white text-sm">
+        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-red-impact text-sm">
           <p>&copy; 2024 Student Neuroscience Journal, Radboud University. All rights reserved.</p>
         </div>
       </div>
