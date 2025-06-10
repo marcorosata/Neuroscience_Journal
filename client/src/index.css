@@ -2,22 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Radboud University Color Palette */
-:root {
-  --red-impact: #e3000b;
-  --poppy: #ff424b;
-  --lady-bug: #be311e;
-  --berry: #8f2011;
-  --maroon: #730e04;
-  --mahogany: #4a0004;
-  --radboud-gray: #797777;
-  --radboud-orange: #cf5107;
-  --radboud-blue: #008acb;
-  --radboud-petrol: #008f89;
-  --radboud-green: #4aa943;
-  --radboud-yellow: #ccaf00;
-}
-
 /* Enhanced scroll behavior */
 html {
   scroll-behavior: smooth;

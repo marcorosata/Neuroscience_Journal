@@ -35,15 +35,17 @@ export function ScrollReveal({
     if (!isVisible) {
       switch (direction) {
         case 'up':
-          return `${base} ${durationClass} opacity-0 translate-y-4`;
+          return `${base} ${durationClass} opacity-0 translate-y-8 scale-95`;
         case 'down':
-          return `${base} ${durationClass} opacity-0 -translate-y-4`;
+          return `${base} ${durationClass} opacity-0 -translate-y-8 scale-95`;
         case 'left':
-          return `${base} ${durationClass} opacity-0 translate-x-4`;
+          return `${base} ${durationClass} opacity-0 translate-x-8 scale-95`;
         case 'right':
-          return `${base} ${durationClass} opacity-0 -translate-x-4`;
+          return `${base} ${durationClass} opacity-0 -translate-x-8 scale-95`;
         case 'scale':
-          return `${base} ${durationClass} opacity-0 scale-95`;
+          return `${base} ${durationClass} opacity-0 scale-75`;
+        case 'rotate':
+          return `${base} ${durationClass} opacity-0 rotate-12 scale-90`;
         case 'fade':
         default:
           return `${base} ${durationClass} opacity-0`;
