@@ -67,41 +67,69 @@ export default function StatsSection() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="card-enhanced bg-white/10 backdrop-blur-sm border border-white/20 p-8 text-center hover:bg-white/15 transition-all duration-300 group">
-            <div className="w-20 h-20 bg-poppy rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
-              <FileText className="text-white text-2xl" />
+          <ScrollReveal direction="up" delay={0} className="w-full">
+            <div className="card-enhanced bg-white/10 backdrop-blur-sm border border-white/20 p-8 text-center hover:bg-white/15 transition-all duration-300 group">
+              <div className="w-20 h-20 bg-poppy rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
+                <FileText className="text-white text-2xl" />
+              </div>
+              <CountUp 
+                end={stats?.publishedArticles ?? 120} 
+                duration={2000}
+                delay={300}
+                className="text-4xl font-bold text-white mb-2 tabular-nums block"
+              />
+              <div className="text-white font-semibold mb-2">Published Articles</div>
+              <div className="text-white/60 text-sm">Peer-reviewed research</div>
             </div>
-            <div className="text-4xl font-bold text-white mb-2 tabular-nums">120</div>
-            <div className="text-white font-semibold mb-2">Published Articles</div>
-            <div className="text-white/60 text-sm">Peer-reviewed research</div>
-          </div>
+          </ScrollReveal>
           
-          <div className="card-enhanced bg-white/10 backdrop-blur-sm border border-white/20 p-8 text-center hover:bg-white/15 transition-all duration-300 group">
-            <div className="w-20 h-20 bg-ladybug rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
-              <Users className="text-white text-2xl" />
+          <ScrollReveal direction="up" delay={200} className="w-full">
+            <div className="card-enhanced bg-white/10 backdrop-blur-sm border border-white/20 p-8 text-center hover:bg-white/15 transition-all duration-300 group">
+              <div className="w-20 h-20 bg-ladybug rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
+                <Users className="text-white text-2xl" />
+              </div>
+              <CountUp 
+                end={stats?.authors ?? 300} 
+                duration={2000}
+                delay={500}
+                className="text-4xl font-bold text-white mb-2 tabular-nums block"
+              />
+              <div className="text-white font-semibold mb-2">Contributors</div>
+              <div className="text-white/60 text-sm">Graduate researchers</div>
             </div>
-            <div className="text-4xl font-bold text-white mb-2 tabular-nums">300</div>
-            <div className="text-white font-semibold mb-2">Contributors</div>
-            <div className="text-white/60 text-sm">Graduate researchers</div>
-          </div>
+          </ScrollReveal>
           
-          <div className="card-enhanced bg-white/10 backdrop-blur-sm border border-white/20 p-8 text-center hover:bg-white/15 transition-all duration-300 group">
-            <div className="w-20 h-20 bg-berry rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
-              <Eye className="text-white text-2xl" />
+          <ScrollReveal direction="up" delay={400} className="w-full">
+            <div className="card-enhanced bg-white/10 backdrop-blur-sm border border-white/20 p-8 text-center hover:bg-white/15 transition-all duration-300 group">
+              <div className="w-20 h-20 bg-berry rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
+                <Eye className="text-white text-2xl" />
+              </div>
+              <CountUp 
+                end={stats?.monthlyReaders ?? 1} 
+                duration={2000}
+                delay={700}
+                className="text-4xl font-bold text-white mb-2 tabular-nums block"
+              />
+              <div className="text-white font-semibold mb-2">Monthly Readers</div>
+              <div className="text-white/60 text-sm">Global community</div>
             </div>
-            <div className="text-4xl font-bold text-white mb-2 tabular-nums">1</div>
-            <div className="text-white font-semibold mb-2">Monthly Readers</div>
-            <div className="text-white/60 text-sm">Global community</div>
-          </div>
+          </ScrollReveal>
           
-          <div className="card-enhanced bg-white/10 backdrop-blur-sm border border-white/20 p-8 text-center hover:bg-white/15 transition-all duration-300 group">
-            <div className="w-20 h-20 bg-maroon rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
-              <Heart className="text-white text-2xl" />
+          <ScrollReveal direction="up" delay={600} className="w-full">
+            <div className="card-enhanced bg-white/10 backdrop-blur-sm border border-white/20 p-8 text-center hover:bg-white/15 transition-all duration-300 group">
+              <div className="w-20 h-20 bg-maroon rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
+                <Heart className="text-white text-2xl" />
+              </div>
+              <CountUp 
+                end={stats?.totalSponsors ?? 12} 
+                duration={2000}
+                delay={900}
+                className="text-4xl font-bold text-white mb-2 tabular-nums block"
+              />
+              <div className="text-white font-semibold mb-2">Sponsors</div>
+              <div className="text-white/60 text-sm">Supporting partners</div>
             </div>
-            <div className="text-4xl font-bold text-white mb-2 tabular-nums">{stats?.totalSponsors ?? 0}</div>
-            <div className="text-white font-semibold mb-2">Sponsors</div>
-            <div className="text-white/60 text-sm">Supporting partners</div>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>
