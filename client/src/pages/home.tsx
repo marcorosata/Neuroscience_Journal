@@ -135,8 +135,8 @@ export default function Home() {
                   <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">About The Journal</span>
                 </div>
                 <h2 className="text-4xl font-bold text-maroon mb-6 leading-tight">
-                  Where Student 
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"> Ideas Come to Life</span>
+                  Our 
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"> Mission</span>
                 </h2>
                 <p className="text-gray-600 mb-6 leading-relaxed text-lg">
                   Hey there! We're a group of passionate students at Radboud University who believe amazing 
