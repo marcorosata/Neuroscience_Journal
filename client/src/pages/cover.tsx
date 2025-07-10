@@ -5,23 +5,23 @@ import SmokeBackground from "@/components/smoke-background";
 
 export default function Cover() {
   return (
-    <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
-      {/* Interactive Neural Smoke Background */}
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center bg-black">
+      {/* xAI-style Interactive Smoke Background */}
       <SmokeBackground 
-        particleCount={30}
+        particleCount={50}
         colors={[
-          'rgba(59, 130, 246, 0.5)',   // Blue - neural activity
-          'rgba(147, 51, 234, 0.4)',   // Purple - synaptic connections  
-          'rgba(236, 72, 153, 0.4)',   // Pink - electrical impulses
-          'rgba(34, 197, 94, 0.3)',    // Green - neural pathways
-          'rgba(249, 115, 22, 0.3)',   // Orange - neurotransmitters
-          'rgba(139, 69, 19, 0.4)'     // Maroon - Radboud theme
+          'rgba(255, 255, 255, 0.8)',  // Pure white for xAI effect
+          'rgba(200, 220, 255, 0.6)',  // Light blue tint
+          'rgba(240, 240, 255, 0.5)',  // Very light blue-white
+          'rgba(220, 230, 255, 0.4)',  // Subtle blue
+          'rgba(255, 250, 250, 0.6)',  // Warm white
+          'rgba(245, 245, 255, 0.5)'   // Cool white
         ]}
-        intensity={1.2}
+        intensity={2.0}
       />
       
-      {/* Dark gradient overlay for better text contrast */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30" />
+      {/* Subtle gradient overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-transparent to-black/20" />
       
       {/* Journal Cover */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6">

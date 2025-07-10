@@ -10,6 +10,10 @@ interface Particle {
   life: number;
   maxLife: number;
   color: string;
+  angle: number;
+  angleSpeed: number;
+  scale: number;
+  turbulence: number;
 }
 
 interface SmokeBackgroundProps {
@@ -55,56 +59,124 @@ export default function SmokeBackground({
       life: number;
       maxLife: number;
       color: string;
+      angle: number;
+      angleSpeed: number;
+      scale: number;
+      turbulence: number;
 
       constructor(x: number, y: number) {
-        this.x = x + (Math.random() - 0.5) * 40;
-        this.y = y + (Math.random() - 0.5) * 40;
-        this.size = Math.random() * 8 + 3;
-        this.speedX = (Math.random() - 0.5) * 2;
-        this.speedY = (Math.random() - 0.5) * 2 - 0.5;
-        this.opacity = Math.random() * 0.5 + 0.1;
+        this.x = x + (Math.random() - 0.5) * 60;
+        this.y = y + (Math.random() - 0.5) * 60;
+        this.size = Math.random() * 15 + 8;
+        this.speedX = (Math.random() - 0.5) * 1.5;
+        this.speedY = (Math.random() - 0.5) * 1.5 - 0.3;
+        this.opacity = Math.random() * 0.6 + 0.2;
         this.life = 0;
-        this.maxLife = Math.random() * 120 + 60;
+        this.maxLife = Math.random() * 200 + 100;
         this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.angle = Math.random() * Math.PI * 2;
+        this.angleSpeed = (Math.random() - 0.5) * 0.05;
+        this.scale = Math.random() * 0.5 + 0.5;
+        this.turbulence = Math.random() * 0.02;
       }
 
       update() {
         this.life++;
+        
+        // Apply complex motion with fluid dynamics
+        const time = this.life * 0.01;
+        
+        // Turbulent motion with Perlin-like noise simulation
+        const noiseX = Math.sin(time * 2 + this.x * 0.005) * this.turbulence;
+        const noiseY = Math.cos(time * 3 + this.y * 0.005) * this.turbulence;
+        
+        this.speedX += noiseX;
+        this.speedY += noiseY;
+        
+        // Mouse interaction force field
+        const mouseInfluence = 150;
+        const dx = mouseRef.current.x - this.x;
+        const dy = mouseRef.current.y - this.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < mouseInfluence && distance > 0) {
+          const force = (mouseInfluence - distance) / mouseInfluence;
+          const forceX = (dx / distance) * force * 0.5;
+          const forceY = (dy / distance) * force * 0.5;
+          
+          this.speedX += forceX;
+          this.speedY += forceY;
+        }
+        
+        // Apply movement
         this.x += this.speedX;
         this.y += this.speedY;
         
-        // Gradually slow down and fade
-        this.speedX *= 0.995;
-        this.speedY *= 0.995;
-        this.opacity = Math.max(0, this.opacity - 0.008);
+        // Fluid resistance and damping
+        this.speedX *= 0.98;
+        this.speedY *= 0.98;
         
-        // Subtle drift upward
-        this.speedY -= 0.02;
+        // Gentle upward drift with subtle wind
+        this.speedY -= 0.015;
+        this.speedX += Math.sin(time * 0.5) * 0.003;
         
-        // Add some turbulence
-        this.speedX += (Math.random() - 0.5) * 0.1;
-        this.speedY += (Math.random() - 0.5) * 0.1;
+        // Rotation
+        this.angle += this.angleSpeed;
+        
+        // Scale animation
+        this.scale = 0.5 + Math.sin(time * 0.5) * 0.3;
+        
+        // Opacity fade with smooth curve
+        const lifeFactor = this.life / this.maxLife;
+        this.opacity = Math.max(0, (1 - lifeFactor * lifeFactor) * 0.6);
       }
 
       draw(ctx: CanvasRenderingContext2D) {
         ctx.save();
+        
+        // Apply transformation matrix for rotation and scale
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.scale(this.scale, this.scale);
+        
+        // Create sophisticated radial gradient for smoky appearance
+        const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
+        
+        // Enhanced color parsing
+        const colorMatch = this.color.match(/rgba?\(([^)]+)\)/);
+        if (colorMatch) {
+          const values = colorMatch[1].split(',').map(v => v.trim());
+          const r = values[0];
+          const g = values[1];
+          const b = values[2];
+          const baseAlpha = parseFloat(values[3] || '1') * this.opacity;
+          
+          // Multi-stop gradient for realistic smoke density
+          gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.8})`);
+          gradient.addColorStop(0.3, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.4})`);
+          gradient.addColorStop(0.6, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.1})`);
+          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        } else {
+          gradient.addColorStop(0, this.color);
+          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        }
+        
+        // Apply blend mode for xAI-style effect
+        ctx.globalCompositeOperation = 'lighter';
         ctx.globalAlpha = this.opacity;
-        ctx.beginPath();
         
-        // Create a soft, blurred circle
-        const gradient = ctx.createRadialGradient(
-          this.x, this.y, 0,
-          this.x, this.y, this.size
-        );
-        
-        // Create gradient with proper color parsing
-        gradient.addColorStop(0, this.color);
-        gradient.addColorStop(0.5, this.color.replace(/[\d.]+\)$/, '0.1)'));
-        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        
+        // Draw multiple layers for volume
         ctx.fillStyle = gradient;
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size, 0, Math.PI * 2);
         ctx.fill();
+        
+        // Additional layer with lighter color for depth
+        ctx.globalAlpha = this.opacity * 0.3;
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size * 0.7, 0, Math.PI * 2);
+        ctx.fill();
+        
         ctx.restore();
       }
 
@@ -120,7 +192,12 @@ export default function SmokeBackground({
     };
 
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Set canvas background to pure black for proper blending
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Set global composition mode for xAI-style blending
+      ctx.globalCompositeOperation = 'lighter';
       
       // Update and draw particles
       particlesRef.current = particlesRef.current.filter(particle => {
@@ -129,12 +206,15 @@ export default function SmokeBackground({
         return !particle.isDead();
       });
 
-      // Occasionally create ambient particles
-      if (Math.random() < 0.02) {
+      // Reset composition mode
+      ctx.globalCompositeOperation = 'source-over';
+
+      // Create ambient particles more frequently for denser effect
+      if (Math.random() < 0.05) {
         createParticles(
           Math.random() * canvas.width,
           Math.random() * canvas.height,
-          2
+          1
         );
       }
 
