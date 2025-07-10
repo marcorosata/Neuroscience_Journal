@@ -43,7 +43,7 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
       0.1,
       1000
     );
-    camera.position.set(0, 0, 5);
+    camera.position.set(0, 0, 8);
     cameraRef.current = camera;
 
     // Renderer setup
@@ -78,8 +78,8 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
     controls.dampingFactor = 0.05;
     controls.rotateSpeed = 0.5;
     controls.enableZoom = true;
-    controls.minDistance = 3;
-    controls.maxDistance = 10;
+    controls.minDistance = 4;
+    controls.maxDistance = 20;
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.5;
 
@@ -177,7 +177,7 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
       '/attached_assets/brain_1752183297653.glb',
       (gltf) => {
         const brain = gltf.scene;
-        brain.scale.set(2, 2, 2);
+        brain.scale.set(1.5, 1.5, 1.5);
         brain.position.set(0, 0, 0);
         
         // Find the main brain mesh
