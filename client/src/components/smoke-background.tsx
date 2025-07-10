@@ -107,7 +107,7 @@ export default function SmokeBackground({
         // Advanced physics properties
         this.speedX = Math.random() * 0.3 + 0.1;
         this.speedY = (Math.random() - 0.5) * 0.05 - 0.02;
-        this.opacity = Math.random() * 0.12 + 0.08; // 15% transparency range
+        this.opacity = Math.random() * 0.3 + 0.2; // Much more visible smoke
         this.life = 0;
         this.maxLife = Math.random() * 2000 + 1500; // Very long-lived like real smoke
         this.color = colors[Math.floor(Math.random() * colors.length)];
@@ -230,7 +230,7 @@ export default function SmokeBackground({
         const densityFade = Math.max(0.05, this.density);
         const hoverBoost = 1 + this.hoverInfluence * 0.5;
         
-        this.opacity = Math.max(0, (1 - lifeFactor) * 0.15 * temperatureFade * densityFade * hoverBoost);
+        this.opacity = Math.max(0, (1 - lifeFactor) * 0.4 * temperatureFade * densityFade * hoverBoost);
       }
 
       draw(ctx: CanvasRenderingContext2D) {
@@ -397,22 +397,22 @@ export default function SmokeBackground({
       ctx.globalCompositeOperation = 'source-over';
       ctx.filter = 'none';
 
-      // Atmospheric smoke generation with natural variability
-      const generationRate = 0.03 + Math.sin(Date.now() * 0.0001) * 0.01;
+      // Much more frequent smoke generation for visibility
+      const generationRate = 0.3; // High generation rate
       if (Math.random() < generationRate) {
         // Multiple spawn points for natural smoke sources
         const spawnPoints = [
-          { x: -150, weight: 0.4 },
-          { x: -200, weight: 0.3 },
-          { x: -100, weight: 0.2 },
-          { x: -250, weight: 0.1 }
+          { x: -150, weight: 1.0 },
+          { x: -200, weight: 1.0 },
+          { x: -100, weight: 1.0 },
+          { x: -250, weight: 1.0 }
         ];
         
         const selectedSpawn = spawnPoints[Math.floor(Math.random() * spawnPoints.length)];
         createParticles(
           selectedSpawn.x,
           Math.random() * canvas.height,
-          Math.random() < selectedSpawn.weight ? 1 : 0
+          2 // Create multiple particles each time
         );
       }
 
@@ -486,8 +486,14 @@ export default function SmokeBackground({
     // Start animation
     animate();
 
-    // Initial subtle particle spread
-    createParticles(canvas.width / 4, canvas.height / 2, 3);
+    // Create initial visible smoke
+    for (let i = 0; i < 10; i++) {
+      createParticles(
+        -100 + Math.random() * 200,
+        Math.random() * canvas.height,
+        5
+      );
+    }
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
