@@ -4,6 +4,14 @@
 
 This is a full-stack web application for the CNS Journal - a student-run academic journal for the Cognitive Neuroscience Master's Programme at Radboud University. The application serves as a digital platform for publishing neuroscience research articles, managing editorial content, and facilitating academic communication.
 
+## Recent Changes (January 2025)
+
+- **Ultra-realistic smoke simulation**: Implemented hyper-realistic red smoke background with 100x enhanced physics
+- **Advanced hover interactions**: Multi-zone cursor effects (attraction, swirl, push zones)
+- **Sophisticated particle system**: 5-layer gradient rendering, particle trails, temperature/density simulation
+- **High visibility settings**: Smoke opacity increased to 20-50% for clear visibility on deployed app
+- **Welcome page**: Enhanced with university branding and smoke background at /welcome route
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
