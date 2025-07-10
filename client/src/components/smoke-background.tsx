@@ -38,8 +38,8 @@ interface SmokeBackgroundProps {
 
 export default function SmokeBackground({
   className = '',
-  particleCount = 80,
-  colors = ['rgba(200, 200, 200, 0.4)', 'rgba(180, 180, 180, 0.3)', 'rgba(160, 160, 160, 0.2)'],
+  particleCount = 120,
+  colors = ['rgba(220, 20, 20, 0.6)', 'rgba(180, 30, 30, 0.5)', 'rgba(140, 40, 40, 0.4)', 'rgba(100, 20, 20, 0.3)'],
   intensity = 1
 }: SmokeBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -82,11 +82,11 @@ export default function SmokeBackground({
         // Start particles from left side for left-to-right flow
         this.x = x - 100 + Math.random() * 50;
         this.y = y + (Math.random() - 0.5) * 80;
-        this.size = Math.random() * 60 + 40; // Larger, more smoke-like
-        // Slower, more realistic smoke flow
-        this.speedX = Math.random() * 1.5 + 0.8;
-        this.speedY = (Math.random() - 0.5) * 0.3 - 0.2; // Slight upward drift
-        this.opacity = Math.random() * 0.15 + 0.05; // Much more transparent
+        this.size = Math.random() * 80 + 60; // Larger, ultra-realistic smoke
+        // Very slow, natural smoke flow
+        this.speedX = Math.random() * 1.2 + 0.6;
+        this.speedY = (Math.random() - 0.5) * 0.2 - 0.15; // Subtle upward drift
+        this.opacity = Math.random() * 0.25 + 0.1; // More visible red smoke
         this.life = 0;
         this.maxLife = Math.random() * 400 + 300; // Longer-lived smoke
         this.color = colors[Math.floor(Math.random() * colors.length)];
@@ -147,7 +147,7 @@ export default function SmokeBackground({
         
         // Natural fade with smoke dispersal
         const lifeFactor = this.life / this.maxLife;
-        this.opacity = Math.max(0, (1 - lifeFactor) * 0.15);
+        this.opacity = Math.max(0, (1 - lifeFactor) * 0.35);
       }
 
       draw(ctx: CanvasRenderingContext2D) {
@@ -180,8 +180,8 @@ export default function SmokeBackground({
           gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
         }
         
-        // Use normal blending for realistic smoke appearance
-        ctx.globalCompositeOperation = 'multiply';
+        // Use normal blending for red smoke on black background
+        ctx.globalCompositeOperation = 'source-over';
         ctx.globalAlpha = this.opacity;
         
         // Draw smoke particle
@@ -307,12 +307,12 @@ export default function SmokeBackground({
     };
 
     const animate = () => {
-      // Clear canvas with slight trail for smoke persistence
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.02)'; // Light background fade
+      // Clear canvas with pure black background and slight trail
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.02)'; // Black background with subtle fade
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Apply very subtle blur for smooth smoke
-      ctx.filter = 'blur(1px)';
+      // Apply subtle blur for smooth smoke
+      ctx.filter = 'blur(2px)';
       
       // Use normal blending for realistic smoke
       ctx.globalCompositeOperation = 'source-over';
@@ -339,11 +339,11 @@ export default function SmokeBackground({
       ctx.filter = 'none';
 
       // Create ambient particles from left side for continuous flow
-      if (Math.random() < 0.25) {
+      if (Math.random() < 0.4) {
         createParticles(
           -50, // Start from left edge
           Math.random() * canvas.height,
-          3
+          4
         );
       }
 
@@ -408,7 +408,7 @@ export default function SmokeBackground({
     <canvas
       ref={canvasRef}
       className={`fixed inset-0 z-0 ${className}`}
-      style={{ mixBlendMode: 'normal' }}
+      style={{ mixBlendMode: 'normal', backgroundColor: 'black' }}
     />
   );
 }
