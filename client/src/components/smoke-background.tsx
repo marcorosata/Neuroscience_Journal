@@ -16,18 +16,7 @@ interface Particle {
   turbulence: number;
 }
 
-interface LightningBolt {
-  startX: number;
-  startY: number;
-  endX: number;
-  endY: number;
-  segments: { x: number; y: number }[];
-  life: number;
-  maxLife: number;
-  opacity: number;
-  thickness: number;
-  color: string;
-}
+
 
 interface SmokeBackgroundProps {
   className?: string;
@@ -39,13 +28,22 @@ interface SmokeBackgroundProps {
 export default function SmokeBackground({
   className = '',
   particleCount = 60,
-  colors = ['rgba(180, 30, 30, 0.4)', 'rgba(160, 40, 40, 0.3)', 'rgba(120, 35, 35, 0.25)', 'rgba(100, 25, 25, 0.2)'],
+  colors = [
+    'rgba(180, 30, 30, 0.3)', 
+    'rgba(200, 40, 40, 0.25)', 
+    'rgba(160, 25, 25, 0.35)',
+    'rgba(220, 50, 50, 0.2)',
+    'rgba(140, 20, 20, 0.4)',
+    'rgba(190, 35, 35, 0.3)',
+    'rgba(170, 28, 28, 0.32)',
+    'rgba(210, 45, 45, 0.22)'
+  ],
   intensity = 1
 }: SmokeBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
   const particlesRef = useRef<Particle[]>([]);
-  const lightningRef = useRef<LightningBolt[]>([]);
+
   const mouseRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -87,21 +85,21 @@ export default function SmokeBackground({
       turbulence: number;
 
       constructor(x: number, y: number) {
-        // Start particles from left side for left-to-right flow
-        this.x = x - 100 + Math.random() * 50;
-        this.y = y + (Math.random() - 0.5) * 80;
-        this.size = Math.random() * 120 + 80; // Larger, softer smoke
-        // Very slow, natural smoke flow
-        this.speedX = Math.random() * 0.8 + 0.4;
-        this.speedY = (Math.random() - 0.5) * 0.15 - 0.1; // Subtle upward drift
-        this.opacity = Math.random() * 0.15 + 0.05; // Much more subtle
+        // Ultra-realistic smoke spawning with natural variations
+        this.x = x - 120 + Math.random() * 80;
+        this.y = y + (Math.random() - 0.5) * 60;
+        this.size = Math.random() * 180 + 120; // Much larger, more realistic smoke
+        // Hyper-realistic smoke flow with natural variations
+        this.speedX = Math.random() * 0.6 + 0.2;
+        this.speedY = (Math.random() - 0.5) * 0.08 - 0.04; // Natural upward drift
+        this.opacity = Math.random() * 0.08 + 0.02; // Ultra-subtle for realism
         this.life = 0;
-        this.maxLife = Math.random() * 400 + 300; // Longer-lived smoke
+        this.maxLife = Math.random() * 800 + 600; // Much longer-lived like real smoke
         this.color = colors[Math.floor(Math.random() * colors.length)];
         this.angle = Math.random() * Math.PI * 2;
-        this.angleSpeed = (Math.random() - 0.5) * 0.01; // Slower rotation
-        this.scale = Math.random() * 0.5 + 0.5;
-        this.turbulence = Math.random() * 0.02;
+        this.angleSpeed = (Math.random() - 0.5) * 0.005; // Ultra-slow rotation
+        this.scale = Math.random() * 0.3 + 0.4;
+        this.turbulence = Math.random() * 0.015;
       }
 
       update() {
@@ -224,103 +222,7 @@ export default function SmokeBackground({
       }
     }
 
-    class Lightning implements LightningBolt {
-      startX: number;
-      startY: number;
-      endX: number;
-      endY: number;
-      segments: { x: number; y: number }[];
-      life: number;
-      maxLife: number;
-      opacity: number;
-      thickness: number;
-      color: string;
 
-      constructor() {
-        // Lightning bolts travel from left to right across screen
-        this.startX = Math.random() * canvas.width * 0.2;
-        this.startY = Math.random() * canvas.height;
-        this.endX = this.startX + Math.random() * canvas.width * 0.6 + 300;
-        this.endY = this.startY + (Math.random() - 0.5) * 200;
-        
-        this.segments = this.generateLightningPath();
-        this.life = 0;
-        this.maxLife = Math.random() * 15 + 10; // Very short-lived
-        this.opacity = Math.random() * 0.8 + 0.5;
-        this.thickness = Math.random() * 3 + 2;
-        this.color = 'rgba(255, 255, 255, 1)'; // Bright white lightning
-      }
-
-      generateLightningPath(): { x: number; y: number }[] {
-        const segments = [];
-        const steps = 20;
-        
-        for (let i = 0; i <= steps; i++) {
-          const progress = i / steps;
-          const baseX = this.startX + (this.endX - this.startX) * progress;
-          const baseY = this.startY + (this.endY - this.startY) * progress;
-          
-          // Add jagged variations
-          const jitterX = (Math.random() - 0.5) * 30 * (1 - Math.abs(progress - 0.5) * 2);
-          const jitterY = (Math.random() - 0.5) * 40 * (1 - Math.abs(progress - 0.5) * 2);
-          
-          segments.push({
-            x: baseX + jitterX,
-            y: baseY + jitterY
-          });
-        }
-        
-        return segments;
-      }
-
-      update() {
-        this.life++;
-        
-        // Fast fade out
-        const lifeFactor = this.life / this.maxLife;
-        this.opacity = Math.max(0, (1 - lifeFactor) * 0.9);
-      }
-
-      draw(ctx: CanvasRenderingContext2D) {
-        if (this.segments.length < 2) return;
-        
-        ctx.save();
-        ctx.globalCompositeOperation = 'lighter';
-        ctx.globalAlpha = this.opacity;
-        
-        // Draw main lightning bolt
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = this.thickness;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        
-        ctx.beginPath();
-        ctx.moveTo(this.segments[0].x, this.segments[0].y);
-        
-        for (let i = 1; i < this.segments.length; i++) {
-          ctx.lineTo(this.segments[i].x, this.segments[i].y);
-        }
-        ctx.stroke();
-        
-        // Draw glow effect
-        ctx.globalAlpha = this.opacity * 0.3;
-        ctx.lineWidth = this.thickness * 3;
-        ctx.strokeStyle = 'rgba(150, 200, 255, 0.8)';
-        ctx.stroke();
-        
-        // Draw outer glow
-        ctx.globalAlpha = this.opacity * 0.1;
-        ctx.lineWidth = this.thickness * 6;
-        ctx.strokeStyle = 'rgba(100, 150, 255, 0.5)';
-        ctx.stroke();
-        
-        ctx.restore();
-      }
-
-      isDead() {
-        return this.life >= this.maxLife || this.opacity <= 0;
-      }
-    }
 
     const createParticles = (x: number, y: number, count: number = particleCount) => {
       for (let i = 0; i < count * intensity; i++) {
@@ -328,9 +230,7 @@ export default function SmokeBackground({
       }
     };
 
-    const createLightning = () => {
-      lightningRef.current.push(new Lightning());
-    };
+
 
     const animate = () => {
       // Clear canvas with pure black background and subtle trail
@@ -350,32 +250,17 @@ export default function SmokeBackground({
         return !particle.isDead();
       });
 
-      // Switch to lighter mode for lightning effects only
-      ctx.globalCompositeOperation = 'lighter';
-      
-      // Update and draw lightning bolts
-      lightningRef.current = lightningRef.current.filter(lightning => {
-        lightning.update();
-        lightning.draw(ctx);
-        return !lightning.isDead();
-      });
-
       // Reset composition mode and filter
       ctx.globalCompositeOperation = 'source-over';
       ctx.filter = 'none';
 
-      // Create ambient particles from left side for continuous flow
-      if (Math.random() < 0.15) {
+      // Create ambient particles from left side for ultra-realistic continuous flow
+      if (Math.random() < 0.08) { // Even more subtle generation
         createParticles(
-          -50, // Start from left edge
+          -100, // Start further left for natural entry
           Math.random() * canvas.height,
           1
         );
-      }
-
-      // Create lightning bolts occasionally
-      if (Math.random() < 0.003) { // Very rare lightning
-        createLightning();
       }
 
       animationRef.current = requestAnimationFrame(animate);
@@ -396,11 +281,8 @@ export default function SmokeBackground({
     };
 
     const handleClick = (e: MouseEvent) => {
-      // Create moderate burst effect on click
-      createParticles(e.clientX, e.clientY, 5);
-      
-      // Create lightning bolt on click
-      createLightning();
+      // Create gentle burst effect on click for realistic interaction
+      createParticles(e.clientX, e.clientY, 3);
     };
 
     canvas.addEventListener('mousemove', handleMouseMove);

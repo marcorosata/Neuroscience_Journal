@@ -8,6 +8,7 @@ import DynamicParticles from "@/components/dynamic-particles";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import Cover from "@/pages/cover";
+import Welcome from "@/pages/welcome";
 import Home from "@/pages/home";
 import About from "@/pages/about";
 import CurrentIssue from "@/pages/current-issue";
@@ -15,7 +16,6 @@ import Archive from "@/pages/archive";
 import ForAuthors from "@/pages/for-authors";
 import ForReviewers from "@/pages/for-reviewers";
 import Contact from "@/pages/contact";
-import RequestIssue from "@/pages/request-issue";
 import Article from "@/pages/article";
 import NotFound from "@/pages/not-found";
 
@@ -41,6 +41,9 @@ function Router() {
       {/* Cover page - clean entry point with no header/footer */}
       <Route path="/" component={Cover} />
       
+      {/* Welcome page - standalone with smoke background */}
+      <Route path="/welcome" component={Welcome} />
+      
       {/* Main journal pages with header/footer */}
       <Route path="/home" component={() => <JournalLayout><Home /></JournalLayout>} />
       <Route path="/about" component={() => <JournalLayout><About /></JournalLayout>} />
@@ -49,7 +52,6 @@ function Router() {
       <Route path="/for-authors" component={() => <JournalLayout><ForAuthors /></JournalLayout>} />
       <Route path="/for-reviewers" component={() => <JournalLayout><ForReviewers /></JournalLayout>} />
       <Route path="/contact" component={() => <JournalLayout><Contact /></JournalLayout>} />
-      <Route path="/request-issue" component={() => <JournalLayout><RequestIssue /></JournalLayout>} />
       <Route path="/article/:id" component={() => <JournalLayout><Article /></JournalLayout>} />
       
       <Route component={NotFound} />
