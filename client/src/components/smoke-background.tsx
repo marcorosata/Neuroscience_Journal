@@ -38,8 +38,8 @@ interface SmokeBackgroundProps {
 
 export default function SmokeBackground({
   className = '',
-  particleCount = 120,
-  colors = ['rgba(220, 20, 20, 0.6)', 'rgba(180, 30, 30, 0.5)', 'rgba(140, 40, 40, 0.4)', 'rgba(100, 20, 20, 0.3)'],
+  particleCount = 60,
+  colors = ['rgba(180, 30, 30, 0.4)', 'rgba(160, 40, 40, 0.3)', 'rgba(120, 35, 35, 0.25)', 'rgba(100, 25, 25, 0.2)'],
   intensity = 1
 }: SmokeBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -82,11 +82,11 @@ export default function SmokeBackground({
         // Start particles from left side for left-to-right flow
         this.x = x - 100 + Math.random() * 50;
         this.y = y + (Math.random() - 0.5) * 80;
-        this.size = Math.random() * 80 + 60; // Larger, ultra-realistic smoke
+        this.size = Math.random() * 120 + 80; // Larger, softer smoke
         // Very slow, natural smoke flow
-        this.speedX = Math.random() * 1.2 + 0.6;
-        this.speedY = (Math.random() - 0.5) * 0.2 - 0.15; // Subtle upward drift
-        this.opacity = Math.random() * 0.25 + 0.1; // More visible red smoke
+        this.speedX = Math.random() * 0.8 + 0.4;
+        this.speedY = (Math.random() - 0.5) * 0.15 - 0.1; // Subtle upward drift
+        this.opacity = Math.random() * 0.15 + 0.05; // Much more subtle
         this.life = 0;
         this.maxLife = Math.random() * 400 + 300; // Longer-lived smoke
         this.color = colors[Math.floor(Math.random() * colors.length)];
@@ -147,7 +147,7 @@ export default function SmokeBackground({
         
         // Natural fade with smoke dispersal
         const lifeFactor = this.life / this.maxLife;
-        this.opacity = Math.max(0, (1 - lifeFactor) * 0.35);
+        this.opacity = Math.max(0, (1 - lifeFactor) * 0.2);
       }
 
       draw(ctx: CanvasRenderingContext2D) {
@@ -307,12 +307,12 @@ export default function SmokeBackground({
     };
 
     const animate = () => {
-      // Clear canvas with pure black background and slight trail
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.02)'; // Black background with subtle fade
+      // Clear canvas with pure black background and subtle trail
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Better fade for spacing
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Apply subtle blur for smooth smoke
-      ctx.filter = 'blur(2px)';
+      // Apply higher blur for smoother smoke
+      ctx.filter = 'blur(4px)';
       
       // Use normal blending for realistic smoke
       ctx.globalCompositeOperation = 'source-over';
@@ -339,11 +339,11 @@ export default function SmokeBackground({
       ctx.filter = 'none';
 
       // Create ambient particles from left side for continuous flow
-      if (Math.random() < 0.4) {
+      if (Math.random() < 0.15) {
         createParticles(
           -50, // Start from left edge
           Math.random() * canvas.height,
-          4
+          1
         );
       }
 
@@ -359,27 +359,22 @@ export default function SmokeBackground({
       mouseRef.current.x = e.clientX;
       mouseRef.current.y = e.clientY;
       
-      // Create glowing trail particles on mouse movement
-      if (Math.random() < 0.6) {
-        createParticles(e.clientX, e.clientY, Math.ceil(particleCount * 0.6));
+      // Create subtle trail particles on mouse movement
+      if (Math.random() < 0.2) {
+        createParticles(e.clientX, e.clientY, 1);
       }
     };
 
     const handleMouseEnter = (e: MouseEvent) => {
-      createParticles(e.clientX, e.clientY, particleCount);
+      createParticles(e.clientX, e.clientY, 2);
     };
 
     const handleClick = (e: MouseEvent) => {
-      // Create intense glowing burst effect on click
-      createParticles(e.clientX, e.clientY, particleCount * 3);
+      // Create moderate burst effect on click
+      createParticles(e.clientX, e.clientY, 5);
       
       // Create lightning bolt on click
       createLightning();
-      
-      // Add secondary burst with slight delay for dramatic effect
-      setTimeout(() => {
-        createParticles(e.clientX, e.clientY, particleCount * 1.5);
-      }, 100);
     };
 
     canvas.addEventListener('mousemove', handleMouseMove);
@@ -389,8 +384,8 @@ export default function SmokeBackground({
     // Start animation
     animate();
 
-    // Initial particle burst
-    createParticles(canvas.width / 2, canvas.height / 2, particleCount * 2);
+    // Initial subtle particle spread
+    createParticles(canvas.width / 4, canvas.height / 2, 3);
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
