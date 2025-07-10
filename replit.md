@@ -9,14 +9,15 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 - **3D fMRI Brain Visualization**: Created interactive 3D brain model with realistic anatomical shape
 - **Interactive Rotation**: Click and drag to manually rotate brain, auto-rotates when idle
 - **Anatomically Correct Regions**: 12 brain regions positioned in 3D space (frontal, parietal, temporal, occipital lobes + motor cortex, hippocampus, amygdala, Broca's, Wernicke's areas)
-- **Dynamic Neural Activation**: Regions illuminate with colored 3D spheres that fade slowly, creating hypnotic cascades
-- **Neural Connections**: Active regions show connecting pathways when both are activated
+- **Surface-Based Activation**: Regions now activate directly on brain surface as flattened glowing patches rather than floating spheres
+- **Selective Activation**: Only 1-3 regions activate at a time, creating realistic fMRI-like patterns
 - **Complete Darkness Theme**: Brain emerges from shadow only when regions activate, matching fMRI aesthetic
 - **Depth-Sorted Rendering**: Proper 3D perspective with correct occlusion of regions
 - **Toggle Views**: Brain demo page allows switching between 2D and 3D visualizations
 - **Enhanced Brain Mesh**: High-resolution triangulated mesh with cortical folding patterns
 - **Anatomical Accuracy**: Proper brain proportions with temporal lobes, frontal bulge, and occipital shape
 - **Standard fMRI Colors**: Blue to red to yellow color scale matching real fMRI data
+- **Surface Glowing**: GLB model integration with surface-based activation visualization
 
 ## User Preferences
 

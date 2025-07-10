@@ -23,9 +23,13 @@ export default function FMRI3DModel({ className = '' }: FMRI3DModelProps) {
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const brainModelRef = useRef<THREE.Object3D | null>(null);
+  const brainMeshRef = useRef<THREE.Mesh | null>(null);
   const regionsRef = useRef<BrainRegion[]>([]);
   const activationMeshesRef = useRef<Map<string, THREE.Mesh>>(new Map());
   const animationIdRef = useRef<number>(0);
+  const raycaster = useRef(new THREE.Raycaster());
+  const activationTextureRef = useRef<THREE.CanvasTexture | null>(null);
+  const textureCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -86,18 +90,47 @@ export default function FMRI3DModel({ className = '' }: FMRI3DModelProps) {
         brain.scale.set(2, 2, 2);
         brain.position.set(0, 0, 0);
         
-        // Apply materials
+        // Find the main brain mesh and apply materials
+        let mainBrainMesh: THREE.Mesh | null = null;
         brain.traverse((child) => {
           if (child instanceof THREE.Mesh) {
+            if (!mainBrainMesh || child.geometry.attributes.position.count > mainBrainMesh.geometry.attributes.position.count) {
+              mainBrainMesh = child;
+            }
             child.material = new THREE.MeshPhongMaterial({
-              color: 0x555555,
+              color: 0x999999,
               specular: 0x222222,
               shininess: 20,
-              transparent: true,
-              opacity: 0.9
+              transparent: false,
+              opacity: 1
             });
           }
         });
+        
+        if (mainBrainMesh) {
+          brainMeshRef.current = mainBrainMesh;
+          
+          // Clone the brain mesh for activation overlay
+          const activationGeometry = mainBrainMesh.geometry.clone();
+          const activationMaterial = new THREE.MeshPhongMaterial({
+            color: 0xffffff,
+            emissive: 0xffffff,
+            emissiveIntensity: 0,
+            transparent: true,
+            opacity: 0,
+            depthWrite: false,
+            side: THREE.FrontSide
+          });
+          
+          const activationMesh = new THREE.Mesh(activationGeometry, activationMaterial);
+          activationMesh.scale.set(1.001, 1.001, 1.001); // Slightly larger to avoid z-fighting
+          mainBrainMesh.add(activationMesh);
+          
+          // Store activation mesh for each region
+          regionsRef.current.forEach(region => {
+            activationMeshesRef.current.set(region.id, activationMesh);
+          });
+        }
         
         scene.add(brain);
         brainModelRef.current = brain;
@@ -186,21 +219,15 @@ export default function FMRI3DModel({ className = '' }: FMRI3DModelProps) {
       }
     ];
 
-    // Create activation meshes
-    regionsRef.current.forEach(region => {
-      const geometry = new THREE.SphereGeometry(0.3, 32, 32);
-      const material = new THREE.MeshPhongMaterial({
-        color: region.color,
-        emissive: region.color,
-        emissiveIntensity: 0,
-        transparent: true,
-        opacity: 0
-      });
-      const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.copy(region.position);
-      scene.add(mesh);
-      activationMeshesRef.current.set(region.id, mesh);
-    });
+    // Create texture for surface activation
+    const textureCanvas = document.createElement('canvas');
+    textureCanvas.width = 2048;
+    textureCanvas.height = 2048;
+    textureCanvasRef.current = textureCanvas;
+    
+    const texture = new THREE.CanvasTexture(textureCanvas);
+    texture.needsUpdate = true;
+    activationTextureRef.current = texture;
 
     // Animation loop
     const animate = () => {
@@ -210,6 +237,7 @@ export default function FMRI3DModel({ className = '' }: FMRI3DModelProps) {
       controls.update();
 
       // Update brain regions
+      let anyActive = false;
       regionsRef.current.forEach(region => {
         // Random activation
         if (Math.random() < 0.005) {
@@ -224,33 +252,47 @@ export default function FMRI3DModel({ className = '' }: FMRI3DModelProps) {
         // Smooth transitions
         const diff = region.targetActivation - region.activation;
         region.activation += diff * 0.02;
-
-        // Update activation visualization
-        const mesh = activationMeshesRef.current.get(region.id);
-        if (mesh && mesh.material instanceof THREE.MeshPhongMaterial) {
-          mesh.material.opacity = region.activation * 0.6;
-          mesh.material.emissiveIntensity = region.activation;
-          
-          // Pulsing effect
-          const scale = 1 + Math.sin(Date.now() * 0.003) * 0.1 * region.activation;
-          mesh.scale.set(scale, scale, scale);
-          
-          // Change color based on activation level
-          if (region.activation > 0.8) {
-            mesh.material.color.setHex(0xffff00); // Yellow
-            mesh.material.emissive.setHex(0xffff00);
-          } else if (region.activation > 0.6) {
-            mesh.material.color.setHex(0xff4400); // Red-orange
-            mesh.material.emissive.setHex(0xff4400);
-          } else if (region.activation > 0.4) {
-            mesh.material.color.setHex(0xff8800); // Orange
-            mesh.material.emissive.setHex(0xff8800);
-          } else {
-            mesh.material.color.setHex(region.color);
-            mesh.material.emissive.setHex(region.color);
-          }
+        
+        if (region.activation > 0.01) {
+          anyActive = true;
         }
       });
+
+      // Update surface activation
+      if (brainMeshRef.current && anyActive) {
+        // Find the activation overlay mesh
+        brainMeshRef.current.children.forEach(child => {
+          if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshPhongMaterial) {
+            const material = child.material;
+            
+            // Calculate overall activation color
+            let maxActivation = 0;
+            let activeColor = new THREE.Color(0);
+            
+            regionsRef.current.forEach(region => {
+              if (region.activation > maxActivation) {
+                maxActivation = region.activation;
+                
+                // Determine color based on activation level
+                if (region.activation > 0.8) {
+                  activeColor.setHex(0xffff00); // Yellow
+                } else if (region.activation > 0.6) {
+                  activeColor.setHex(0xff4400); // Red-orange
+                } else if (region.activation > 0.4) {
+                  activeColor.setHex(0xff8800); // Orange
+                } else {
+                  activeColor.setHex(region.color);
+                }
+              }
+            });
+            
+            material.color = activeColor;
+            material.emissive = activeColor;
+            material.emissiveIntensity = maxActivation * 0.5;
+            material.opacity = maxActivation * 0.4;
+          }
+        });
+      }
 
       renderer.render(scene, camera);
     };

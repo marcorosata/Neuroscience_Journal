@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import FMRIBrain from '../components/fmri-brain';
 import FMRI3DBrain from '../components/fmri-3d-brain';
-import FMRI3DModel from '../components/fmri-3d-model';
+import FMRI3DModelSurface from '../components/fmri-3d-model-surface';
 import { PageTransition } from '../components/page-transition';
 
 export default function BrainDemo() {
@@ -11,7 +11,7 @@ export default function BrainDemo() {
     <PageTransition>
       <div className="relative min-h-screen bg-black text-white overflow-hidden">
         {/* Brain visualization */}
-        {viewMode === '3d-model' && <FMRI3DModel />}
+        {viewMode === '3d-model' && <FMRI3DModelSurface />}
         {viewMode === '3d-generated' && <FMRI3DBrain />}
         {viewMode === '2d' && <FMRIBrain />}
         
