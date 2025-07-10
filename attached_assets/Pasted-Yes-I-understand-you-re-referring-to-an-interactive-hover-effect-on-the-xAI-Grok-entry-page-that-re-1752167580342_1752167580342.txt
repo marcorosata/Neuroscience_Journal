@@ -1,0 +1,164 @@
+Yes, I understand you're referring to an interactive hover effect on the xAI Grok entry page that resembles smoke or a misty, flowing animation when you move the mouse over certain elements. While I can’t directly inspect the current xAI website’s codebase to confirm the exact implementation, the search results and general web development knowledge suggest this is likely achieved using a combination of HTML5 Canvas, JavaScript, and possibly WebGL for a dynamic, interactive smoke-like effect that responds to mouse movement.
+
+Based on the provided context, particularly the reference to an interactive smoke effect using JavaScript and Canvas (), I can create a more targeted example that incorporates a smoke-like hover effect. This example uses HTML5 Canvas and JavaScript to simulate a smoky, particle-based animation that reacts to mouse movement, similar to what you might be seeing on the xAI page.cssscript.com
+
+Here’s a sample code to reproduce a smoke-like hover effect:
+
+html
+
+Anteprima
+
+Comprimi
+
+Testo a capo
+
+Copia
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Smoke Hover Effect</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #0a0a23;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .content:hover {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="smoke"></canvas>
+    <div class="content">
+        <h1>Hover for Smoke Effect</h1>
+        <p>Move your mouse to see the smoke!</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('smoke');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        const particleCount = 50;
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 2;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity -= 0.005;
+                if (this.opacity <= 0) {
+                    this.opacity = 0;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(200, 200, 255, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        function createSmoke(x, y) {
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle(x, y));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles = particles.filter(p => p.opacity > 0);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            createSmoke(x, y);
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
+How It Works:
+Canvas Setup: The <canvas> element covers the entire viewport, serving as the stage for the smoke effect.
+Particle System: Each particle is a small, semi-transparent circle with random size, speed, and opacity, creating a smoky, misty appearance. Particles fade out over time to simulate dissipation.
+Hover Interaction: The mousemove event triggers the creation of new particles at the mouse’s position, making the smoke effect follow the cursor, similar to the interactive effect described ().cssscript.com
+Background and Content: A dark background (#0a0a23) mimics the cosmic theme of xAI, and the .content div provides a hoverable area with a subtle text-shadow effect for visual feedback.
+Performance: The particle array is filtered to remove fully faded particles, keeping the animation smooth.
+Relation to xAI’s Page:
+The xAI page likely uses a more sophisticated version, possibly with WebGL for smoother rendering or a library like smoke.js () for optimized smoke animations. It might also incorporate shaders or AI-generated textures (potentially via Aurora) for a richer effect.cssscript.com
+The search results mention interactive smoke effects responding to mouse movement (,), which aligns with your observation. The xAI implementation could use a similar particle-based approach but with custom tweaks for density, color, and flow to match their branding.unlimited-elements.comcssscript.com
+Limitations:
+This example is a basic approximation. The xAI page might use advanced techniques like fluid simulations or pre-rendered assets for higher fidelity.
+If the effect involves specific colors or patterns (e.g., swirling smoke with a particular texture), please describe them, and I can adjust the code to match more closely.
+For precise replication, inspecting the page’s source code or assets via browser developer tools would be needed, but this requires direct access and may be limited by minification.
+Would you like me to refine this further (e.g., adjust colors, add more complex motion, or incorporate a specific style you noticed)? Alternatively, I can explain how to inspect the xAI page yourself to identify the effect’s implementation.cssscript.com
+
+
+
+
+pagine web
+
+
+
+
+
+
+
+5,5s
+
+Come ti può aiutare Grok?
+
+
+DeepSearch
+
+
+Think
+
+Grok 3

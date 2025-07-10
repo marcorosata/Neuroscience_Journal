@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import { formatDate, formatAuthors, getCategoryColor } from "@/lib/utils";
 import neuralBgGif from "@assets/20250609_1453_Ethereal Neuronal Lightning_simple_compose_01jxac05xmenrts2jkcqhkrbzj_1749474641545.gif";
+import SmokeBackground from "@/components/smoke-background";
 import type { Article, Issue, Editor } from "@shared/schema";
 
 export default function Home() {
@@ -72,9 +73,23 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative overflow-hidden scroll-smooth">
+      {/* Interactive Neural Smoke Background */}
+      <SmokeBackground 
+        particleCount={20}
+        colors={[
+          'rgba(59, 130, 246, 0.4)',   // Blue - neural activity
+          'rgba(147, 51, 234, 0.3)',   // Purple - synaptic connections  
+          'rgba(236, 72, 153, 0.3)',   // Pink - electrical impulses
+          'rgba(34, 197, 94, 0.2)',    // Green - neural pathways
+          'rgba(249, 115, 22, 0.2)',   // Orange - neurotransmitters
+          'rgba(139, 69, 19, 0.3)'     // Maroon - Radboud theme
+        ]}
+        intensity={0.6}
+      />
+      
       {/* Enhanced Neural Lightning Background with parallax */}
       <div 
-        className="fixed inset-0 opacity-30 dark:opacity-20 transition-all duration-700"
+        className="fixed inset-0 opacity-20 dark:opacity-15 transition-all duration-700"
         style={{
           backgroundImage: `url(${neuralBgGif})`,
           backgroundSize: 'cover',
