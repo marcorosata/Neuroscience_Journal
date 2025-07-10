@@ -32,23 +32,42 @@ export default function BrainBackground({ className = '' }: BrainBackgroundProps
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
 
-      // Draw simple brain outline
-      ctx.strokeStyle = '#333';
-      ctx.lineWidth = 2;
+      // Draw visible brain outline
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 4;
       ctx.beginPath();
-      ctx.ellipse(centerX, centerY, 200, 150, 0, 0, Math.PI * 2);
+      ctx.ellipse(centerX, centerY, 250, 200, 0, 0, Math.PI * 2);
       ctx.stroke();
 
-      // Add some random activation dots
-      for (let i = 0; i < 5; i++) {
-        const x = centerX + (Math.random() - 0.5) * 300;
-        const y = centerY + (Math.random() - 0.5) * 200;
-        const size = Math.random() * 10 + 5;
-        const opacity = Math.sin(Date.now() * 0.005 + i) * 0.5 + 0.5;
+      // Add brain details
+      ctx.strokeStyle = '#cccccc';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(centerX - 100, centerY - 50);
+      ctx.lineTo(centerX + 80, centerY + 100);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(centerX - 150, centerY);
+      ctx.lineTo(centerX + 120, centerY + 30);
+      ctx.stroke();
+
+      // Add bright activation areas
+      for (let i = 0; i < 8; i++) {
+        const x = centerX + (Math.random() - 0.5) * 400;
+        const y = centerY + (Math.random() - 0.5) * 300;
+        const size = Math.random() * 15 + 10;
+        const opacity = Math.sin(Date.now() * 0.003 + i) * 0.5 + 0.5;
         
-        ctx.fillStyle = `rgba(255, 100, 100, ${opacity * 0.6})`;
+        ctx.fillStyle = `rgba(255, 50, 50, ${opacity})`;
         ctx.beginPath();
         ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Add glow effect
+        ctx.fillStyle = `rgba(255, 100, 100, ${opacity * 0.3})`;
+        ctx.beginPath();
+        ctx.arc(x, y, size * 2, 0, Math.PI * 2);
         ctx.fill();
       }
 
