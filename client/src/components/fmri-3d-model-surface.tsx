@@ -43,7 +43,7 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
       0.1,
       1000
     );
-    camera.position.set(0, 0, 15);
+    camera.position.set(0, 0, 25);
     cameraRef.current = camera;
 
     // Renderer setup
@@ -79,7 +79,7 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
     controls.rotateSpeed = 0.5;
     controls.enableZoom = true;
     controls.minDistance = 2;
-    controls.maxDistance = 100;
+    controls.maxDistance = 200;
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.5;
 
