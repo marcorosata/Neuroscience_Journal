@@ -6,12 +6,10 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 
 ## Recent Changes (January 2025)
 
-- **Complete background restructure**: Replaced smoke simulation with functional MRI brain visualization
-- **Brain region mapping**: 8 anatomically correct brain regions (frontal, parietal, temporal, occipital, motor, hippocampus, amygdala, cerebellum)
-- **Random activation system**: Brain areas randomly activate with colored overlays and pulsing effects
-- **fMRI scanner effects**: Moving scanner lines and realistic fMRI noise visualization
-- **Neuroscience theming**: Brain-focused design matching the cognitive neuroscience journal theme
-- **Performance optimization**: Simplified from complex particle physics to stable brain rendering
+- **Background removal**: Removed all animated backgrounds (smoke and brain simulations) per user request
+- **Clean interface**: Welcome page now uses solid black background without distracting animations
+- **Performance optimization**: Eliminated canvas rendering for faster page loads
+- **Focus on content**: Clean design puts emphasis on journal content and university branding
 
 ## User Preferences
 

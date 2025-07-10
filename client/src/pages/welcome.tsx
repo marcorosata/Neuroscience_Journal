@@ -2,14 +2,13 @@ import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { ArrowRight, BookOpen, Users, Calendar } from 'lucide-react';
 import { PageTransition } from '../components/page-transition';
-import BrainBackground from '../components/brain-background';
+
 
 export default function Welcome() {
   return (
     <PageTransition>
       <div className="relative min-h-screen bg-black text-white overflow-hidden">
-        {/* Functional MRI brain background */}
-        <BrainBackground />
+
         
         {/* Welcome content */}
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
