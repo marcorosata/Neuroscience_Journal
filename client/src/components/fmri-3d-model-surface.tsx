@@ -208,10 +208,10 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
             
             for (let i = 0; i < glowLayers; i++) {
               const layerRadius = region.radius * (1 + i * 0.3);
-              const layerOpacity = Math.exp(-i * 0.6); // Exponential falloff for heat wave
+              const layerOpacity = Math.exp(-i * 0.4); // Exponential falloff for heat wave
               
               // Create very flat disc that sits on brain surface
-              const geometry = new THREE.CylinderGeometry(layerRadius, layerRadius, 0.02, 16);
+              const geometry = new THREE.CylinderGeometry(layerRadius, layerRadius, 0.05, 16);
               
               const material = new THREE.MeshPhongMaterial({
                 color: region.color,
@@ -265,8 +265,8 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
       
       regionsRef.current.forEach(region => {
         // More frequent activation - allow up to 3 regions active (localized pattern)
-        if (Math.random() < 0.012 && activeRegions < 3) {
-          region.targetActivation = 0.7 + Math.random() * 0.3;
+        if (Math.random() < 0.018 && activeRegions < 3) {
+          region.targetActivation = 0.8 + Math.random() * 0.2;
         }
         
         // Faster deactivation
@@ -299,9 +299,9 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
             const time = Date.now() * 0.003;
             const waveIntensity = Math.sin(time + wavePhase + layerIndex * 0.3) * 0.5 + 0.5;
             
-            const layerIntensity = Math.exp(-layerIndex * 0.3) * waveIntensity;
-            const finalOpacity = region.activation * baseOpacity * layerIntensity * 0.8;
-            const finalEmissive = region.activation * layerIntensity * 2.5;
+            const layerIntensity = Math.exp(-layerIndex * 0.2) * waveIntensity;
+            const finalOpacity = region.activation * baseOpacity * layerIntensity * 1.5;
+            const finalEmissive = region.activation * layerIntensity * 4.0;
             
             material.opacity = finalOpacity;
             material.emissiveIntensity = finalEmissive;
