@@ -9,6 +9,7 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import Cover from "@/pages/cover";
 import Welcome from "@/pages/welcome";
+import BrainDemo from "@/pages/brain-demo";
 import Home from "@/pages/home";
 import About from "@/pages/about";
 import CurrentIssue from "@/pages/current-issue";
@@ -41,8 +42,11 @@ function Router() {
       {/* Cover page - clean entry point with no header/footer */}
       <Route path="/" component={Cover} />
       
-      {/* Welcome page - standalone with smoke background */}
+      {/* Welcome page - standalone with brain background */}
       <Route path="/welcome" component={Welcome} />
+      
+      {/* Brain demo page - just the brain visualization */}
+      <Route path="/brain-demo" component={BrainDemo} />
       
       {/* Main journal pages with header/footer */}
       <Route path="/home" component={() => <JournalLayout><Home /></JournalLayout>} />
