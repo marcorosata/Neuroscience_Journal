@@ -35,84 +35,84 @@ export default function BrainBackground({ className = '' }: BrainBackgroundProps
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Initialize brain regions
+    // Initialize brain regions - properly centered and sized
     const initializeBrainRegions = () => {
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      const brainWidth = Math.min(canvas.width * 0.6, 800);
-      const brainHeight = Math.min(canvas.height * 0.6, 600);
+      const brainWidth = Math.min(canvas.width * 0.8, 600);
+      const brainHeight = Math.min(canvas.height * 0.8, 450);
 
       regionsRef.current = [
-        // Frontal Cortex
+        // Frontal Cortex (front-top)
         {
-          x: centerX - brainWidth/2 + 50,
-          y: centerY - brainHeight/2 + 80,
-          width: brainWidth/3,
+          x: centerX - brainWidth/3,
+          y: centerY - brainHeight/3,
+          width: brainWidth/2.5,
           height: brainHeight/4,
-          name: 'Frontal Cortex',
+          name: 'Frontal',
           activation: 0,
           targetActivation: 0,
           color: '#ff4444'
         },
-        // Parietal Cortex
+        // Parietal Cortex (center-top)
         {
           x: centerX - brainWidth/6,
-          y: centerY - brainHeight/2 + 60,
+          y: centerY - brainHeight/2.5,
           width: brainWidth/3,
           height: brainHeight/3,
-          name: 'Parietal Cortex',
+          name: 'Parietal',
           activation: 0,
           targetActivation: 0,
           color: '#44ff44'
         },
-        // Temporal Cortex
+        // Temporal Cortex (side-middle)
         {
-          x: centerX - brainWidth/2 + 80,
-          y: centerY + 20,
-          width: brainWidth/4,
+          x: centerX - brainWidth/2.5,
+          y: centerY - brainHeight/10,
+          width: brainWidth/3,
           height: brainHeight/4,
-          name: 'Temporal Cortex',
+          name: 'Temporal',
           activation: 0,
           targetActivation: 0,
           color: '#4444ff'
         },
-        // Occipital Cortex
+        // Occipital Cortex (back)
         {
-          x: centerX + brainWidth/4,
-          y: centerY - brainHeight/2 + 100,
-          width: brainWidth/4,
-          height: brainHeight/3,
-          name: 'Occipital Cortex',
+          x: centerX + brainWidth/8,
+          y: centerY - brainHeight/4,
+          width: brainWidth/3,
+          height: brainHeight/2.5,
+          name: 'Occipital',
           activation: 0,
           targetActivation: 0,
           color: '#ffff44'
         },
-        // Motor Cortex
+        // Motor Cortex (center strip)
         {
-          x: centerX - brainWidth/8,
-          y: centerY - brainHeight/2 + 30,
-          width: brainWidth/4,
-          height: brainHeight/6,
-          name: 'Motor Cortex',
+          x: centerX - brainWidth/12,
+          y: centerY - brainHeight/2.2,
+          width: brainWidth/6,
+          height: brainHeight/2,
+          name: 'Motor',
           activation: 0,
           targetActivation: 0,
           color: '#ff44ff'
         },
-        // Hippocampus
+        // Hippocampus (deep center)
         {
-          x: centerX - brainWidth/6,
-          y: centerY + brainHeight/6,
-          width: brainWidth/6,
+          x: centerX - brainWidth/10,
+          y: centerY + brainHeight/10,
+          width: brainWidth/5,
           height: brainHeight/8,
           name: 'Hippocampus',
           activation: 0,
           targetActivation: 0,
           color: '#44ffff'
         },
-        // Amygdala
+        // Amygdala (deep side)
         {
-          x: centerX - brainWidth/4,
-          y: centerY + brainHeight/4,
+          x: centerX - brainWidth/5,
+          y: centerY + brainHeight/8,
           width: brainWidth/8,
           height: brainHeight/10,
           name: 'Amygdala',
@@ -120,12 +120,12 @@ export default function BrainBackground({ className = '' }: BrainBackgroundProps
           targetActivation: 0,
           color: '#ff8844'
         },
-        // Cerebellum
+        // Cerebellum (back-bottom)
         {
-          x: centerX + brainWidth/6,
-          y: centerY + brainHeight/3,
+          x: centerX + brainWidth/10,
+          y: centerY + brainHeight/6,
           width: brainWidth/4,
-          height: brainHeight/5,
+          height: brainWidth/6,
           name: 'Cerebellum',
           activation: 0,
           targetActivation: 0,
@@ -140,14 +140,14 @@ export default function BrainBackground({ className = '' }: BrainBackgroundProps
     const drawBrainOutline = () => {
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      const brainWidth = Math.min(canvas.width * 0.6, 800);
-      const brainHeight = Math.min(canvas.height * 0.6, 600);
+      const brainWidth = Math.min(canvas.width * 0.8, 600);
+      const brainHeight = Math.min(canvas.height * 0.8, 450);
 
-      ctx.strokeStyle = '#333';
-      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#444';
+      ctx.lineWidth = 2;
       ctx.beginPath();
       
-      // Simple brain shape
+      // Simple brain shape - match the region sizing
       ctx.ellipse(centerX, centerY, brainWidth/2, brainHeight/2, 0, 0, Math.PI * 2);
       ctx.stroke();
 
