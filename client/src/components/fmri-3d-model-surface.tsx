@@ -174,7 +174,7 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
     // Load brain model
     const loader = new GLTFLoader();
     loader.load(
-      '/attached_assets/human-brain_1752181594149.glb',
+      '/attached_assets/brain_1752183297653.glb',
       (gltf) => {
         const brain = gltf.scene;
         brain.scale.set(2, 2, 2);
