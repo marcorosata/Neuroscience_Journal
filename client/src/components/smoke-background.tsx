@@ -107,7 +107,7 @@ export default function SmokeBackground({
         // Advanced physics properties
         this.speedX = Math.random() * 0.3 + 0.1;
         this.speedY = (Math.random() - 0.5) * 0.05 - 0.02;
-        this.opacity = Math.random() * 0.003 + 0.001; // Ultra-subtle transparency
+        this.opacity = Math.random() * 0.12 + 0.08; // 15% transparency range
         this.life = 0;
         this.maxLife = Math.random() * 2000 + 1500; // Very long-lived like real smoke
         this.color = colors[Math.floor(Math.random() * colors.length)];
@@ -230,7 +230,7 @@ export default function SmokeBackground({
         const densityFade = Math.max(0.05, this.density);
         const hoverBoost = 1 + this.hoverInfluence * 0.5;
         
-        this.opacity = Math.max(0, (1 - lifeFactor) * 0.08 * temperatureFade * densityFade * hoverBoost);
+        this.opacity = Math.max(0, (1 - lifeFactor) * 0.15 * temperatureFade * densityFade * hoverBoost);
       }
 
       draw(ctx: CanvasRenderingContext2D) {
