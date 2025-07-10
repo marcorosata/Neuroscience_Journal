@@ -38,8 +38,8 @@ interface SmokeBackgroundProps {
 
 export default function SmokeBackground({
   className = '',
-  particleCount = 30,
-  colors = ['rgba(59, 130, 246, 0.3)', 'rgba(147, 51, 234, 0.3)', 'rgba(236, 72, 153, 0.3)'],
+  particleCount = 80,
+  colors = ['rgba(200, 200, 200, 0.4)', 'rgba(180, 180, 180, 0.3)', 'rgba(160, 160, 160, 0.2)'],
   intensity = 1
 }: SmokeBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -80,45 +80,45 @@ export default function SmokeBackground({
 
       constructor(x: number, y: number) {
         // Start particles from left side for left-to-right flow
-        this.x = x - 200 + Math.random() * 100;
-        this.y = y + (Math.random() - 0.5) * 120;
-        this.size = Math.random() * 20 + 10;
-        // Strong rightward flow with slight vertical variation
-        this.speedX = Math.random() * 3 + 1.5;
-        this.speedY = (Math.random() - 0.5) * 0.8;
-        this.opacity = Math.random() * 0.8 + 0.3;
+        this.x = x - 100 + Math.random() * 50;
+        this.y = y + (Math.random() - 0.5) * 80;
+        this.size = Math.random() * 60 + 40; // Larger, more smoke-like
+        // Slower, more realistic smoke flow
+        this.speedX = Math.random() * 1.5 + 0.8;
+        this.speedY = (Math.random() - 0.5) * 0.3 - 0.2; // Slight upward drift
+        this.opacity = Math.random() * 0.15 + 0.05; // Much more transparent
         this.life = 0;
-        this.maxLife = Math.random() * 300 + 200;
+        this.maxLife = Math.random() * 400 + 300; // Longer-lived smoke
         this.color = colors[Math.floor(Math.random() * colors.length)];
         this.angle = Math.random() * Math.PI * 2;
-        this.angleSpeed = (Math.random() - 0.5) * 0.03;
-        this.scale = Math.random() * 0.8 + 0.6;
-        this.turbulence = Math.random() * 0.015;
+        this.angleSpeed = (Math.random() - 0.5) * 0.01; // Slower rotation
+        this.scale = Math.random() * 0.5 + 0.5;
+        this.turbulence = Math.random() * 0.02;
       }
 
       update() {
         this.life++;
         
-        // Apply complex motion with fluid dynamics
+        // Apply realistic smoke physics
         const time = this.life * 0.01;
         
-        // Turbulent motion with Perlin-like noise simulation
-        const noiseX = Math.sin(time * 2 + this.x * 0.005) * this.turbulence;
-        const noiseY = Math.cos(time * 3 + this.y * 0.005) * this.turbulence;
+        // Turbulent motion with natural smoke behavior
+        const noiseX = Math.sin(time * 1.5 + this.x * 0.003) * this.turbulence;
+        const noiseY = Math.cos(time * 2.2 + this.y * 0.003) * this.turbulence;
         
         this.speedX += noiseX;
         this.speedY += noiseY;
         
-        // Mouse interaction force field
-        const mouseInfluence = 150;
+        // Gentle mouse interaction like air currents
+        const mouseInfluence = 100;
         const dx = mouseRef.current.x - this.x;
         const dy = mouseRef.current.y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
         if (distance < mouseInfluence && distance > 0) {
           const force = (mouseInfluence - distance) / mouseInfluence;
-          const forceX = (dx / distance) * force * 0.5;
-          const forceY = (dy / distance) * force * 0.5;
+          const forceX = (dx / distance) * force * 0.2;
+          const forceY = (dy / distance) * force * 0.2;
           
           this.speedX += forceX;
           this.speedY += forceY;
@@ -128,24 +128,26 @@ export default function SmokeBackground({
         this.x += this.speedX;
         this.y += this.speedY;
         
-        // Maintain left-to-right flow with minimal resistance
-        this.speedX *= 0.995; // Less resistance for horizontal flow
-        this.speedY *= 0.98;
+        // Realistic air resistance
+        this.speedX *= 0.985;
+        this.speedY *= 0.985;
         
-        // Maintain rightward flow
-        this.speedX += 0.02;
-        this.speedY += Math.sin(time * 0.8 + this.x * 0.01) * 0.01;
+        // Maintain gentle rightward flow with slight upward drift
+        this.speedX += 0.015;
+        this.speedY -= 0.005; // Slight upward drift like real smoke
         
-        // Rotation
+        // Add wind-like horizontal variation
+        this.speedX += Math.sin(time * 0.5 + this.y * 0.002) * 0.008;
+        
+        // Slow rotation
         this.angle += this.angleSpeed;
         
-        // Scale animation with pulsing glow
-        this.scale = 0.5 + Math.sin(time * 0.5) * 0.3;
+        // Gradual size increase as smoke disperses
+        this.scale += 0.003;
         
-        // Opacity fade with smooth curve and pulsing effect
+        // Natural fade with smoke dispersal
         const lifeFactor = this.life / this.maxLife;
-        const pulseEffect = 0.8 + Math.sin(time * 2) * 0.2; // Gentle pulsing
-        this.opacity = Math.max(0, (1 - lifeFactor * lifeFactor) * 0.6 * pulseEffect);
+        this.opacity = Math.max(0, (1 - lifeFactor) * 0.15);
       }
 
       draw(ctx: CanvasRenderingContext2D) {
@@ -156,10 +158,10 @@ export default function SmokeBackground({
         ctx.rotate(this.angle);
         ctx.scale(this.scale, this.scale);
         
-        // Create sophisticated radial gradient for smoky appearance
+        // Create realistic smoke gradient
         const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
         
-        // Enhanced color parsing
+        // Enhanced color parsing for gray smoke
         const colorMatch = this.color.match(/rgba?\(([^)]+)\)/);
         if (colorMatch) {
           const values = colorMatch[1].split(',').map(v => v.trim());
@@ -168,40 +170,24 @@ export default function SmokeBackground({
           const b = values[2];
           const baseAlpha = parseFloat(values[3] || '1') * this.opacity;
           
-          // Multi-stop gradient for realistic smoke density
-          gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.8})`);
-          gradient.addColorStop(0.3, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.4})`);
-          gradient.addColorStop(0.6, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.1})`);
+          // Realistic smoke density gradient - dense center, thin edges
+          gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${baseAlpha})`);
+          gradient.addColorStop(0.4, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.6})`);
+          gradient.addColorStop(0.7, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.3})`);
           gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
         } else {
           gradient.addColorStop(0, this.color);
           gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
         }
         
-        // Apply blend mode for xAI-style effect
-        ctx.globalCompositeOperation = 'lighter';
+        // Use normal blending for realistic smoke appearance
+        ctx.globalCompositeOperation = 'multiply';
         ctx.globalAlpha = this.opacity;
         
-        // Draw multiple layers for luminous glow effect
+        // Draw smoke particle
         ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.arc(0, 0, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Create outer glow halo
-        ctx.globalAlpha = this.opacity * 0.2;
-        ctx.beginPath();
-        ctx.arc(0, 0, this.size * 1.5, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Inner bright core for luminous effect
-        ctx.globalAlpha = this.opacity * 0.8;
-        const coreGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size * 0.3);
-        coreGradient.addColorStop(0, this.color.replace(/[\d.]+\)$/, '0.9)'));
-        coreGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.fillStyle = coreGradient;
-        ctx.beginPath();
-        ctx.arc(0, 0, this.size * 0.4, 0, Math.PI * 2);
         ctx.fill();
         
         ctx.restore();
@@ -321,23 +307,26 @@ export default function SmokeBackground({
     };
 
     const animate = () => {
-      // Set canvas background with slight blur trail for luminous effect
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
+      // Clear canvas with slight trail for smoke persistence
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.02)'; // Light background fade
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Apply subtle blur filter for xAI glow effect
-      ctx.filter = 'blur(0.5px)';
+      // Apply very subtle blur for smooth smoke
+      ctx.filter = 'blur(1px)';
       
-      // Set global composition mode for xAI-style blending
-      ctx.globalCompositeOperation = 'lighter';
+      // Use normal blending for realistic smoke
+      ctx.globalCompositeOperation = 'source-over';
       
-      // Update and draw particles
+      // Update and draw smoke particles
       particlesRef.current = particlesRef.current.filter(particle => {
         particle.update();
         particle.draw(ctx);
         return !particle.isDead();
       });
 
+      // Switch to lighter mode for lightning effects only
+      ctx.globalCompositeOperation = 'lighter';
+      
       // Update and draw lightning bolts
       lightningRef.current = lightningRef.current.filter(lightning => {
         lightning.update();
@@ -350,11 +339,11 @@ export default function SmokeBackground({
       ctx.filter = 'none';
 
       // Create ambient particles from left side for continuous flow
-      if (Math.random() < 0.15) {
+      if (Math.random() < 0.25) {
         createParticles(
           -50, // Start from left edge
           Math.random() * canvas.height,
-          2
+          3
         );
       }
 
@@ -419,7 +408,7 @@ export default function SmokeBackground({
     <canvas
       ref={canvasRef}
       className={`fixed inset-0 z-0 ${className}`}
-      style={{ mixBlendMode: 'screen' }}
+      style={{ mixBlendMode: 'normal' }}
     />
   );
 }
