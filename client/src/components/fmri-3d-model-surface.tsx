@@ -242,26 +242,26 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
       // Update controls
       controls.update();
 
-      // Update brain regions - only activate 1-3 regions at a time
+      // Update brain regions - more frequent activations
       const activeRegions = regionsRef.current.filter(r => r.activation > 0.1).length;
       
       regionsRef.current.forEach(region => {
-        // More controlled activation - only if few regions are active
-        if (Math.random() < 0.003 && activeRegions < 3) {
-          region.targetActivation = 0.5 + Math.random() * 0.5;
+        // More frequent activation - allow up to 4 regions active
+        if (Math.random() < 0.015 && activeRegions < 4) {
+          region.targetActivation = 0.6 + Math.random() * 0.4;
         }
         
-        // Gradual deactivation
-        if (Math.random() < 0.005) {
-          region.targetActivation = Math.max(0, region.targetActivation - 0.1);
+        // Faster deactivation
+        if (Math.random() < 0.02) {
+          region.targetActivation = Math.max(0, region.targetActivation - 0.2);
         }
         
-        // Smooth transitions
+        // Faster transitions
         const diff = region.targetActivation - region.activation;
-        region.activation += diff * 0.03;
+        region.activation += diff * 0.08;
         
         // Clamp to zero if very low
-        if (region.activation < 0.02) {
+        if (region.activation < 0.05) {
           region.activation = 0;
           region.targetActivation = 0;
         }
@@ -277,8 +277,8 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
             material.opacity = region.activation * 0.6;
             material.emissiveIntensity = region.activation * 1.5;
             
-            // Pulsing effect
-            const scale = 1 + Math.sin(Date.now() * 0.003) * 0.05 * region.activation;
+            // Faster pulsing effect
+            const scale = 1 + Math.sin(Date.now() * 0.008) * 0.08 * region.activation;
             child.scale.set(scale, scale, scale);
             
             // Change color based on activation level
