@@ -6,11 +6,12 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 
 ## Recent Changes (January 2025)
 
-- **Ultra-realistic smoke simulation**: Implemented hyper-realistic red smoke background with 100x enhanced physics
-- **Advanced hover interactions**: Multi-zone cursor effects (attraction, swirl, push zones)
-- **Sophisticated particle system**: 5-layer gradient rendering, particle trails, temperature/density simulation
-- **High visibility settings**: Smoke opacity increased to 20-50% for clear visibility on deployed app
-- **Welcome page**: Enhanced with university branding and smoke background at /welcome route
+- **Complete background restructure**: Replaced smoke simulation with functional MRI brain visualization
+- **Brain region mapping**: 8 anatomically correct brain regions (frontal, parietal, temporal, occipital, motor, hippocampus, amygdala, cerebellum)
+- **Random activation system**: Brain areas randomly activate with colored overlays and pulsing effects
+- **fMRI scanner effects**: Moving scanner lines and realistic fMRI noise visualization
+- **Neuroscience theming**: Brain-focused design matching the cognitive neuroscience journal theme
+- **Performance optimization**: Simplified from complex particle physics to stable brain rendering
 
 ## User Preferences
 
