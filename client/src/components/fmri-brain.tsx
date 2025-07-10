@@ -118,51 +118,95 @@ export default function FMRIBrain({ className = '' }: FMRIBrainProps) {
 
     initializeRegions();
 
-    // Draw brain silhouette
+    // Draw brain silhouette with anatomical accuracy
     const drawBrainSilhouette = (ctx: CanvasRenderingContext2D, centerX: number, centerY: number, scale: number) => {
       ctx.save();
-      
-      // Create brain shape path
-      ctx.beginPath();
       ctx.translate(centerX, centerY);
       
-      // Brain outline (side view)
-      ctx.moveTo(-scale * 0.8, -scale * 0.2);
-      ctx.bezierCurveTo(
-        -scale * 0.8, -scale * 0.7,
-        -scale * 0.5, -scale * 0.9,
-        0, -scale * 0.9
-      );
-      ctx.bezierCurveTo(
-        scale * 0.5, -scale * 0.9,
-        scale * 0.8, -scale * 0.6,
-        scale * 0.8, -scale * 0.2
-      );
-      ctx.bezierCurveTo(
-        scale * 0.8, scale * 0.2,
-        scale * 0.6, scale * 0.5,
-        scale * 0.3, scale * 0.6
-      );
-      ctx.bezierCurveTo(
-        0, scale * 0.7,
-        -scale * 0.3, scale * 0.7,
-        -scale * 0.5, scale * 0.5
-      );
-      ctx.bezierCurveTo(
-        -scale * 0.7, scale * 0.3,
-        -scale * 0.8, 0,
-        -scale * 0.8, -scale * 0.2
-      );
+      // Main brain outline (lateral view)
+      ctx.beginPath();
+      
+      // Frontal lobe curve
+      ctx.moveTo(-scale * 0.85, -scale * 0.15);
+      ctx.bezierCurveTo(-scale * 0.85, -scale * 0.75, -scale * 0.6, -scale * 0.95, -scale * 0.2, -scale * 0.95);
+      
+      // Top of brain (parietal region)
+      ctx.bezierCurveTo(scale * 0.1, -scale * 0.95, scale * 0.4, -scale * 0.85, scale * 0.6, -scale * 0.65);
+      
+      // Occipital lobe
+      ctx.bezierCurveTo(scale * 0.75, -scale * 0.45, scale * 0.85, -scale * 0.2, scale * 0.85, scale * 0.05);
+      
+      // Temporal lobe superior curve
+      ctx.bezierCurveTo(scale * 0.8, scale * 0.25, scale * 0.7, scale * 0.4, scale * 0.5, scale * 0.45);
+      
+      // Cerebellum connection
+      ctx.bezierCurveTo(scale * 0.4, scale * 0.5, scale * 0.3, scale * 0.6, scale * 0.2, scale * 0.65);
+      
+      // Brain stem area
+      ctx.bezierCurveTo(scale * 0.1, scale * 0.7, -scale * 0.05, scale * 0.72, -scale * 0.1, scale * 0.7);
+      
+      // Temporal lobe inferior
+      ctx.bezierCurveTo(-scale * 0.3, scale * 0.65, -scale * 0.5, scale * 0.55, -scale * 0.65, scale * 0.4);
+      
+      // Return to frontal
+      ctx.bezierCurveTo(-scale * 0.75, scale * 0.2, -scale * 0.85, 0, -scale * 0.85, -scale * 0.15);
+      
       ctx.closePath();
       
       // Fill with very dark gray
       ctx.fillStyle = '#0a0a0a';
       ctx.fill();
       
-      // Subtle outline
+      // Add subtle brain texture/folds
       ctx.strokeStyle = '#1a1a1a';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1;
       ctx.stroke();
+      
+      // Draw some major sulci (brain folds)
+      ctx.strokeStyle = '#151515';
+      ctx.lineWidth = 0.5;
+      
+      // Central sulcus
+      ctx.beginPath();
+      ctx.moveTo(-scale * 0.1, -scale * 0.8);
+      ctx.bezierCurveTo(-scale * 0.05, -scale * 0.6, scale * 0.05, -scale * 0.4, scale * 0.1, -scale * 0.2);
+      ctx.stroke();
+      
+      // Lateral sulcus (Sylvian fissure)
+      ctx.beginPath();
+      ctx.moveTo(-scale * 0.7, scale * 0.1);
+      ctx.bezierCurveTo(-scale * 0.4, scale * 0.2, -scale * 0.1, scale * 0.25, scale * 0.3, scale * 0.3);
+      ctx.stroke();
+      
+      // Superior temporal sulcus
+      ctx.beginPath();
+      ctx.moveTo(-scale * 0.6, scale * 0.35);
+      ctx.bezierCurveTo(-scale * 0.3, scale * 0.4, 0, scale * 0.42, scale * 0.3, scale * 0.4);
+      ctx.stroke();
+      
+      // Draw cerebellum separately
+      ctx.beginPath();
+      ctx.moveTo(scale * 0.2, scale * 0.65);
+      ctx.bezierCurveTo(scale * 0.4, scale * 0.6, scale * 0.6, scale * 0.65, scale * 0.65, scale * 0.8);
+      ctx.bezierCurveTo(scale * 0.6, scale * 0.9, scale * 0.4, scale * 0.92, scale * 0.2, scale * 0.88);
+      ctx.bezierCurveTo(scale * 0.15, scale * 0.85, scale * 0.12, scale * 0.75, scale * 0.2, scale * 0.65);
+      ctx.closePath();
+      
+      ctx.fillStyle = '#0a0a0a';
+      ctx.fill();
+      ctx.strokeStyle = '#1a1a1a';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      
+      // Cerebellum folds
+      ctx.strokeStyle = '#151515';
+      ctx.lineWidth = 0.5;
+      for (let i = 0; i < 4; i++) {
+        ctx.beginPath();
+        ctx.moveTo(scale * (0.25 + i * 0.08), scale * 0.7);
+        ctx.bezierCurveTo(scale * (0.27 + i * 0.08), scale * 0.85, scale * (0.29 + i * 0.08), scale * 0.85, scale * (0.31 + i * 0.08), scale * 0.7);
+        ctx.stroke();
+      }
       
       ctx.restore();
     };
@@ -180,49 +224,49 @@ export default function FMRIBrain({ className = '' }: FMRIBrainProps) {
       ctx.save();
       ctx.translate(centerX, centerY);
 
-      // Region-specific positions and shapes
+      // Anatomically accurate region positions and shapes
       let x = 0, y = 0, radius = scale * 0.15;
       
       switch (region.id) {
         case 'frontal':
-          x = -scale * 0.3;
-          y = -scale * 0.5;
-          radius = scale * 0.25;
+          x = -scale * 0.45;
+          y = -scale * 0.35;
+          radius = scale * 0.3;
           break;
         case 'parietal':
-          x = scale * 0.1;
-          y = -scale * 0.4;
-          radius = scale * 0.2;
+          x = scale * 0.15;
+          y = -scale * 0.55;
+          radius = scale * 0.25;
           break;
         case 'temporal':
-          x = -scale * 0.4;
-          y = scale * 0.1;
-          radius = scale * 0.18;
+          x = -scale * 0.35;
+          y = scale * 0.25;
+          radius = scale * 0.22;
           break;
         case 'occipital':
-          x = scale * 0.5;
-          y = -scale * 0.1;
-          radius = scale * 0.2;
+          x = scale * 0.6;
+          y = -scale * 0.25;
+          radius = scale * 0.18;
           break;
         case 'motor':
-          x = -scale * 0.1;
-          y = -scale * 0.6;
-          radius = scale * 0.15;
-          break;
-        case 'hippocampus':
-          x = 0;
-          y = scale * 0.2;
+          x = -scale * 0.05;
+          y = -scale * 0.7;
           radius = scale * 0.12;
           break;
+        case 'hippocampus':
+          x = -scale * 0.1;
+          y = scale * 0.1;
+          radius = scale * 0.08;
+          break;
         case 'amygdala':
-          x = -scale * 0.2;
-          y = scale * 0.3;
-          radius = scale * 0.1;
+          x = -scale * 0.25;
+          y = scale * 0.35;
+          radius = scale * 0.06;
           break;
         case 'cerebellum':
-          x = scale * 0.3;
-          y = scale * 0.4;
-          radius = scale * 0.2;
+          x = scale * 0.42;
+          y = scale * 0.78;
+          radius = scale * 0.15;
           break;
       }
 
@@ -314,26 +358,26 @@ export default function FMRIBrain({ className = '' }: FMRIBrainProps) {
             
             // Set positions for region1
             switch (region1.id) {
-              case 'frontal': x1 = -scale * 0.3; y1 = -scale * 0.5; break;
-              case 'parietal': x1 = scale * 0.1; y1 = -scale * 0.4; break;
-              case 'temporal': x1 = -scale * 0.4; y1 = scale * 0.1; break;
-              case 'occipital': x1 = scale * 0.5; y1 = -scale * 0.1; break;
-              case 'motor': x1 = -scale * 0.1; y1 = -scale * 0.6; break;
-              case 'hippocampus': x1 = 0; y1 = scale * 0.2; break;
-              case 'amygdala': x1 = -scale * 0.2; y1 = scale * 0.3; break;
-              case 'cerebellum': x1 = scale * 0.3; y1 = scale * 0.4; break;
+              case 'frontal': x1 = -scale * 0.45; y1 = -scale * 0.35; break;
+              case 'parietal': x1 = scale * 0.15; y1 = -scale * 0.55; break;
+              case 'temporal': x1 = -scale * 0.35; y1 = scale * 0.25; break;
+              case 'occipital': x1 = scale * 0.6; y1 = -scale * 0.25; break;
+              case 'motor': x1 = -scale * 0.05; y1 = -scale * 0.7; break;
+              case 'hippocampus': x1 = -scale * 0.1; y1 = scale * 0.1; break;
+              case 'amygdala': x1 = -scale * 0.25; y1 = scale * 0.35; break;
+              case 'cerebellum': x1 = scale * 0.42; y1 = scale * 0.78; break;
             }
             
             // Set positions for region2
             switch (region2.id) {
-              case 'frontal': x2 = -scale * 0.3; y2 = -scale * 0.5; break;
-              case 'parietal': x2 = scale * 0.1; y2 = -scale * 0.4; break;
-              case 'temporal': x2 = -scale * 0.4; y2 = scale * 0.1; break;
-              case 'occipital': x2 = scale * 0.5; y2 = -scale * 0.1; break;
-              case 'motor': x2 = -scale * 0.1; y2 = -scale * 0.6; break;
-              case 'hippocampus': x2 = 0; y2 = scale * 0.2; break;
-              case 'amygdala': x2 = -scale * 0.2; y2 = scale * 0.3; break;
-              case 'cerebellum': x2 = scale * 0.3; y2 = scale * 0.4; break;
+              case 'frontal': x2 = -scale * 0.45; y2 = -scale * 0.35; break;
+              case 'parietal': x2 = scale * 0.15; y2 = -scale * 0.55; break;
+              case 'temporal': x2 = -scale * 0.35; y2 = scale * 0.25; break;
+              case 'occipital': x2 = scale * 0.6; y2 = -scale * 0.25; break;
+              case 'motor': x2 = -scale * 0.05; y2 = -scale * 0.7; break;
+              case 'hippocampus': x2 = -scale * 0.1; y2 = scale * 0.1; break;
+              case 'amygdala': x2 = -scale * 0.25; y2 = scale * 0.35; break;
+              case 'cerebellum': x2 = scale * 0.42; y2 = scale * 0.78; break;
             }
             
             ctx.moveTo(x1, y1);
