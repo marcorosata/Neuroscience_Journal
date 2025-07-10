@@ -56,8 +56,16 @@ export default function SmokeBackground({
     if (!ctx) return;
 
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.scale(dpr, dpr);
+      
+      // Enable anti-aliasing and smooth rendering
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
     };
 
     resizeCanvas();
@@ -158,10 +166,12 @@ export default function SmokeBackground({
         ctx.rotate(this.angle);
         ctx.scale(this.scale, this.scale);
         
-        // Create realistic smoke gradient
-        const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
+        // Create multiple layered gradients for ultra-smooth smoke
+        const gradient1 = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size * 0.3);
+        const gradient2 = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size * 0.6);
+        const gradient3 = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
         
-        // Enhanced color parsing for gray smoke
+        // Parse color for red smoke
         const colorMatch = this.color.match(/rgba?\(([^)]+)\)/);
         if (colorMatch) {
           const values = colorMatch[1].split(',').map(v => v.trim());
@@ -170,24 +180,40 @@ export default function SmokeBackground({
           const b = values[2];
           const baseAlpha = parseFloat(values[3] || '1') * this.opacity;
           
-          // Realistic smoke density gradient - dense center, thin edges
-          gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${baseAlpha})`);
-          gradient.addColorStop(0.4, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.6})`);
-          gradient.addColorStop(0.7, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.3})`);
-          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        } else {
-          gradient.addColorStop(0, this.color);
-          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+          // Core gradient (densest)
+          gradient1.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.8})`);
+          gradient1.addColorStop(1, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.4})`);
+          
+          // Middle gradient
+          gradient2.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.4})`);
+          gradient2.addColorStop(1, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.1})`);
+          
+          // Outer gradient (softest edges)
+          gradient3.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.2})`);
+          gradient3.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.05})`);
+          gradient3.addColorStop(1, 'rgba(0, 0, 0, 0)');
         }
         
         // Use normal blending for red smoke on black background
         ctx.globalCompositeOperation = 'source-over';
-        ctx.globalAlpha = this.opacity;
         
-        // Draw smoke particle
-        ctx.fillStyle = gradient;
+        // Draw layered smoke for ultra-smooth appearance
+        ctx.globalAlpha = this.opacity * 0.3;
+        ctx.fillStyle = gradient3;
         ctx.beginPath();
         ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.globalAlpha = this.opacity * 0.5;
+        ctx.fillStyle = gradient2;
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size * 0.6, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.globalAlpha = this.opacity * 0.7;
+        ctx.fillStyle = gradient1;
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size * 0.3, 0, Math.PI * 2);
         ctx.fill();
         
         ctx.restore();
@@ -311,8 +337,8 @@ export default function SmokeBackground({
       ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Better fade for spacing
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Apply higher blur for smoother smoke
-      ctx.filter = 'blur(4px)';
+      // Apply heavy blur for ultra-smooth smoke
+      ctx.filter = 'blur(8px)';
       
       // Use normal blending for realistic smoke
       ctx.globalCompositeOperation = 'source-over';
