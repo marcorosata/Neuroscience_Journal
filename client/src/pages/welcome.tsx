@@ -13,7 +13,7 @@ export default function Welcome() {
 
         
         {/* Welcome content */}
-        <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
+        <div className="relative z-20 flex items-center justify-center min-h-screen px-4">
           <div className="text-center max-w-4xl mx-auto">
             {/* University branding */}
             <motion.div

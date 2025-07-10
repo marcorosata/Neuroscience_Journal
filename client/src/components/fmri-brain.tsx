@@ -277,13 +277,13 @@ export default function FMRIBrain({ className = '' }: FMRIBrainProps) {
 
       // Update and draw regions
       regionsRef.current.forEach((region, index) => {
-        // Random activation
-        if (Math.random() < 0.003) {
-          region.targetActivation = 0.5 + Math.random() * 0.5;
+        // Random activation - more frequent for better visibility
+        if (Math.random() < 0.008) {
+          region.targetActivation = 0.6 + Math.random() * 0.4;
         }
 
-        // Gradual deactivation
-        if (Math.random() < 0.005) {
+        // Gradual deactivation - slower for longer visibility
+        if (Math.random() < 0.002) {
           region.targetActivation = 0;
         }
 
@@ -362,7 +362,7 @@ export default function FMRIBrain({ className = '' }: FMRIBrainProps) {
     <canvas
       ref={canvasRef}
       className={`fixed inset-0 z-0 ${className}`}
-      style={{ backgroundColor: '#000000' }}
+      style={{ backgroundColor: '#000000', zIndex: 1 }}
     />
   );
 }
