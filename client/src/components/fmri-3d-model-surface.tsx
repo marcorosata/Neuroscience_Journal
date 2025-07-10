@@ -196,31 +196,43 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
         if (mainBrainMesh) {
           brainMeshRef.current = mainBrainMesh;
           
-          // Create activation regions as separate meshes on brain surface
+          // Create activation regions with gradient glow
           regionsRef.current.forEach(region => {
-            // Create a flattened sphere for surface activation
-            const geometry = new THREE.SphereGeometry(region.radius, 16, 16);
-            geometry.scale(1, 0.3, 1); // Flatten to create surface effect
+            // Create multiple concentric circles for gradient effect
+            const glowLayers = 3;
             
-            const material = new THREE.MeshPhongMaterial({
-              color: region.color,
-              emissive: region.color,
-              emissiveIntensity: 0,
-              transparent: true,
-              opacity: 0,
-              depthWrite: false,
-              blending: THREE.AdditiveBlending,
-              side: THREE.DoubleSide
-            });
-            
-            const activationMesh = new THREE.Mesh(geometry, material);
-            activationMesh.position.copy(region.position);
-            activationMesh.userData = { regionId: region.id };
-            
-            // Orient the activation patch to follow brain surface
-            activationMesh.lookAt(new THREE.Vector3(0, 0, 0));
-            
-            activationGroup.add(activationMesh);
+            for (let i = 0; i < glowLayers; i++) {
+              const layerRadius = region.radius * (1 + i * 0.3);
+              const layerOpacity = 1 - (i * 0.4);
+              
+              // Create flattened sphere for each layer
+              const geometry = new THREE.SphereGeometry(layerRadius, 16, 16);
+              geometry.scale(1, 0.2, 1); // Flatten for surface effect
+              
+              const material = new THREE.MeshPhongMaterial({
+                color: region.color,
+                emissive: region.color,
+                emissiveIntensity: 0,
+                transparent: true,
+                opacity: 0,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending,
+                side: THREE.DoubleSide
+              });
+              
+              const activationMesh = new THREE.Mesh(geometry, material);
+              activationMesh.position.copy(region.position);
+              activationMesh.userData = { 
+                regionId: region.id, 
+                layerIndex: i,
+                baseOpacity: layerOpacity
+              };
+              
+              // Orient to follow brain surface
+              activationMesh.lookAt(new THREE.Vector3(0, 0, 0));
+              
+              activationGroup.add(activationMesh);
+            }
           });
         }
         
@@ -267,19 +279,27 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
         }
       });
 
-      // Update activation visualizations
+      // Update activation visualizations with gradient glow
       activationGroup.children.forEach(child => {
         if (child instanceof THREE.Mesh && child.userData.regionId) {
           const region = regionsRef.current.find(r => r.id === child.userData.regionId);
           if (region && child.material instanceof THREE.MeshPhongMaterial) {
-            // Update material based on activation
             const material = child.material;
-            material.opacity = region.activation * 0.6;
-            material.emissiveIntensity = region.activation * 1.5;
+            const layerIndex = child.userData.layerIndex || 0;
+            const baseOpacity = child.userData.baseOpacity || 1;
             
-            // Faster pulsing effect
-            const scale = 1 + Math.sin(Date.now() * 0.008) * 0.08 * region.activation;
-            child.scale.set(scale, scale, scale);
+            // Gradient intensity - outer layers are dimmer
+            const layerIntensity = Math.max(0, 1 - (layerIndex * 0.4));
+            const finalOpacity = region.activation * baseOpacity * layerIntensity * 0.7;
+            const finalEmissive = region.activation * layerIntensity * 2;
+            
+            material.opacity = finalOpacity;
+            material.emissiveIntensity = finalEmissive;
+            
+            // Pulsing effect with slight delay per layer
+            const timeOffset = layerIndex * 0.5;
+            const pulseScale = 1 + Math.sin(Date.now() * 0.008 + timeOffset) * 0.06 * region.activation;
+            child.scale.set(pulseScale, pulseScale, pulseScale);
             
             // Change color based on activation level
             if (region.activation > 0.8) {
