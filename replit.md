@@ -6,10 +6,11 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 
 ## Recent Changes (January 2025)
 
-- **Background removal**: Removed all animated backgrounds (smoke and brain simulations) per user request
-- **Clean interface**: Welcome page now uses solid black background without distracting animations
-- **Performance optimization**: Eliminated canvas rendering for faster page loads
-- **Focus on content**: Clean design puts emphasis on journal content and university branding
+- **Functional MRI Brain Visualization**: Created sophisticated brain visualization mimicking real fMRI scans
+- **Anatomically Correct Regions**: 8 brain regions (frontal, parietal, temporal, occipital lobes + motor cortex, hippocampus, amygdala, cerebellum)
+- **Dynamic Neural Activation**: Regions illuminate with colored lights that fade slowly, creating hypnotic cascades
+- **Neural Connections**: Active regions show connecting pathways when both are activated
+- **Complete Darkness Theme**: Brain emerges from shadow only when regions activate, matching fMRI aesthetic
 
 ## User Preferences
 
