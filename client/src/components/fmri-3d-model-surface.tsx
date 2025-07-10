@@ -207,7 +207,7 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
             const glowLayers = 5;
             
             for (let i = 0; i < glowLayers; i++) {
-              const layerRadius = region.radius * (1.5 + i * 0.5); // Larger base size and growth
+              const layerRadius = region.radius * (75 + i * 25); // 50x bigger base size and growth
               const layerOpacity = Math.exp(-i * 0.3); // Less aggressive falloff
               
               // Create flattened sphere for surface contact
@@ -230,7 +230,7 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
               // Position activation slightly above surface to avoid z-fighting
               const offsetPosition = region.position.clone();
               const normal = region.position.clone().normalize();
-              offsetPosition.add(normal.multiplyScalar(0.02));
+              offsetPosition.add(normal.multiplyScalar(0.1));
               activationMesh.position.copy(offsetPosition);
               
               activationMesh.userData = { 
