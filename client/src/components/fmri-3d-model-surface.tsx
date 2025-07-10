@@ -207,11 +207,12 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
             const glowLayers = 5;
             
             for (let i = 0; i < glowLayers; i++) {
-              const layerRadius = region.radius * (1 + i * 0.3);
-              const layerOpacity = Math.exp(-i * 0.4); // Exponential falloff for heat wave
+              const layerRadius = region.radius * (1.5 + i * 0.5); // Larger base size and growth
+              const layerOpacity = Math.exp(-i * 0.3); // Less aggressive falloff
               
-              // Create very flat disc that sits on brain surface
-              const geometry = new THREE.CylinderGeometry(layerRadius, layerRadius, 0.05, 16);
+              // Create flattened sphere for surface contact
+              const geometry = new THREE.SphereGeometry(layerRadius, 16, 16);
+              geometry.scale(1, 0.1, 1); // Very flat on Y axis
               
               const material = new THREE.MeshPhongMaterial({
                 color: region.color,
@@ -225,7 +226,13 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
               });
               
               const activationMesh = new THREE.Mesh(geometry, material);
-              activationMesh.position.copy(region.position);
+              
+              // Position activation slightly above surface to avoid z-fighting
+              const offsetPosition = region.position.clone();
+              const normal = region.position.clone().normalize();
+              offsetPosition.add(normal.multiplyScalar(0.02));
+              activationMesh.position.copy(offsetPosition);
+              
               activationMesh.userData = { 
                 regionId: region.id, 
                 layerIndex: i,
@@ -233,9 +240,8 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
                 wavePhase: Math.random() * Math.PI * 2
               };
               
-              // Orient disc to face outward from brain center
-              const normal = region.position.clone().normalize();
-              activationMesh.lookAt(activationMesh.position.clone().add(normal));
+              // Orient to face outward from brain center
+              activationMesh.lookAt(activationMesh.position.clone().add(region.position.clone().normalize()));
               
               activationGroup.add(activationMesh);
             }
@@ -265,8 +271,8 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
       
       regionsRef.current.forEach(region => {
         // More frequent activation - allow up to 3 regions active (localized pattern)
-        if (Math.random() < 0.018 && activeRegions < 3) {
-          region.targetActivation = 0.8 + Math.random() * 0.2;
+        if (Math.random() < 0.025 && activeRegions < 3) {
+          region.targetActivation = 0.9 + Math.random() * 0.1;
         }
         
         // Faster deactivation
@@ -299,9 +305,9 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
             const time = Date.now() * 0.003;
             const waveIntensity = Math.sin(time + wavePhase + layerIndex * 0.3) * 0.5 + 0.5;
             
-            const layerIntensity = Math.exp(-layerIndex * 0.2) * waveIntensity;
-            const finalOpacity = region.activation * baseOpacity * layerIntensity * 1.5;
-            const finalEmissive = region.activation * layerIntensity * 4.0;
+            const layerIntensity = Math.exp(-layerIndex * 0.15) * waveIntensity;
+            const finalOpacity = region.activation * baseOpacity * layerIntensity * 2.5;
+            const finalEmissive = region.activation * layerIntensity * 6.0;
             
             material.opacity = finalOpacity;
             material.emissiveIntensity = finalEmissive;
