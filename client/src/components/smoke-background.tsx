@@ -14,6 +14,13 @@ interface Particle {
   angleSpeed: number;
   scale: number;
   turbulence: number;
+  density: number;
+  temperature: number;
+  viscosity: number;
+  swirl: number;
+  pressure: number;
+  hoverInfluence: number;
+  trail: { x: number; y: number; opacity: number }[];
 }
 
 
@@ -83,135 +90,273 @@ export default function SmokeBackground({
       angleSpeed: number;
       scale: number;
       turbulence: number;
+      density: number;
+      temperature: number;
+      viscosity: number;
+      swirl: number;
+      pressure: number;
+      hoverInfluence: number;
+      trail: { x: number; y: number; opacity: number }[];
 
       constructor(x: number, y: number) {
-        // Ultra-realistic smoke spawning with natural variations
-        this.x = x - 120 + Math.random() * 80;
-        this.y = y + (Math.random() - 0.5) * 60;
-        this.size = Math.random() * 180 + 120; // Much larger, more realistic smoke
-        // Hyper-realistic smoke flow with natural variations
-        this.speedX = Math.random() * 0.6 + 0.2;
-        this.speedY = (Math.random() - 0.5) * 0.08 - 0.04; // Natural upward drift
-        this.opacity = Math.random() * 0.08 + 0.02; // Ultra-subtle for realism
+        // Hyper-realistic smoke spawning with natural variations
+        this.x = x - 200 + Math.random() * 160;
+        this.y = y + (Math.random() - 0.5) * 120;
+        this.size = Math.random() * 400 + 200; // Massive particles for ultra-realism
+        
+        // Advanced physics properties
+        this.speedX = Math.random() * 0.3 + 0.1;
+        this.speedY = (Math.random() - 0.5) * 0.05 - 0.02;
+        this.opacity = Math.random() * 0.003 + 0.001; // Ultra-subtle transparency
         this.life = 0;
-        this.maxLife = Math.random() * 800 + 600; // Much longer-lived like real smoke
+        this.maxLife = Math.random() * 2000 + 1500; // Very long-lived like real smoke
         this.color = colors[Math.floor(Math.random() * colors.length)];
         this.angle = Math.random() * Math.PI * 2;
-        this.angleSpeed = (Math.random() - 0.5) * 0.005; // Ultra-slow rotation
-        this.scale = Math.random() * 0.3 + 0.4;
-        this.turbulence = Math.random() * 0.015;
+        this.angleSpeed = (Math.random() - 0.5) * 0.001;
+        this.scale = Math.random() * 0.2 + 0.3;
+        this.turbulence = Math.random() * 0.008;
+        
+        // Advanced smoke physics
+        this.density = Math.random() * 0.8 + 0.2;
+        this.temperature = Math.random() * 0.5 + 0.3;
+        this.viscosity = Math.random() * 0.02 + 0.01;
+        this.swirl = Math.random() * 0.003;
+        this.pressure = Math.random() * 0.1 + 0.05;
+        this.hoverInfluence = 0;
+        this.trail = [];
       }
 
       update() {
         this.life++;
+        const time = this.life * 0.005;
         
-        // Apply realistic smoke physics
-        const time = this.life * 0.01;
+        // Store previous position for trail
+        this.trail.push({ x: this.x, y: this.y, opacity: this.opacity * 0.3 });
+        if (this.trail.length > 12) {
+          this.trail.shift();
+        }
         
-        // Turbulent motion with natural smoke behavior
-        const noiseX = Math.sin(time * 1.5 + this.x * 0.003) * this.turbulence;
-        const noiseY = Math.cos(time * 2.2 + this.y * 0.003) * this.turbulence;
+        // Advanced turbulence with multiple noise layers
+        const mainNoise = Math.sin(time * 0.8 + this.x * 0.001) * Math.cos(time * 1.2 + this.y * 0.0015);
+        const detailNoise = Math.sin(time * 3 + this.x * 0.005) * Math.cos(time * 2.5 + this.y * 0.004);
+        const microNoise = Math.sin(time * 8 + this.x * 0.01) * Math.cos(time * 6 + this.y * 0.008);
         
-        this.speedX += noiseX;
-        this.speedY += noiseY;
+        const noiseX = (mainNoise * 0.02 + detailNoise * 0.008 + microNoise * 0.003) * this.turbulence;
+        const noiseY = (Math.cos(time * 0.9 + this.x * 0.0012) * 0.015 + 
+                       Math.sin(time * 2.8 + this.y * 0.003) * 0.006) * this.turbulence;
         
-        // Gentle mouse interaction like air currents
-        const mouseInfluence = 100;
+        // Sophisticated hover interaction with multiple zones
         const dx = mouseRef.current.x - this.x;
         const dy = mouseRef.current.y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance < mouseInfluence && distance > 0) {
-          const force = (mouseInfluence - distance) / mouseInfluence;
-          const forceX = (dx / distance) * force * 0.2;
-          const forceY = (dy / distance) * force * 0.2;
+        // Multi-zone hover effects
+        if (distance < 250) {
+          const nearForce = Math.max(0, (250 - distance) / 250);
           
-          this.speedX += forceX;
-          this.speedY += forceY;
+          // Attraction zone (very close)
+          if (distance < 80) {
+            const attractForce = (80 - distance) / 80;
+            this.speedX += (dx / distance) * attractForce * 0.08;
+            this.speedY += (dy / distance) * attractForce * 0.08;
+            this.hoverInfluence = Math.min(1, this.hoverInfluence + 0.05);
+            this.temperature += attractForce * 0.02;
+          }
+          // Swirl zone (medium distance)
+          else if (distance < 150) {
+            const swirlForce = nearForce * 0.4;
+            const perpX = -dy / distance;
+            const perpY = dx / distance;
+            this.speedX += perpX * swirlForce * this.swirl * 15;
+            this.speedY += perpY * swirlForce * this.swirl * 15;
+            this.angleSpeed += swirlForce * 0.002;
+          }
+          // Gentle push zone (far distance)
+          else {
+            const pushForce = nearForce * 0.2;
+            this.speedX += (dx / distance) * pushForce * -0.03;
+            this.speedY += (dy / distance) * pushForce * -0.03;
+          }
+          
+          // Enhanced opacity on hover
+          this.opacity *= (1 + nearForce * 0.8);
+        } else {
+          this.hoverInfluence *= 0.95;
         }
+        
+        // Apply forces
+        this.speedX += noiseX;
+        this.speedY += noiseY;
+        
+        // Density-based movement (heavier smoke moves slower)
+        const densityFactor = 1 - this.density * 0.3;
+        this.speedX *= densityFactor;
+        this.speedY *= densityFactor;
+        
+        // Temperature effects (hot smoke rises faster)
+        this.speedY -= this.temperature * 0.01;
+        
+        // Viscosity dampening
+        this.speedX *= (1 - this.viscosity);
+        this.speedY *= (1 - this.viscosity);
         
         // Apply movement
         this.x += this.speedX;
         this.y += this.speedY;
         
-        // Realistic air resistance
-        this.speedX *= 0.985;
-        this.speedY *= 0.985;
+        // Advanced air resistance based on particle size
+        const resistance = 0.995 - (this.size / 1000) * 0.01;
+        this.speedX *= resistance;
+        this.speedY *= resistance;
         
-        // Maintain gentle rightward flow with slight upward drift
-        this.speedX += 0.015;
-        this.speedY -= 0.005; // Slight upward drift like real smoke
+        // Maintain natural rightward flow with atmospheric effects
+        this.speedX += 0.008 + Math.sin(time * 0.3 + this.y * 0.001) * 0.004;
+        this.speedY -= 0.002 + Math.sin(time * 0.4 + this.x * 0.0008) * 0.001;
         
-        // Add wind-like horizontal variation
-        this.speedX += Math.sin(time * 0.5 + this.y * 0.002) * 0.008;
+        // Complex rotation with swirl effects
+        this.angle += this.angleSpeed + this.swirl * Math.sin(time * 2);
         
-        // Slow rotation
-        this.angle += this.angleSpeed;
+        // Natural expansion as smoke cools and disperses
+        this.scale += 0.0008 + (this.temperature * 0.001);
+        this.temperature *= 0.998; // Cooling over time
         
-        // Gradual size increase as smoke disperses
-        this.scale += 0.003;
+        // Pressure-based density changes
+        this.density *= 0.9995;
+        this.pressure *= 0.997;
         
-        // Natural fade with smoke dispersal
+        // Ultra-realistic fade with multiple factors
         const lifeFactor = this.life / this.maxLife;
-        this.opacity = Math.max(0, (1 - lifeFactor) * 0.2);
+        const temperatureFade = Math.max(0.1, this.temperature);
+        const densityFade = Math.max(0.05, this.density);
+        const hoverBoost = 1 + this.hoverInfluence * 0.5;
+        
+        this.opacity = Math.max(0, (1 - lifeFactor) * 0.08 * temperatureFade * densityFade * hoverBoost);
       }
 
       draw(ctx: CanvasRenderingContext2D) {
-        ctx.save();
+        // Draw particle trail for ultra-realistic smoke streams
+        if (this.trail.length > 1) {
+          ctx.save();
+          ctx.globalCompositeOperation = 'source-over';
+          
+          for (let i = 0; i < this.trail.length - 1; i++) {
+            const current = this.trail[i];
+            const next = this.trail[i + 1];
+            const trailOpacity = current.opacity * (i / this.trail.length) * 0.3;
+            
+            if (trailOpacity > 0.001) {
+              const gradient = ctx.createRadialGradient(
+                current.x, current.y, 0,
+                current.x, current.y, this.size * 0.8 * this.scale
+              );
+              
+              const colorMatch = this.color.match(/rgba?\(([^)]+)\)/);
+              if (colorMatch) {
+                const values = colorMatch[1].split(',').map(v => v.trim());
+                const r = values[0], g = values[1], b = values[2];
+                
+                gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${trailOpacity})`);
+                gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+              }
+              
+              ctx.globalAlpha = trailOpacity;
+              ctx.fillStyle = gradient;
+              ctx.beginPath();
+              ctx.arc(current.x, current.y, this.size * 0.8 * this.scale, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+          ctx.restore();
+        }
         
-        // Apply transformation matrix for rotation and scale
+        // Main particle rendering with enhanced realism
+        ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
         ctx.scale(this.scale, this.scale);
         
-        // Create multiple layered gradients for ultra-smooth smoke
-        const gradient1 = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size * 0.3);
-        const gradient2 = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size * 0.6);
-        const gradient3 = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
+        // Create ultra-sophisticated layered gradients
+        const innerCore = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size * 0.15);
+        const innerGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size * 0.4);
+        const midGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size * 0.7);
+        const outerGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
+        const hazeGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size * 1.3);
         
-        // Parse color for red smoke
         const colorMatch = this.color.match(/rgba?\(([^)]+)\)/);
         if (colorMatch) {
           const values = colorMatch[1].split(',').map(v => v.trim());
-          const r = values[0];
-          const g = values[1];
-          const b = values[2];
+          const r = parseInt(values[0]);
+          const g = parseInt(values[1]);
+          const b = parseInt(values[2]);
           const baseAlpha = parseFloat(values[3] || '1') * this.opacity;
           
-          // Core gradient (densest)
-          gradient1.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.8})`);
-          gradient1.addColorStop(1, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.4})`);
+          // Temperature-based color variations
+          const tempFactor = this.temperature;
+          const hotR = Math.min(255, r + tempFactor * 30);
+          const hotG = Math.max(0, g - tempFactor * 5);
+          const hotB = Math.max(0, b - tempFactor * 10);
           
-          // Middle gradient
-          gradient2.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.4})`);
-          gradient2.addColorStop(1, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.1})`);
+          // Density-based opacity variations
+          const densityAlpha = baseAlpha * (this.density + 0.2);
           
-          // Outer gradient (softest edges)
-          gradient3.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.2})`);
-          gradient3.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, ${baseAlpha * 0.05})`);
-          gradient3.addColorStop(1, 'rgba(0, 0, 0, 0)');
+          // Innermost core (hottest, densest)
+          innerCore.addColorStop(0, `rgba(${hotR}, ${hotG}, ${hotB}, ${densityAlpha * 1.2})`);
+          innerCore.addColorStop(1, `rgba(${r}, ${g}, ${b}, ${densityAlpha * 0.9})`);
+          
+          // Inner gradient
+          innerGradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${densityAlpha * 0.8})`);
+          innerGradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, ${densityAlpha * 0.5})`);
+          
+          // Mid gradient
+          midGradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${densityAlpha * 0.4})`);
+          midGradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, ${densityAlpha * 0.2})`);
+          
+          // Outer gradient
+          outerGradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${densityAlpha * 0.15})`);
+          outerGradient.addColorStop(0.6, `rgba(${r}, ${g}, ${b}, ${densityAlpha * 0.05})`);
+          outerGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+          
+          // Atmospheric haze
+          hazeGradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${densityAlpha * 0.03})`);
+          hazeGradient.addColorStop(0.4, `rgba(${r}, ${g}, ${b}, ${densityAlpha * 0.01})`);
+          hazeGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
         }
         
-        // Use normal blending for red smoke on black background
         ctx.globalCompositeOperation = 'source-over';
         
-        // Draw layered smoke for ultra-smooth appearance
-        ctx.globalAlpha = this.opacity * 0.3;
-        ctx.fillStyle = gradient3;
+        // Draw atmospheric haze layer
+        ctx.globalAlpha = this.opacity * 0.15;
+        ctx.fillStyle = hazeGradient;
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size * 1.3, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Draw outer diffusion layer
+        ctx.globalAlpha = this.opacity * 0.25;
+        ctx.fillStyle = outerGradient;
         ctx.beginPath();
         ctx.arc(0, 0, this.size, 0, Math.PI * 2);
         ctx.fill();
         
-        ctx.globalAlpha = this.opacity * 0.5;
-        ctx.fillStyle = gradient2;
+        // Draw mid density layer
+        ctx.globalAlpha = this.opacity * 0.4;
+        ctx.fillStyle = midGradient;
         ctx.beginPath();
-        ctx.arc(0, 0, this.size * 0.6, 0, Math.PI * 2);
+        ctx.arc(0, 0, this.size * 0.7, 0, Math.PI * 2);
         ctx.fill();
         
-        ctx.globalAlpha = this.opacity * 0.7;
-        ctx.fillStyle = gradient1;
+        // Draw inner concentration layer
+        ctx.globalAlpha = this.opacity * 0.6;
+        ctx.fillStyle = innerGradient;
         ctx.beginPath();
-        ctx.arc(0, 0, this.size * 0.3, 0, Math.PI * 2);
+        ctx.arc(0, 0, this.size * 0.4, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Draw dense core
+        ctx.globalAlpha = this.opacity * 0.8;
+        ctx.fillStyle = innerCore;
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size * 0.15, 0, Math.PI * 2);
         ctx.fill();
         
         ctx.restore();
@@ -233,33 +378,41 @@ export default function SmokeBackground({
 
 
     const animate = () => {
-      // Clear canvas with pure black background and subtle trail
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Better fade for spacing
+      // Ultra-smooth background fade with atmospheric perspective
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.015)'; // Very subtle fade for persistence
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Apply heavy blur for ultra-smooth smoke
-      ctx.filter = 'blur(8px)';
-      
-      // Use normal blending for realistic smoke
+      // Apply sophisticated multi-stage blur for maximum realism
+      ctx.filter = 'blur(12px) contrast(1.1) brightness(1.05)';
       ctx.globalCompositeOperation = 'source-over';
       
-      // Update and draw smoke particles
+      // Update and draw smoke particles with enhanced rendering
       particlesRef.current = particlesRef.current.filter(particle => {
         particle.update();
         particle.draw(ctx);
         return !particle.isDead();
       });
 
-      // Reset composition mode and filter
+      // Reset effects for next frame
       ctx.globalCompositeOperation = 'source-over';
       ctx.filter = 'none';
 
-      // Create ambient particles from left side for ultra-realistic continuous flow
-      if (Math.random() < 0.08) { // Even more subtle generation
+      // Atmospheric smoke generation with natural variability
+      const generationRate = 0.03 + Math.sin(Date.now() * 0.0001) * 0.01;
+      if (Math.random() < generationRate) {
+        // Multiple spawn points for natural smoke sources
+        const spawnPoints = [
+          { x: -150, weight: 0.4 },
+          { x: -200, weight: 0.3 },
+          { x: -100, weight: 0.2 },
+          { x: -250, weight: 0.1 }
+        ];
+        
+        const selectedSpawn = spawnPoints[Math.floor(Math.random() * spawnPoints.length)];
         createParticles(
-          -100, // Start further left for natural entry
+          selectedSpawn.x,
           Math.random() * canvas.height,
-          1
+          Math.random() < selectedSpawn.weight ? 1 : 0
         );
       }
 
@@ -267,21 +420,62 @@ export default function SmokeBackground({
     };
 
     const handleMouseMove = (e: MouseEvent) => {
+      const prevX = mouseRef.current.x;
+      const prevY = mouseRef.current.y;
       mouseRef.current.x = e.clientX;
       mouseRef.current.y = e.clientY;
       
-      // Create subtle trail particles on mouse movement
-      if (Math.random() < 0.2) {
-        createParticles(e.clientX, e.clientY, 1);
+      // Calculate mouse velocity for dynamic interaction
+      const deltaX = e.clientX - prevX;
+      const deltaY = e.clientY - prevY;
+      const velocity = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      
+      // Create sophisticated interaction based on movement
+      if (velocity > 2) {
+        // Fast movement creates more turbulence
+        const turbulenceIntensity = Math.min(velocity / 50, 1);
+        if (Math.random() < 0.1 + turbulenceIntensity * 0.3) {
+          createParticles(e.clientX, e.clientY, Math.floor(turbulenceIntensity * 2) + 1);
+        }
+      } else if (velocity > 0.5) {
+        // Slow movement creates gentle wisps
+        if (Math.random() < 0.05) {
+          createParticles(e.clientX, e.clientY, 1);
+        }
       }
     };
 
     const handleMouseEnter = (e: MouseEvent) => {
-      createParticles(e.clientX, e.clientY, 2);
+      mouseRef.current.x = e.clientX;
+      mouseRef.current.y = e.clientY;
+      
+      // Create atmospheric disturbance on entry
+      createParticles(e.clientX, e.clientY, 3);
+      
+      // Add some random nearby particles for realism
+      for (let i = 0; i < 2; i++) {
+        createParticles(
+          e.clientX + (Math.random() - 0.5) * 100,
+          e.clientY + (Math.random() - 0.5) * 100,
+          1
+        );
+      }
     };
 
     const handleClick = (e: MouseEvent) => {
-      // Create gentle burst effect on click for realistic interaction
+      // Create realistic air burst effect
+      const burstCount = 5;
+      for (let i = 0; i < burstCount; i++) {
+        const angle = (i / burstCount) * Math.PI * 2;
+        const distance = Math.random() * 60 + 20;
+        createParticles(
+          e.clientX + Math.cos(angle) * distance,
+          e.clientY + Math.sin(angle) * distance,
+          1
+        );
+      }
+      
+      // Central burst
       createParticles(e.clientX, e.clientY, 3);
     };
 
