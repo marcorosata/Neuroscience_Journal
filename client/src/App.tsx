@@ -7,6 +7,7 @@ import { PageTransition } from "@/components/page-transition";
 import DynamicParticles from "@/components/dynamic-particles";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import Cover from "@/pages/cover";
 import Home from "@/pages/home";
 import About from "@/pages/about";
 import CurrentIssue from "@/pages/current-issue";
@@ -18,31 +19,41 @@ import RequestIssue from "@/pages/request-issue";
 import Article from "@/pages/article";
 import NotFound from "@/pages/not-found";
 
-function Router() {
+// Layout wrapper for journal pages
+function JournalLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col relative">
-      {/* Dynamic particle background */}
       <DynamicParticles density={20} speed={0.2} />
-      
       <Header />
       <main className="flex-1 relative z-10">
         <PageTransition>
-          <Switch>
-            <Route path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route path="/current-issue" component={CurrentIssue} />
-            <Route path="/archive" component={Archive} />
-            <Route path="/for-authors" component={ForAuthors} />
-            <Route path="/for-reviewers" component={ForReviewers} />
-            <Route path="/contact" component={Contact} />
-            <Route path="/request-issue" component={RequestIssue} />
-            <Route path="/article/:id" component={Article} />
-            <Route component={NotFound} />
-          </Switch>
+          {children}
         </PageTransition>
       </main>
       <Footer />
     </div>
+  );
+}
+
+function Router() {
+  return (
+    <Switch>
+      {/* Cover page - clean entry point with no header/footer */}
+      <Route path="/" component={Cover} />
+      
+      {/* Main journal pages with header/footer */}
+      <Route path="/home" component={() => <JournalLayout><Home /></JournalLayout>} />
+      <Route path="/about" component={() => <JournalLayout><About /></JournalLayout>} />
+      <Route path="/current-issue" component={() => <JournalLayout><CurrentIssue /></JournalLayout>} />
+      <Route path="/archive" component={() => <JournalLayout><Archive /></JournalLayout>} />
+      <Route path="/for-authors" component={() => <JournalLayout><ForAuthors /></JournalLayout>} />
+      <Route path="/for-reviewers" component={() => <JournalLayout><ForReviewers /></JournalLayout>} />
+      <Route path="/contact" component={() => <JournalLayout><Contact /></JournalLayout>} />
+      <Route path="/request-issue" component={() => <JournalLayout><RequestIssue /></JournalLayout>} />
+      <Route path="/article/:id" component={() => <JournalLayout><Article /></JournalLayout>} />
+      
+      <Route component={NotFound} />
+    </Switch>
   );
 }
 

@@ -46,7 +46,7 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo and Branding */}
-            <Link href="/" className="flex items-center space-x-4 group">
+            <Link href="/home" className="flex items-center space-x-4 group">
               <div className="relative">
                 <img 
                   src="/attached_assets/channels4_profile_1749476651261.jpg" 
@@ -62,8 +62,8 @@ export default function Header() {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
-              <Link href="/" className={`font-medium transition-colors border-b-2 pb-1 ${
-                isActive("/") ? "text-white border-poppy" : "text-white/80 hover:text-white border-transparent hover:border-white/30"
+              <Link href="/home" className={`font-medium transition-colors border-b-2 pb-1 ${
+                isActive("/home") ? "text-white border-poppy" : "text-white/80 hover:text-white border-transparent hover:border-white/30"
               }`}>
                 HOME
               </Link>
@@ -114,7 +114,7 @@ export default function Header() {
               </SheetTrigger>
               <SheetContent side="right" className="w-64 bg-slate-900 text-white border-white/10">
                 <nav className="flex flex-col space-y-4 mt-8">
-                  <Link href="/" className="text-white/80 hover:text-white font-medium" onClick={() => setMobileOpen(false)}>
+                  <Link href="/home" className="text-white/80 hover:text-white font-medium" onClick={() => setMobileOpen(false)}>
                     HOME
                   </Link>
                   <Link href="/about" className="text-white/80 hover:text-white font-medium" onClick={() => setMobileOpen(false)}>
