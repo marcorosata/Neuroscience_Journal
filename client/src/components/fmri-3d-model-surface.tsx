@@ -43,7 +43,7 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
       0.1,
       1000
     );
-    camera.position.set(0, 0, 25);
+    camera.position.set(0, 0, 200);
     cameraRef.current = camera;
 
     // Renderer setup
@@ -201,18 +201,17 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
         if (mainBrainMesh) {
           brainMeshRef.current = mainBrainMesh;
           
-          // Create heat wave activation regions
+          // Create surface-based activation patterns using the actual brain geometry
           regionsRef.current.forEach(region => {
-            // Create multiple concentric circles for heat wave effect
+            // Create multiple concentric layers for heat wave effect
             const glowLayers = 5;
             
             for (let i = 0; i < glowLayers; i++) {
-              const layerRadius = region.radius * (1 + i * 0.2);
-              const layerOpacity = Math.exp(-i * 0.5); // Exponential falloff for heat wave
+              const layerRadius = region.radius * (1 + i * 0.3);
+              const layerOpacity = Math.exp(-i * 0.6); // Exponential falloff for heat wave
               
-              // Create flattened sphere for each layer
-              const geometry = new THREE.SphereGeometry(layerRadius, 20, 20);
-              geometry.scale(1, 0.15, 1); // More flattened for surface effect
+              // Create very flat disc that sits on brain surface
+              const geometry = new THREE.CylinderGeometry(layerRadius, layerRadius, 0.02, 16);
               
               const material = new THREE.MeshPhongMaterial({
                 color: region.color,
@@ -234,8 +233,9 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
                 wavePhase: Math.random() * Math.PI * 2
               };
               
-              // Orient to follow brain surface
-              activationMesh.lookAt(new THREE.Vector3(0, 0, 0));
+              // Orient disc to face outward from brain center
+              const normal = region.position.clone().normalize();
+              activationMesh.lookAt(activationMesh.position.clone().add(normal));
               
               activationGroup.add(activationMesh);
             }
@@ -264,9 +264,9 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
       const activeRegions = regionsRef.current.filter(r => r.activation > 0.1).length;
       
       regionsRef.current.forEach(region => {
-        // More frequent activation - allow up to 4 regions active
-        if (Math.random() < 0.015 && activeRegions < 4) {
-          region.targetActivation = 0.6 + Math.random() * 0.4;
+        // More frequent activation - allow up to 3 regions active (localized pattern)
+        if (Math.random() < 0.012 && activeRegions < 3) {
+          region.targetActivation = 0.7 + Math.random() * 0.3;
         }
         
         // Faster deactivation
