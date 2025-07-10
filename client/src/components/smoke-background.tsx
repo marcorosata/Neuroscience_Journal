@@ -123,12 +123,13 @@ export default function SmokeBackground({
         // Rotation
         this.angle += this.angleSpeed;
         
-        // Scale animation
+        // Scale animation with pulsing glow
         this.scale = 0.5 + Math.sin(time * 0.5) * 0.3;
         
-        // Opacity fade with smooth curve
+        // Opacity fade with smooth curve and pulsing effect
         const lifeFactor = this.life / this.maxLife;
-        this.opacity = Math.max(0, (1 - lifeFactor * lifeFactor) * 0.6);
+        const pulseEffect = 0.8 + Math.sin(time * 2) * 0.2; // Gentle pulsing
+        this.opacity = Math.max(0, (1 - lifeFactor * lifeFactor) * 0.6 * pulseEffect);
       }
 
       draw(ctx: CanvasRenderingContext2D) {
@@ -165,16 +166,26 @@ export default function SmokeBackground({
         ctx.globalCompositeOperation = 'lighter';
         ctx.globalAlpha = this.opacity;
         
-        // Draw multiple layers for volume
+        // Draw multiple layers for luminous glow effect
         ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.arc(0, 0, this.size, 0, Math.PI * 2);
         ctx.fill();
         
-        // Additional layer with lighter color for depth
-        ctx.globalAlpha = this.opacity * 0.3;
+        // Create outer glow halo
+        ctx.globalAlpha = this.opacity * 0.2;
         ctx.beginPath();
-        ctx.arc(0, 0, this.size * 0.7, 0, Math.PI * 2);
+        ctx.arc(0, 0, this.size * 1.5, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Inner bright core for luminous effect
+        ctx.globalAlpha = this.opacity * 0.8;
+        const coreGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size * 0.3);
+        coreGradient.addColorStop(0, this.color.replace(/[\d.]+\)$/, '0.9)'));
+        coreGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = coreGradient;
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size * 0.4, 0, Math.PI * 2);
         ctx.fill();
         
         ctx.restore();
@@ -192,9 +203,12 @@ export default function SmokeBackground({
     };
 
     const animate = () => {
-      // Set canvas background to pure black for proper blending
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
+      // Set canvas background with slight blur trail for luminous effect
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Apply subtle blur filter for xAI glow effect
+      ctx.filter = 'blur(0.5px)';
       
       // Set global composition mode for xAI-style blending
       ctx.globalCompositeOperation = 'lighter';
@@ -206,11 +220,12 @@ export default function SmokeBackground({
         return !particle.isDead();
       });
 
-      // Reset composition mode
+      // Reset composition mode and filter
       ctx.globalCompositeOperation = 'source-over';
+      ctx.filter = 'none';
 
       // Create ambient particles more frequently for denser effect
-      if (Math.random() < 0.05) {
+      if (Math.random() < 0.07) {
         createParticles(
           Math.random() * canvas.width,
           Math.random() * canvas.height,
@@ -225,9 +240,9 @@ export default function SmokeBackground({
       mouseRef.current.x = e.clientX;
       mouseRef.current.y = e.clientY;
       
-      // Create particles on mouse movement with throttling
-      if (Math.random() < 0.4) {
-        createParticles(e.clientX, e.clientY, Math.ceil(particleCount * 0.4));
+      // Create glowing trail particles on mouse movement
+      if (Math.random() < 0.6) {
+        createParticles(e.clientX, e.clientY, Math.ceil(particleCount * 0.6));
       }
     };
 
@@ -236,8 +251,13 @@ export default function SmokeBackground({
     };
 
     const handleClick = (e: MouseEvent) => {
-      // Create burst effect on click
-      createParticles(e.clientX, e.clientY, particleCount * 2);
+      // Create intense glowing burst effect on click
+      createParticles(e.clientX, e.clientY, particleCount * 3);
+      
+      // Add secondary burst with slight delay for dramatic effect
+      setTimeout(() => {
+        createParticles(e.clientX, e.clientY, particleCount * 1.5);
+      }, 100);
     };
 
     canvas.addEventListener('mousemove', handleMouseMove);

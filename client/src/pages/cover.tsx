@@ -8,14 +8,14 @@ export default function Cover() {
     <div className="min-h-screen relative overflow-hidden flex items-center justify-center bg-black">
       {/* xAI-style Interactive Smoke Background */}
       <SmokeBackground 
-        particleCount={50}
+        particleCount={80}
         colors={[
-          'rgba(255, 255, 255, 0.8)',  // Pure white for xAI effect
-          'rgba(200, 220, 255, 0.6)',  // Light blue tint
-          'rgba(240, 240, 255, 0.5)',  // Very light blue-white
-          'rgba(220, 230, 255, 0.4)',  // Subtle blue
-          'rgba(255, 250, 250, 0.6)',  // Warm white
-          'rgba(245, 245, 255, 0.5)'   // Cool white
+          'rgba(0, 150, 255, 0.8)',    // Neon blue (primary xAI color)
+          'rgba(100, 200, 255, 0.6)',  // Light blue glow
+          'rgba(150, 100, 255, 0.7)',  // Purple accent
+          'rgba(0, 255, 150, 0.5)',    // Green highlight
+          'rgba(255, 255, 255, 0.4)',  // Pure white for contrast
+          'rgba(200, 220, 255, 0.6)'   // Blue-silver tint
         ]}
         intensity={2.0}
       />
