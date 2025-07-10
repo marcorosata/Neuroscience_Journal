@@ -6,11 +6,14 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 
 ## Recent Changes (January 2025)
 
-- **Functional MRI Brain Visualization**: Created sophisticated brain visualization mimicking real fMRI scans
-- **Anatomically Correct Regions**: 8 brain regions (frontal, parietal, temporal, occipital lobes + motor cortex, hippocampus, amygdala, cerebellum)
-- **Dynamic Neural Activation**: Regions illuminate with colored lights that fade slowly, creating hypnotic cascades
+- **3D fMRI Brain Visualization**: Created interactive 3D brain model with realistic anatomical shape
+- **Interactive Rotation**: Click and drag to manually rotate brain, auto-rotates when idle
+- **Anatomically Correct Regions**: 8 brain regions positioned in 3D space (frontal, parietal, temporal, occipital lobes + motor cortex, hippocampus, amygdala, cerebellum)
+- **Dynamic Neural Activation**: Regions illuminate with colored 3D spheres that fade slowly, creating hypnotic cascades
 - **Neural Connections**: Active regions show connecting pathways when both are activated
 - **Complete Darkness Theme**: Brain emerges from shadow only when regions activate, matching fMRI aesthetic
+- **Depth-Sorted Rendering**: Proper 3D perspective with correct occlusion of regions
+- **Toggle Views**: Brain demo page allows switching between 2D and 3D visualizations
 
 ## User Preferences
 

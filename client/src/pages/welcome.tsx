@@ -2,15 +2,14 @@ import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { ArrowRight, BookOpen, Users, Calendar } from 'lucide-react';
 import { PageTransition } from '../components/page-transition';
-import FMRIBrain from '../components/fmri-brain';
+import FMRI3DBrain from '../components/fmri-3d-brain';
 
 export default function Welcome() {
   return (
     <PageTransition>
       <div className="relative min-h-screen bg-black text-white overflow-hidden">
-        {/* Functional MRI Brain Visualization */}
-        <FMRIBrain />
-
+        {/* 3D FMRI Brain Background */}
+        <FMRI3DBrain />
         
         {/* Welcome content */}
         <div className="relative z-20 flex items-center justify-center min-h-screen px-4">
