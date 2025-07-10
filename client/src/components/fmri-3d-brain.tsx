@@ -47,10 +47,10 @@ export default function FMRI3DBrain({ className = '' }: FMRI3DBrainProps) {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Create brain mesh vertices
+    // Create brain mesh vertices with more realistic anatomy
     const createBrainMesh = (scale: number) => {
       const vertices: BrainVertex[] = [];
-      const resolution = 20;
+      const resolution = 30;
       
       // Generate brain-shaped mesh using parametric equations
       for (let lat = 0; lat <= resolution; lat++) {
@@ -59,24 +59,35 @@ export default function FMRI3DBrain({ className = '' }: FMRI3DBrainProps) {
         for (let lon = 0; lon <= resolution * 2; lon++) {
           const phi = (lon / (resolution * 2)) * 2 * Math.PI;
           
-          // Brain-like shape using modified sphere equations
-          const r = scale * (1 + 
-            0.3 * Math.sin(4 * theta) * Math.cos(2 * phi) +
-            0.2 * Math.sin(2 * theta) * Math.sin(phi) +
-            0.1 * Math.cos(6 * phi)
-          );
+          // More realistic brain shape
+          let r = scale;
           
-          // Add frontal lobe bulge
-          const frontalBulge = theta < Math.PI / 3 ? 0.2 * Math.sin(theta * 3) : 0;
+          // Frontal lobe bulge (anterior)
+          if (phi > Math.PI * 1.5 || phi < Math.PI * 0.5) {
+            r *= 1 + 0.15 * Math.cos(phi) * (1 - Math.sin(theta));
+          }
           
-          // Add temporal lobe indentation
-          const temporalIndent = Math.abs(phi - Math.PI) < Math.PI / 4 && theta > Math.PI / 3 && theta < 2 * Math.PI / 3 ? -0.15 : 0;
+          // Temporal lobe protrusion (lateral)
+          if (theta > Math.PI * 0.4 && theta < Math.PI * 0.8) {
+            r *= 1 + 0.2 * Math.sin((theta - Math.PI * 0.4) * 3);
+          }
           
-          const adjustedR = r * (1 + frontalBulge + temporalIndent);
+          // Occipital lobe (posterior)
+          if (phi > Math.PI * 0.7 && phi < Math.PI * 1.3) {
+            r *= 1 + 0.1 * Math.sin((phi - Math.PI * 0.7) * 2);
+          }
           
-          const x = adjustedR * Math.sin(theta) * Math.cos(phi);
-          const y = adjustedR * Math.sin(theta) * Math.sin(phi) * 0.8; // Flatten slightly
-          const z = adjustedR * Math.cos(theta) * 1.2; // Elongate vertically
+          // Flatten bottom (inferior)
+          if (theta > Math.PI * 0.7) {
+            r *= 0.7 + 0.3 * Math.cos((theta - Math.PI * 0.7) * 2);
+          }
+          
+          // Add cortical folding detail
+          r *= 1 + 0.05 * Math.sin(8 * theta) * Math.sin(6 * phi);
+          
+          const x = r * Math.sin(theta) * Math.cos(phi);
+          const y = r * Math.sin(theta) * Math.sin(phi) * 0.9; // Slight lateral compression
+          const z = r * Math.cos(theta) * 1.1; // Slight superior-inferior elongation
           
           vertices.push({
             x, y, z,
@@ -233,37 +244,40 @@ export default function FMRI3DBrain({ className = '' }: FMRI3DBrainProps) {
       // Skip if region is behind viewer
       if (rotatedCenter.z < -700) return;
       
-      // Create gradient for activation
-      const radius = 50 * projectedCenter.scale * (1 + region.activation * 0.5);
-      const gradient = ctx.createRadialGradient(
-        projectedCenter.x, projectedCenter.y, 0,
-        projectedCenter.x, projectedCenter.y, radius
-      );
+      // Create more realistic fMRI activation blob
+      const baseRadius = 30 * projectedCenter.scale;
+      const activationRadius = baseRadius * (1 + region.activation * 0.3);
       
-      const alpha = Math.floor(region.activation * 255);
-      gradient.addColorStop(0, region.color + alpha.toString(16).padStart(2, '0'));
-      gradient.addColorStop(0.5, region.color + Math.floor(alpha * 0.5).toString(16).padStart(2, '0'));
-      gradient.addColorStop(1, region.color + '00');
-      
-      // Draw activation sphere
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(projectedCenter.x, projectedCenter.y, radius, 0, Math.PI * 2);
-      ctx.fill();
-      
-      // Add glow effect
-      const glowGradient = ctx.createRadialGradient(
-        projectedCenter.x, projectedCenter.y, radius * 0.8,
-        projectedCenter.x, projectedCenter.y, radius * 1.5
-      );
-      glowGradient.addColorStop(0, region.color + '00');
-      glowGradient.addColorStop(0.7, region.color + Math.floor(alpha * 0.3).toString(16).padStart(2, '0'));
-      glowGradient.addColorStop(1, region.color + '00');
-      
-      ctx.fillStyle = glowGradient;
-      ctx.beginPath();
-      ctx.arc(projectedCenter.x, projectedCenter.y, radius * 1.5, 0, Math.PI * 2);
-      ctx.fill();
+      // Multi-layer activation rendering for depth
+      for (let layer = 3; layer >= 0; layer--) {
+        const layerScale = 1 + layer * 0.3;
+        const layerAlpha = region.activation * (0.2 - layer * 0.05);
+        
+        const gradient = ctx.createRadialGradient(
+          projectedCenter.x, projectedCenter.y, 0,
+          projectedCenter.x, projectedCenter.y, activationRadius * layerScale
+        );
+        
+        // Use more realistic fMRI colors
+        let baseColor = region.color;
+        if (region.activation > 0.7) {
+          // High activation - shift towards yellow/white
+          baseColor = '#ffff00';
+        } else if (region.activation > 0.5) {
+          // Medium activation - shift towards orange
+          baseColor = '#ff8800';
+        }
+        
+        gradient.addColorStop(0, baseColor + Math.floor(layerAlpha * 255).toString(16).padStart(2, '0'));
+        gradient.addColorStop(0.3, baseColor + Math.floor(layerAlpha * 200).toString(16).padStart(2, '0'));
+        gradient.addColorStop(0.6, baseColor + Math.floor(layerAlpha * 100).toString(16).padStart(2, '0'));
+        gradient.addColorStop(1, baseColor + '00');
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(projectedCenter.x, projectedCenter.y, activationRadius * layerScale, 0, Math.PI * 2);
+        ctx.fill();
+      }
       
       // Draw label for highly activated regions
       if (region.activation > 0.7) {
@@ -276,47 +290,82 @@ export default function FMRI3DBrain({ className = '' }: FMRI3DBrainProps) {
       }
     };
 
-    // Draw brain outline
-    const drawBrainOutline = (ctx: CanvasRenderingContext2D, centerX: number, centerY: number, scale: number) => {
-      const segments = 60;
-      const points: { x: number; y: number }[] = [];
+    // Draw realistic 3D brain mesh
+    const drawBrainMesh = (ctx: CanvasRenderingContext2D, centerX: number, centerY: number, scale: number) => {
+      const resolution = 30;
+      const points: { x: number; y: number; z: number; brightness: number }[] = [];
       
-      // Generate brain outline points
-      for (let i = 0; i < segments; i++) {
-        const angle = (i / segments) * Math.PI * 2;
-        const r = scale * (1 + 
-          0.3 * Math.sin(4 * angle) +
-          0.15 * Math.cos(6 * angle) +
-          0.1 * Math.sin(8 * angle)
-        );
+      // Generate all brain surface points
+      for (let lat = 0; lat <= resolution; lat++) {
+        const theta = (lat / resolution) * Math.PI;
         
-        const vertex = {
-          x: r * Math.cos(angle),
-          y: r * Math.sin(angle) * 0.8,
-          z: 0
-        };
-        
-        const rotated = rotateVertex(vertex as BrainVertex, rotationRef.current);
-        const projected = project(rotated, centerX, centerY);
-        points.push({ x: projected.x, y: projected.y });
+        for (let lon = 0; lon <= resolution; lon++) {
+          const phi = (lon / resolution) * 2 * Math.PI;
+          
+          // Realistic brain shape
+          let r = scale;
+          
+          // Frontal lobe
+          if (phi > Math.PI * 1.5 || phi < Math.PI * 0.5) {
+            r *= 1 + 0.15 * Math.cos(phi) * (1 - Math.sin(theta));
+          }
+          
+          // Temporal lobes
+          if (theta > Math.PI * 0.4 && theta < Math.PI * 0.8) {
+            r *= 1 + 0.2 * Math.sin((theta - Math.PI * 0.4) * 3);
+          }
+          
+          // Occipital lobe
+          if (phi > Math.PI * 0.7 && phi < Math.PI * 1.3) {
+            r *= 1 + 0.1 * Math.sin((phi - Math.PI * 0.7) * 2);
+          }
+          
+          // Flatten inferior surface
+          if (theta > Math.PI * 0.7) {
+            r *= 0.7 + 0.3 * Math.cos((theta - Math.PI * 0.7) * 2);
+          }
+          
+          // Cortical folding
+          r *= 1 + 0.03 * Math.sin(12 * theta) * Math.sin(8 * phi);
+          
+          const x = r * Math.sin(theta) * Math.cos(phi);
+          const y = r * Math.sin(theta) * Math.sin(phi) * 0.9;
+          const z = r * Math.cos(theta) * 1.1;
+          
+          const rotated = rotateVertex({ x, y, z, ox: x, oy: y, oz: z }, rotationRef.current);
+          const projected = project(rotated, centerX, centerY);
+          
+          // Calculate surface normal for lighting
+          const normal = {
+            x: Math.sin(theta) * Math.cos(phi),
+            y: Math.sin(theta) * Math.sin(phi),
+            z: Math.cos(theta)
+          };
+          
+          // Simple lighting calculation
+          const lightDir = { x: 0, y: 0, z: 1 };
+          const brightness = Math.max(0, normal.z * lightDir.z) * 0.8 + 0.2;
+          
+          points.push({
+            x: projected.x,
+            y: projected.y,
+            z: rotated.z,
+            brightness
+          });
+        }
       }
       
-      // Draw outline
-      ctx.strokeStyle = '#1a1a1a';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(points[0].x, points[0].y);
+      // Sort by depth
+      points.sort((a, b) => a.z - b.z);
       
-      for (let i = 1; i < points.length; i++) {
-        ctx.lineTo(points[i].x, points[i].y);
-      }
-      
-      ctx.closePath();
-      ctx.stroke();
-      
-      // Fill with dark color
-      ctx.fillStyle = '#0a0a0a';
-      ctx.fill();
+      // Draw brain surface
+      points.forEach(point => {
+        if (point.z > -500) {
+          const gray = Math.floor(15 + point.brightness * 20);
+          ctx.fillStyle = `rgb(${gray}, ${gray}, ${gray})`;
+          ctx.fillRect(point.x - 2, point.y - 2, 4, 4);
+        }
+      });
     };
 
     // Mouse interaction
@@ -361,8 +410,8 @@ export default function FMRI3DBrain({ className = '' }: FMRI3DBrainProps) {
         rotationRef.current.y += 0.005;
       }
       
-      // Draw brain outline
-      drawBrainOutline(ctx, centerX, centerY, scale);
+      // Draw 3D brain mesh
+      drawBrainMesh(ctx, centerX, centerY, scale);
       
       // Sort regions by depth
       const sortedRegions = [...regionsRef.current].sort((a, b) => {
