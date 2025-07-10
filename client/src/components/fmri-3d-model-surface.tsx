@@ -55,17 +55,22 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
     containerRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0x404040, 0.8);
+    // Enhanced lighting for better brain visibility
+    const ambientLight = new THREE.AmbientLight(0x606060, 1.0);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(1, 1, 2);
     scene.add(directionalLight);
 
-    const rimLight = new THREE.DirectionalLight(0x4488ff, 0.3);
+    const rimLight = new THREE.DirectionalLight(0x6699ff, 0.4);
     rimLight.position.set(-1, 0, -1);
     scene.add(rimLight);
+
+    // Additional fill light
+    const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+    fillLight.position.set(0, -1, 1);
+    scene.add(fillLight);
 
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -183,11 +188,11 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
               mainBrainMesh = child;
             }
             
-            // Set brain material to darker gray for better contrast
+            // Set brain material to lighter gray for better visibility
             child.material = new THREE.MeshPhongMaterial({
-              color: 0x444444,
-              specular: 0x111111,
-              shininess: 30,
+              color: 0x888888,
+              specular: 0x333333,
+              shininess: 40,
               transparent: false
             });
           }
@@ -196,18 +201,18 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
         if (mainBrainMesh) {
           brainMeshRef.current = mainBrainMesh;
           
-          // Create activation regions with gradient glow
+          // Create heat wave activation regions
           regionsRef.current.forEach(region => {
-            // Create multiple concentric circles for gradient effect
-            const glowLayers = 3;
+            // Create multiple concentric circles for heat wave effect
+            const glowLayers = 5;
             
             for (let i = 0; i < glowLayers; i++) {
-              const layerRadius = region.radius * (1 + i * 0.3);
-              const layerOpacity = 1 - (i * 0.4);
+              const layerRadius = region.radius * (1 + i * 0.2);
+              const layerOpacity = Math.exp(-i * 0.5); // Exponential falloff for heat wave
               
               // Create flattened sphere for each layer
-              const geometry = new THREE.SphereGeometry(layerRadius, 16, 16);
-              geometry.scale(1, 0.2, 1); // Flatten for surface effect
+              const geometry = new THREE.SphereGeometry(layerRadius, 20, 20);
+              geometry.scale(1, 0.15, 1); // More flattened for surface effect
               
               const material = new THREE.MeshPhongMaterial({
                 color: region.color,
@@ -225,7 +230,8 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
               activationMesh.userData = { 
                 regionId: region.id, 
                 layerIndex: i,
-                baseOpacity: layerOpacity
+                baseOpacity: layerOpacity,
+                wavePhase: Math.random() * Math.PI * 2
               };
               
               // Orient to follow brain surface
@@ -288,18 +294,21 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
             const layerIndex = child.userData.layerIndex || 0;
             const baseOpacity = child.userData.baseOpacity || 1;
             
-            // Gradient intensity - outer layers are dimmer
-            const layerIntensity = Math.max(0, 1 - (layerIndex * 0.4));
-            const finalOpacity = region.activation * baseOpacity * layerIntensity * 0.7;
-            const finalEmissive = region.activation * layerIntensity * 2;
+            // Heat wave intensity with exponential falloff
+            const wavePhase = child.userData.wavePhase || 0;
+            const time = Date.now() * 0.003;
+            const waveIntensity = Math.sin(time + wavePhase + layerIndex * 0.3) * 0.5 + 0.5;
+            
+            const layerIntensity = Math.exp(-layerIndex * 0.3) * waveIntensity;
+            const finalOpacity = region.activation * baseOpacity * layerIntensity * 0.8;
+            const finalEmissive = region.activation * layerIntensity * 2.5;
             
             material.opacity = finalOpacity;
             material.emissiveIntensity = finalEmissive;
             
-            // Pulsing effect with slight delay per layer
-            const timeOffset = layerIndex * 0.5;
-            const pulseScale = 1 + Math.sin(Date.now() * 0.008 + timeOffset) * 0.06 * region.activation;
-            child.scale.set(pulseScale, pulseScale, pulseScale);
+            // Heat wave ripple effect
+            const rippleScale = 1 + Math.sin(time * 2 + layerIndex * 0.8) * 0.1 * region.activation;
+            child.scale.set(rippleScale, rippleScale, rippleScale);
             
             // Change color based on activation level
             if (region.activation > 0.8) {
