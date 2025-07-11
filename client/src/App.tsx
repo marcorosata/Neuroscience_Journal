@@ -7,7 +7,7 @@ import { PageTransition } from "@/components/page-transition";
 import DynamicParticles from "@/components/dynamic-particles";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import Cover from "@/pages/cover";
+
 import Welcome2 from "@/pages/welcome2";
 import BrainDemo from "@/pages/brain-demo";
 import Home from "@/pages/home";
@@ -41,9 +41,6 @@ function Router() {
     <Switch>
       {/* Welcome page - default route with lightning and smoke background */}
       <Route path="/" component={Welcome2} />
-      
-      {/* Cover page - alternative entry point */}
-      <Route path="/cover" component={Cover} />
       
       {/* Brain demo page - just the brain visualization */}
       <Route path="/brain-demo" component={BrainDemo} />

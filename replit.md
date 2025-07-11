@@ -9,6 +9,7 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 ### Latest Updates
 - **Simplified Welcome Page**: Made welcome2 the main welcome page, removed old welcome page
 - **Default Route**: Changed default route from cover page to welcome page (/ now shows welcome instead of cover)
+- **Removed Cover Page**: Completely removed the cover page component and route - welcome is now the only entry point
 - **Minimalist Design**: Reduced content to show only "Welcome" and "CNS Student Journal" titles
 - **Interactive Background**: Combined lightning and smoke effects with cursor interaction on welcome page
 - **Fixed Smoke Visibility**: Resolved smoke particle visibility issues by switching from Three.js to CSS-based approach
