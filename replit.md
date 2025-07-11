@@ -16,6 +16,8 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 - **Working Smoke System**: Implemented visible smoke particles that drift upward and respond to mouse interaction
 - **Ultrarealistic Smoke Physics**: Enhanced smoke with fluid dynamics simulation, curl noise turbulence, buoyancy effects, temperature-based behavior, and atmospheric wind patterns
 - **Advanced Particle System**: Added temperature cooling, density changes, particle expansion, air resistance, and physics-based mouse interaction
+- **Enhanced Lightning Timing**: Fixed lightning to appear for just brief moments (0.2-0.5 seconds) then disappear, preventing sticky behavior
+- **Improved Smoke Visuals**: Added 50 particles with advanced 3D curl noise, temperature-based color gradients, non-linear age effects, and realistic atmospheric scattering
 
 - **3D fMRI Brain Visualization**: Created interactive 3D brain model with realistic anatomical shape
 - **Interactive Rotation**: Click and drag to manually rotate brain, auto-rotates when idle

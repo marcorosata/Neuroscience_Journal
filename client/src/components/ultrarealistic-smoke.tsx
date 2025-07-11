@@ -32,25 +32,25 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
   const timeRef = useRef(0);
 
   useEffect(() => {
-    // Initialize smoke particles with physics properties
+    // Initialize smoke particles with enhanced physics properties
     const initParticles = () => {
-      particlesRef.current = Array.from({ length: 35 }, (_, i) => ({
+      particlesRef.current = Array.from({ length: 50 }, (_, i) => ({
         id: i,
-        x: 45 + Math.random() * 10, // Start from bottom center
-        y: 100 + Math.random() * 5,
-        z: Math.random() * 10,
-        vx: (Math.random() - 0.5) * 0.2,
-        vy: -0.4 - Math.random() * 0.3, // Upward motion
-        vz: (Math.random() - 0.5) * 0.1,
-        size: 8 + Math.random() * 12,
-        opacity: 0.6 + Math.random() * 0.3,
+        x: 40 + Math.random() * 20, // Wider spawn area
+        y: 105 + Math.random() * 10,
+        z: Math.random() * 15,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: -0.3 - Math.random() * 0.4, // Variable upward motion
+        vz: (Math.random() - 0.5) * 0.08,
+        size: 6 + Math.random() * 8,
+        opacity: 0.7 + Math.random() * 0.3,
         life: 0,
-        maxLife: 400 + Math.random() * 300,
-        temperature: 0.8 + Math.random() * 0.4, // Heat affects behavior
-        density: 0.3 + Math.random() * 0.4,
-        turbulence: Math.random() * 0.5,
+        maxLife: 500 + Math.random() * 400,
+        temperature: 1.2 + Math.random() * 0.8, // Higher initial temperature
+        density: 0.4 + Math.random() * 0.5,
+        turbulence: 0.2 + Math.random() * 0.6,
         rotation: Math.random() * 360,
-        rotationSpeed: (Math.random() - 0.5) * 2
+        rotationSpeed: (Math.random() - 0.5) * 3
       }));
     };
 
@@ -89,14 +89,19 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
         particle.life++;
         const ageRatio = particle.life / particle.maxLife;
         
-        // Curl noise for turbulence (simplified)
-        const noiseTime = timeRef.current * 0.5 + index * 0.1;
-        const curlX = Math.sin(noiseTime + particle.y * 0.02) * particle.turbulence;
-        const curlY = Math.cos(noiseTime + particle.x * 0.02) * particle.turbulence;
+        // Advanced curl noise for realistic turbulence
+        const noiseTime = timeRef.current * 0.3 + index * 0.15;
+        const curlX = Math.sin(noiseTime + particle.y * 0.015) * particle.turbulence * 
+                      Math.cos(noiseTime * 0.7 + particle.z * 0.01);
+        const curlY = Math.cos(noiseTime + particle.x * 0.015) * particle.turbulence *
+                      Math.sin(noiseTime * 0.5 + particle.z * 0.01);
+        const curlZ = Math.sin(noiseTime * 0.8 + particle.x * 0.01 + particle.y * 0.01) * 
+                      particle.turbulence * 0.5;
         
-        // Apply forces
-        particle.vx += curlX * 0.01;
-        particle.vy += curlY * 0.005;
+        // Apply turbulence forces
+        particle.vx += curlX * 0.015;
+        particle.vy += curlY * 0.008;
+        particle.vz += curlZ * 0.005;
         
         // Buoyancy (hot air rises faster)
         const buoyancy = particle.temperature * 0.1;
@@ -130,13 +135,15 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
         // Atmospheric effects
         particle.rotation += particle.rotationSpeed;
         
-        // Cooling and expansion
-        particle.temperature *= 0.998;
-        particle.size += 0.02; // Smoke expands as it cools
+        // Realistic cooling and expansion
+        particle.temperature *= 0.9985; // Slower cooling
+        particle.size += 0.03 * particle.temperature; // Expansion rate depends on temperature
         
-        // Density and opacity changes
-        particle.density *= 0.995;
-        particle.opacity = particle.density * (1 - ageRatio * 0.7);
+        // Advanced density and opacity changes
+        particle.density *= 0.9975; // Slower density decay
+        const temperatureEffect = particle.temperature * 0.4;
+        const ageEffect = 1 - Math.pow(ageRatio, 0.8); // Non-linear age effect
+        particle.opacity = particle.density * ageEffect * (0.6 + temperatureEffect);
         
         // Velocity damping (air resistance)
         particle.vx *= 0.99;
@@ -147,20 +154,20 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
         if (particle.x < -10) particle.x = 110;
         if (particle.x > 110) particle.x = -10;
         
-        // Reset particle when it dies
-        if (particle.life >= particle.maxLife || particle.y < -15) {
-          particle.x = 45 + Math.random() * 10;
-          particle.y = 100 + Math.random() * 5;
-          particle.z = Math.random() * 10;
-          particle.vx = (Math.random() - 0.5) * 0.2;
-          particle.vy = -0.4 - Math.random() * 0.3;
-          particle.vz = (Math.random() - 0.5) * 0.1;
-          particle.size = 8 + Math.random() * 12;
-          particle.opacity = 0.6 + Math.random() * 0.3;
+        // Reset particle when it dies with enhanced properties
+        if (particle.life >= particle.maxLife || particle.y < -20) {
+          particle.x = 40 + Math.random() * 20;
+          particle.y = 105 + Math.random() * 10;
+          particle.z = Math.random() * 15;
+          particle.vx = (Math.random() - 0.5) * 0.15;
+          particle.vy = -0.3 - Math.random() * 0.4;
+          particle.vz = (Math.random() - 0.5) * 0.08;
+          particle.size = 6 + Math.random() * 8;
+          particle.opacity = 0.7 + Math.random() * 0.3;
           particle.life = 0;
-          particle.temperature = 0.8 + Math.random() * 0.4;
-          particle.density = 0.3 + Math.random() * 0.4;
-          particle.turbulence = Math.random() * 0.5;
+          particle.temperature = 1.2 + Math.random() * 0.8;
+          particle.density = 0.4 + Math.random() * 0.5;
+          particle.turbulence = 0.2 + Math.random() * 0.6;
           particle.rotation = Math.random() * 360;
         }
         
@@ -176,13 +183,22 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
           element.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${particle.rotation}deg)`;
           element.style.filter = `blur(${blur}px)`;
           
-          // Temperature-based color (hot = more white, cool = more gray)
-          const heat = particle.temperature;
-          const r = Math.min(255, 200 + heat * 55);
-          const g = Math.min(255, 200 + heat * 55);
-          const b = Math.min(255, 200 + heat * 55);
+          // Advanced temperature-based color with realistic smoke spectrum
+          const heat = Math.min(particle.temperature, 2.0);
+          const coolness = Math.max(0, 1.0 - heat);
           
-          element.style.background = `radial-gradient(circle, rgba(${r},${g},${b},${particle.density}) 0%, rgba(${r-20},${g-20},${b-20},${particle.density * 0.7}) 40%, rgba(${r-40},${g-40},${b-40},${particle.density * 0.3}) 70%, transparent 100%)`;
+          // Hot smoke: bright white/yellow, Cool smoke: gray/blue
+          const r = Math.min(255, 220 + heat * 35 - coolness * 50);
+          const g = Math.min(255, 220 + heat * 35 - coolness * 60);
+          const b = Math.min(255, 220 + heat * 20 - coolness * 40);
+          
+          // Add subtle color variations for realism
+          const colorVariation = Math.sin(timeRef.current * 0.1 + index * 0.3) * 15;
+          const finalR = Math.max(0, Math.min(255, r + colorVariation));
+          const finalG = Math.max(0, Math.min(255, g + colorVariation));
+          const finalB = Math.max(0, Math.min(255, b + colorVariation));
+          
+          element.style.background = `radial-gradient(circle, rgba(${finalR},${finalG},${finalB},${particle.density}) 0%, rgba(${finalR-30},${finalG-30},${finalB-30},${particle.density * 0.8}) 30%, rgba(${finalR-60},${finalG-60},${finalB-60},${particle.density * 0.5}) 60%, rgba(${finalR-90},${finalG-90},${finalB-90},${particle.density * 0.2}) 80%, transparent 100%)`;
         }
       });
       
@@ -204,7 +220,7 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
       ref={containerRef}
       className={`fixed inset-0 pointer-events-none z-10 ${className}`}
     >
-      {Array.from({ length: 35 }, (_, i) => (
+      {Array.from({ length: 50 }, (_, i) => (
         <div
           key={i}
           data-smoke={i}

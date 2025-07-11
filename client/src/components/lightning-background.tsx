@@ -102,7 +102,7 @@ export default function LightningBackground({ className = '' }: LightningBackgro
         flickerIntensity: 0.9 + Math.random() * 0.1,
         branchChance: 0.01 + Math.random() * 0.02,
         visible: false,
-        lifespan: 30 + Math.random() * 60, // 0.5-1.5 seconds at 60fps
+        lifespan: 10 + Math.random() * 20, // 0.2-0.5 seconds at 60fps
         age: 0,
         dormantTime: 0
       };
@@ -174,7 +174,7 @@ export default function LightningBackground({ className = '' }: LightningBackgro
           if (bolt.age >= bolt.dormantTime) {
             bolt.visible = true;
             bolt.age = 0;
-            bolt.lifespan = 30 + Math.random() * 60; // 0.5-1.5 seconds visible
+            bolt.lifespan = 10 + Math.random() * 20; // 0.2-0.5 seconds visible
             // Create new lightning position and pattern
             const newBolt = createLightningBolt();
             bolt.x = newBolt.x;
