@@ -91,7 +91,7 @@ export default function LightningBackground({ className = '' }: LightningBackgro
         vx,
         vy,
         color: lightningColors[Math.floor(Math.random() * lightningColors.length)],
-        width: 2 + Math.random() * 4,
+        width: 0.2 + Math.random() * 0.4,
         nodes: [],
         angle: Math.atan2(vy, vx),
         flickerIntensity: 0.9 + Math.random() * 0.1,
@@ -198,7 +198,7 @@ export default function LightningBackground({ className = '' }: LightningBackgro
               ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
             }
             ctx.strokeStyle = bolt.color;
-            ctx.lineWidth = bolt.width * 8 * flickerIntensity;
+            ctx.lineWidth = bolt.width * 0.8 * flickerIntensity;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
             ctx.stroke();
@@ -213,7 +213,7 @@ export default function LightningBackground({ className = '' }: LightningBackgro
               ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
             }
             ctx.strokeStyle = bolt.color;
-            ctx.lineWidth = bolt.width * 4 * flickerIntensity;
+            ctx.lineWidth = bolt.width * 0.4 * flickerIntensity;
             ctx.stroke();
             
             // Layer 3: Close atmospheric glow
@@ -226,7 +226,7 @@ export default function LightningBackground({ className = '' }: LightningBackgro
               ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
             }
             ctx.strokeStyle = bolt.color;
-            ctx.lineWidth = bolt.width * 2 * flickerIntensity;
+            ctx.lineWidth = bolt.width * 0.2 * flickerIntensity;
             ctx.stroke();
             
             // Layer 4: Main discharge channel
@@ -239,7 +239,7 @@ export default function LightningBackground({ className = '' }: LightningBackgro
               ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
             }
             ctx.strokeStyle = bolt.color;
-            ctx.lineWidth = bolt.width * flickerIntensity;
+            ctx.lineWidth = bolt.width * 0.1 * flickerIntensity;
             ctx.stroke();
             
             // Layer 5: Bright plasma core
@@ -252,7 +252,7 @@ export default function LightningBackground({ className = '' }: LightningBackgro
               ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
             }
             ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = Math.max(0.5, bolt.width * 0.2 * flickerIntensity);
+            ctx.lineWidth = Math.max(0.05, bolt.width * 0.02 * flickerIntensity);
             ctx.stroke();
             
             // Realistic fractal branches
@@ -281,7 +281,7 @@ export default function LightningBackground({ className = '' }: LightningBackgro
                   }
                   
                   ctx.strokeStyle = bolt.color;
-                  ctx.lineWidth = bolt.width * (0.6 - layer * 0.15) * flickerIntensity;
+                  ctx.lineWidth = bolt.width * (0.06 - layer * 0.015) * flickerIntensity;
                   ctx.stroke();
                 }
               }
