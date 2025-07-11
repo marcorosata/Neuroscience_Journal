@@ -41,17 +41,17 @@ export default function BottomLightBeam({ className = '' }: BottomLightBeamProps
   return (
     <div
       ref={containerRef}
-      className={`fixed inset-0 pointer-events-none z-5 ${className}`}
+      className={`fixed inset-0 pointer-events-none z-30 ${className}`}
     >
       {/* Main light beam */}
       <div
         className="light-beam absolute bottom-0 left-1/2 transform -translate-x-1/2"
         style={{
-          width: '100px',
+          width: '120px',
           height: '100%',
-          background: 'linear-gradient(to top, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.2) 20%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0.05) 60%, rgba(255,255,255,0.02) 80%, transparent 100%)',
-          filter: 'blur(2px)',
-          opacity: 0.8
+          background: 'linear-gradient(to top, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 10%, rgba(255,255,255,0.3) 30%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.08) 70%, transparent 100%)',
+          filter: 'blur(3px)',
+          opacity: 1
         }}
       />
       
@@ -59,11 +59,11 @@ export default function BottomLightBeam({ className = '' }: BottomLightBeamProps
       <div
         className="absolute bottom-0 left-1/2 transform -translate-x-1/2"
         style={{
-          width: '40px',
+          width: '60px',
           height: '100%',
-          background: 'linear-gradient(to top, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.3) 15%, rgba(255,255,255,0.15) 30%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0.03) 60%, transparent 100%)',
+          background: 'linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 5%, rgba(255,255,255,0.4) 20%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0.1) 60%, transparent 100%)',
           filter: 'blur(1px)',
-          opacity: 0.9
+          opacity: 1
         }}
       />
       
@@ -71,9 +71,9 @@ export default function BottomLightBeam({ className = '' }: BottomLightBeamProps
       <div
         className="absolute bottom-0 left-1/2 transform -translate-x-1/2"
         style={{
-          width: '15px',
+          width: '25px',
           height: '100%',
-          background: 'linear-gradient(to top, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.4) 10%, rgba(255,255,255,0.2) 20%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.05) 40%, transparent 100%)',
+          background: 'linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0.9) 3%, rgba(255,255,255,0.6) 15%, rgba(255,255,255,0.3) 30%, rgba(255,255,255,0.15) 50%, transparent 100%)',
           opacity: 1
         }}
       />
@@ -82,11 +82,11 @@ export default function BottomLightBeam({ className = '' }: BottomLightBeamProps
       <div
         className="absolute bottom-0 left-1/2 transform -translate-x-1/2"
         style={{
-          width: '200px',
-          height: '60%',
-          background: 'conic-gradient(from 0deg at 50% 100%, transparent 0deg, rgba(255,255,255,0.1) 85deg, rgba(255,255,255,0.2) 90deg, rgba(255,255,255,0.1) 95deg, transparent 180deg)',
-          opacity: 0.6,
-          filter: 'blur(3px)'
+          width: '300px',
+          height: '80%',
+          background: 'conic-gradient(from 0deg at 50% 100%, transparent 0deg, rgba(255,255,255,0.3) 85deg, rgba(255,255,255,0.5) 90deg, rgba(255,255,255,0.3) 95deg, transparent 180deg)',
+          opacity: 0.8,
+          filter: 'blur(4px)'
         }}
       />
       
@@ -94,11 +94,11 @@ export default function BottomLightBeam({ className = '' }: BottomLightBeamProps
       <div
         className="absolute bottom-0 left-1/2 transform -translate-x-1/2"
         style={{
-          width: '300px',
-          height: '100px',
-          background: 'radial-gradient(ellipse at center bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 50%, transparent 100%)',
-          opacity: 0.7,
-          filter: 'blur(5px)'
+          width: '400px',
+          height: '150px',
+          background: 'radial-gradient(ellipse at center bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.3) 30%, rgba(255,255,255,0.1) 60%, transparent 100%)',
+          opacity: 1,
+          filter: 'blur(8px)'
         }}
       />
     </div>

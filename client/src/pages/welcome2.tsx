@@ -12,7 +12,7 @@ export default function Welcome2() {
         <LightningBackground className="z-0" />
         
         {/* Bottom Light Beam */}
-        <BottomLightBeam className="z-5" />
+        <BottomLightBeam className="z-30" />
         
         {/* Ultrarealistic Smoke */}
         <UltrarealisticSmoke />
