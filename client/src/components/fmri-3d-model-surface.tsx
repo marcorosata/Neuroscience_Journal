@@ -201,80 +201,55 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
         if (mainBrainMesh) {
           brainMeshRef.current = mainBrainMesh;
           
-          // Create surface-based activation patterns that follow brain geometry
-          const raycaster = new THREE.Raycaster();
+          // Simple approach: create activation patterns at known brain surface positions
+          // Scale positions to match the brain model (approximately 50-60 units)
+          const scaleFactor = 50;
           
-          // Update brain regions to be on the actual brain scale
+          // Update positions to match brain scale
           regionsRef.current.forEach(region => {
-            // Scale region positions to match brain model scale (approximately 50-60 units)
-            region.position.multiplyScalar(40);
+            region.position.multiplyScalar(scaleFactor);
           });
           
+          // Create simple glowing spheres for each region
           regionsRef.current.forEach(region => {
-            // Cast ray from region position toward brain center to find surface
-            const rayDirection = region.position.clone().negate().normalize();
-            const rayOrigin = region.position.clone().add(rayDirection.clone().multiplyScalar(-50));
+            // Create multiple layers for heat wave effect
+            const glowLayers = 5;
             
-            raycaster.set(rayOrigin, rayDirection.clone().negate());
-            const intersects = raycaster.intersectObject(mainBrainMesh, true);
-            
-            if (intersects.length > 0) {
-              // Get the actual surface point
-              const surfacePoint = intersects[0].point;
-              const surfaceNormal = intersects[0].face ? intersects[0].face.normal.clone().normalize() : new THREE.Vector3(0, 1, 0);
+            for (let layerIndex = 0; layerIndex < glowLayers; layerIndex++) {
+              const layerSize = 20 + layerIndex * 10; // Large visible sizes
+              const layerOpacity = Math.exp(-layerIndex * 0.3);
               
-              console.log(`Region ${region.id} placed at:`, surfacePoint);
+              // Create sphere geometry (flattened to look like surface patch)
+              const geometry = new THREE.SphereGeometry(layerSize, 32, 32);
+              geometry.scale(1, 0.2, 1); // Flatten the sphere
               
-              // Create multiple layers for heat wave effect
-              const glowLayers = 5;
+              const material = new THREE.MeshBasicMaterial({
+                color: region.color,
+                transparent: true,
+                opacity: 0,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending,
+                side: THREE.DoubleSide
+              });
               
-              for (let layerIndex = 0; layerIndex < glowLayers; layerIndex++) {
-                const layerSize = 5 + layerIndex * 3; // Reasonable sizes for brain surface
-                const layerOpacity = Math.exp(-layerIndex * 0.3);
-                const layerOffset = layerIndex * 0.1; // Small offset for each layer
-                
-                // Create a flat disc geometry
-                const geometry = new THREE.CircleGeometry(layerSize, 64);
-                
-                const material = new THREE.MeshPhongMaterial({
-                  color: region.color,
-                  emissive: region.color,
-                  emissiveIntensity: 0,
-                  transparent: true,
-                  opacity: 0,
-                  depthWrite: false,
-                  blending: THREE.AdditiveBlending,
-                  side: THREE.DoubleSide
-                });
-                
-                const activationMesh = new THREE.Mesh(geometry, material);
-                
-                // Position the mesh at the surface point with slight offset
-                const offsetPosition = surfacePoint.clone().add(
-                  surfaceNormal.clone().multiplyScalar(layerOffset)
-                );
-                activationMesh.position.copy(offsetPosition);
-                
-                // Orient the mesh to match the surface normal
-                const up = new THREE.Vector3(0, 1, 0);
-                const quaternion = new THREE.Quaternion();
-                quaternion.setFromUnitVectors(up, surfaceNormal);
-                activationMesh.quaternion.copy(quaternion);
-                
-                activationMesh.userData = { 
-                  regionId: region.id, 
-                  layerIndex: layerIndex,
-                  baseOpacity: layerOpacity,
-                  wavePhase: Math.random() * Math.PI * 2,
-                  surfaceNormal: surfaceNormal.clone()
-                };
-                
-                activationGroup.add(activationMesh);
-              }
-            } else {
-              console.warn(`No intersection found for region ${region.id}`);
+              const activationMesh = new THREE.Mesh(geometry, material);
+              
+              // Position at region location
+              activationMesh.position.copy(region.position);
+              
+              // Store metadata for animation
+              activationMesh.userData = { 
+                regionId: region.id, 
+                layerIndex: layerIndex,
+                baseOpacity: layerOpacity,
+                wavePhase: Math.random() * Math.PI * 2
+              };
+              
+              activationGroup.add(activationMesh);
             }
           });
+          
+          console.log('Created activation patterns for', regionsRef.current.length, 'regions');
         }
         
         scene.add(brain);
@@ -299,22 +274,22 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
       const activeRegions = regionsRef.current.filter(r => r.activation > 0.1).length;
       
       regionsRef.current.forEach(region => {
-        // More frequent activation - allow up to 3 regions active (localized pattern)
-        if (Math.random() < 0.025 && activeRegions < 3) {
+        // Much more frequent activation - allow up to 3 regions active
+        if (Math.random() < 0.08 && activeRegions < 3) {
           region.targetActivation = 0.9 + Math.random() * 0.1;
         }
         
-        // Faster deactivation
-        if (Math.random() < 0.02) {
-          region.targetActivation = Math.max(0, region.targetActivation - 0.2);
+        // Slower deactivation for longer visibility
+        if (Math.random() < 0.01) {
+          region.targetActivation = Math.max(0, region.targetActivation - 0.1);
         }
         
-        // Faster transitions
+        // Smooth transitions
         const diff = region.targetActivation - region.activation;
-        region.activation += diff * 0.08;
+        region.activation += diff * 0.05;
         
         // Clamp to zero if very low
-        if (region.activation < 0.05) {
+        if (region.activation < 0.01) {
           region.activation = 0;
           region.targetActivation = 0;
         }
@@ -324,7 +299,7 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
       activationGroup.children.forEach(child => {
         if (child instanceof THREE.Mesh && child.userData.regionId) {
           const region = regionsRef.current.find(r => r.id === child.userData.regionId);
-          if (region && child.material instanceof THREE.MeshPhongMaterial) {
+          if (region && child.material instanceof THREE.MeshBasicMaterial) {
             const material = child.material;
             const layerIndex = child.userData.layerIndex || 0;
             const baseOpacity = child.userData.baseOpacity || 1;
@@ -335,29 +310,26 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
             const waveIntensity = Math.sin(time + wavePhase + layerIndex * 0.3) * 0.5 + 0.5;
             
             const layerIntensity = Math.exp(-layerIndex * 0.15) * waveIntensity;
-            const finalOpacity = region.activation * baseOpacity * layerIntensity * 2.5;
-            const finalEmissive = region.activation * layerIntensity * 6.0;
+            const finalOpacity = region.activation * baseOpacity * layerIntensity * 0.8;
             
             material.opacity = finalOpacity;
-            material.emissiveIntensity = finalEmissive;
             
             // Heat wave ripple effect
-            const rippleScale = 1 + Math.sin(time * 2 + layerIndex * 0.8) * 0.1 * region.activation;
-            child.scale.set(rippleScale, rippleScale, rippleScale);
+            const baseScale = 1 + layerIndex * 0.01; // Slight scale difference per layer
+            const rippleScale = baseScale + Math.sin(time * 2 + layerIndex * 0.8) * 0.05 * region.activation;
+            child.scale.set(rippleScale, rippleScale * 0.2, rippleScale); // Keep Y scale flattened
             
-            // Change color based on activation level
+            // Change color based on activation level for fMRI-style visualization
             if (region.activation > 0.8) {
-              material.color.setHex(0xffff00); // Yellow
-              material.emissive.setHex(0xffff00);
+              material.color.setHex(0xffff00); // Yellow (high activation)
             } else if (region.activation > 0.6) {
               material.color.setHex(0xff4400); // Red-orange
-              material.emissive.setHex(0xff4400);
             } else if (region.activation > 0.4) {
               material.color.setHex(0xff8800); // Orange
-              material.emissive.setHex(0xff8800);
+            } else if (region.activation > 0.2) {
+              material.color.setHex(0xff0000); // Red
             } else {
-              material.color.setHex(region.color);
-              material.emissive.setHex(region.color);
+              material.color.setHex(0x0088ff); // Blue (low activation)
             }
           }
         }
