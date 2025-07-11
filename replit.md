@@ -6,6 +6,11 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 
 ## Recent Changes (January 2025)
 
+### Latest Updates
+- **Simplified Welcome Page**: Made welcome2 the main welcome page, removed old welcome page
+- **Minimalist Design**: Reduced content to show only "Welcome" and "CNS Student Journal" titles
+- **Interactive Background**: Combined lightning and smoke effects with cursor interaction on welcome page
+
 - **3D fMRI Brain Visualization**: Created interactive 3D brain model with realistic anatomical shape
 - **Interactive Rotation**: Click and drag to manually rotate brain, auto-rotates when idle
 - **Anatomically Correct Regions**: 12 brain regions positioned in 3D space (frontal, parietal, temporal, occipital lobes + motor cortex, hippocampus, amygdala, Broca's, Wernicke's areas)

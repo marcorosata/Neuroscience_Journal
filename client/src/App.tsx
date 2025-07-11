@@ -8,7 +8,6 @@ import DynamicParticles from "@/components/dynamic-particles";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import Cover from "@/pages/cover";
-import Welcome from "@/pages/welcome";
 import Welcome2 from "@/pages/welcome2";
 import BrainDemo from "@/pages/brain-demo";
 import Home from "@/pages/home";
@@ -43,11 +42,8 @@ function Router() {
       {/* Cover page - clean entry point with no header/footer */}
       <Route path="/" component={Cover} />
       
-      {/* Welcome page - standalone with brain background */}
-      <Route path="/welcome" component={Welcome} />
-      
-      {/* Welcome2 page - standalone with flowing lines background */}
-      <Route path="/welcome2" component={Welcome2} />
+      {/* Welcome page - standalone with lightning and smoke background */}
+      <Route path="/welcome" component={Welcome2} />
       
       {/* Brain demo page - just the brain visualization */}
       <Route path="/brain-demo" component={BrainDemo} />
