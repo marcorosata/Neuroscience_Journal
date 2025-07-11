@@ -10,6 +10,8 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 - **Simplified Welcome Page**: Made welcome2 the main welcome page, removed old welcome page
 - **Minimalist Design**: Reduced content to show only "Welcome" and "CNS Student Journal" titles
 - **Interactive Background**: Combined lightning and smoke effects with cursor interaction on welcome page
+- **Fixed Smoke Visibility**: Resolved smoke particle visibility issues by switching from Three.js to CSS-based approach
+- **Working Smoke System**: Implemented visible smoke particles that drift upward and respond to mouse interaction
 
 - **3D fMRI Brain Visualization**: Created interactive 3D brain model with realistic anatomical shape
 - **Interactive Rotation**: Click and drag to manually rotate brain, auto-rotates when idle
