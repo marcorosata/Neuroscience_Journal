@@ -137,7 +137,7 @@ export default function Home() {
                 <div className={`mt-8 transition-all duration-1000 delay-1000 ${
                   isAboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}>
-                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group">
+                  <Button className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group">
                     <Link href="/about" className="flex items-center">
                       Learn More About Us
                       <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
