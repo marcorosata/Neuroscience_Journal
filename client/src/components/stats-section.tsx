@@ -78,7 +78,7 @@ export default function StatsSection() {
                 delay={300}
                 className="text-4xl font-bold text-red-500 mb-2 tabular-nums block"
               />
-              <div className="text-red-500 font-semibold mb-2">Published Articles</div>
+              <div className="text-red-500 font-semibold mb-2">Articles</div>
               <div className="text-red-400 text-sm">Peer-reviewed research</div>
             </div>
           </ScrollReveal>
