@@ -102,16 +102,16 @@ export default function StatsSection() {
           <ScrollReveal direction="up" delay={400} className="w-full">
             <div className="card-enhanced bg-white/10 backdrop-blur-sm border border-white/20 p-8 text-center hover:bg-white/15 transition-all duration-300 group">
               <div className="w-20 h-20 bg-berry rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-neural">
-                <Eye className="text-white text-2xl" />
+                <Eye className="text-red-500 text-2xl" />
               </div>
               <CountUp 
                 end={stats?.monthlyReaders ?? 1} 
                 duration={2000}
                 delay={700}
-                className="text-4xl font-bold text-white mb-2 tabular-nums block"
+                className="text-4xl font-bold text-red-500 mb-2 tabular-nums block"
               />
-              <div className="text-white font-semibold mb-2">Monthly Readers</div>
-              <div className="text-white/60 text-sm">Global community</div>
+              <div className="text-red-500 font-semibold mb-2">Monthly Readers</div>
+              <div className="text-red-400 text-sm">Global community</div>
             </div>
           </ScrollReveal>
           
