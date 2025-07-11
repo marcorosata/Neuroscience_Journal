@@ -24,109 +24,48 @@ export default function VolumetricSmokeBackground({ className = '' }: Volumetric
     // Position camera
     camera.position.set(0, 0, 8);
 
-    // Create volumetric smoke using multiple layered planes
-    const smokeGeometry = new THREE.PlaneGeometry(12, 16);
-    const smokeMaterial = new THREE.ShaderMaterial({
+    // Create simple but highly visible smoke texture
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d')!;
+    
+    // Create radial gradient for smoke texture
+    const gradient = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.4)');
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 128, 128);
+    
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+
+    // Create simple smoke geometry and material
+    const smokeGeometry = new THREE.PlaneGeometry(8, 10);
+    const smokeMaterial = new THREE.MeshBasicMaterial({
+      map: texture,
       transparent: true,
-      depthWrite: false,
+      opacity: 0.2,
+      color: 0xcccccc,
       blending: THREE.AdditiveBlending,
-      uniforms: {
-        time: { value: 0 },
-        opacity: { value: 0.08 },
-        scale: { value: 1.0 },
-        color: { value: new THREE.Color(0x666666) }
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        varying vec3 vPosition;
-        uniform float time;
-        uniform float scale;
-        
-        // Noise function for realistic turbulence
-        float noise(vec3 p) {
-          return sin(p.x * 2.0 + time * 0.5) * 
-                 sin(p.y * 1.8 + time * 0.3) * 
-                 sin(p.z * 2.2 + time * 0.4) * 0.5 + 0.5;
-        }
-        
-        void main() {
-          vUv = uv;
-          vPosition = position;
-          
-          // Add realistic turbulent displacement
-          vec3 pos = position;
-          float n = noise(pos * 0.8 + time * 0.2);
-          pos.x += sin(time * 0.3 + pos.y * 0.1) * n * 0.3;
-          pos.z += cos(time * 0.4 + pos.y * 0.1) * n * 0.2;
-          
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-        }
-      `,
-      fragmentShader: `
-        varying vec2 vUv;
-        varying vec3 vPosition;
-        uniform float time;
-        uniform float opacity;
-        uniform vec3 color;
-        
-        // Multi-octave noise for realistic smoke patterns
-        float noise(vec2 p) {
-          return sin(p.x * 3.0 + time * 0.2) * sin(p.y * 2.5 + time * 0.15) * 0.5 + 0.5;
-        }
-        
-        float fbm(vec2 p) {
-          float value = 0.0;
-          float amplitude = 0.5;
-          for(int i = 0; i < 4; i++) {
-            value += amplitude * noise(p);
-            p *= 2.0;
-            amplitude *= 0.5;
-          }
-          return value;
-        }
-        
-        void main() {
-          vec2 uv = vUv;
-          
-          // Create realistic smoke density patterns
-          vec2 smokeUV = uv + vec2(
-            sin(time * 0.1 + vPosition.y * 0.02) * 0.1,
-            time * 0.03
-          );
-          
-          float smokeDensity = fbm(smokeUV * 2.0);
-          
-          // Add wispy tendrils
-          float tendrils = fbm(uv * 6.0 + time * 0.1) * 0.3;
-          smokeDensity += tendrils;
-          
-          // Create realistic falloff from center
-          float distanceFromCenter = distance(uv, vec2(0.5));
-          float falloff = smoothstep(0.7, 0.2, distanceFromCenter);
-          
-          // Vertical gradient for realistic smoke dissipation
-          float verticalGradient = smoothstep(0.0, 0.8, 1.0 - uv.y);
-          
-          float alpha = smokeDensity * falloff * verticalGradient * opacity;
-          
-          gl_FragColor = vec4(color, alpha);
-        }
-      `
+      depthWrite: false
     });
 
     // Create multiple smoke layers for depth
     const smokeLayers = [];
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 12; i++) {
       const smokePlane = new THREE.Mesh(smokeGeometry, smokeMaterial.clone());
       smokePlane.position.set(
-        (Math.random() - 0.5) * 4,
-        -6 + i * 1.5,
-        (Math.random() - 0.5) * 2
+        (Math.random() - 0.5) * 6,
+        -8 + i * 1.2,
+        (Math.random() - 0.5) * 3
       );
       smokePlane.rotation.z = Math.random() * Math.PI;
       smokePlane.scale.set(
-        0.8 + Math.random() * 0.4,
-        0.8 + Math.random() * 0.4,
+        0.6 + Math.random() * 0.8,
+        0.6 + Math.random() * 0.8,
         1
       );
       scene.add(smokePlane);
@@ -141,31 +80,34 @@ export default function VolumetricSmokeBackground({ className = '' }: Volumetric
       
       // Update each smoke layer
       smokeLayers.forEach((layer, index) => {
-        const material = layer.material as THREE.ShaderMaterial;
-        material.uniforms.time.value = time + index * 0.5;
+        const material = layer.material as THREE.MeshBasicMaterial;
+        
+        // Add subtle turbulence
+        layer.position.x += Math.sin(time * 0.2 + index) * 0.001;
+        layer.position.z += Math.cos(time * 0.15 + index) * 0.001;
         
         // Slow upward movement
-        layer.position.y += 0.005;
+        layer.position.y += 0.008;
         
         // Realistic expansion as smoke rises
-        layer.scale.x += 0.001;
-        layer.scale.y += 0.001;
+        layer.scale.x += 0.002;
+        layer.scale.y += 0.002;
         
         // Slow rotation
-        layer.rotation.z += 0.0005;
+        layer.rotation.z += 0.001;
         
         // Fade out as it gets higher
-        const opacity = Math.max(0, 0.08 - (layer.position.y + 6) * 0.01);
-        material.uniforms.opacity.value = opacity;
+        const opacity = Math.max(0, 0.2 - (layer.position.y + 8) * 0.015);
+        material.opacity = opacity;
         
         // Reset when too high
-        if (layer.position.y > 8) {
-          layer.position.y = -6;
-          layer.position.x = (Math.random() - 0.5) * 4;
-          layer.position.z = (Math.random() - 0.5) * 2;
+        if (layer.position.y > 10) {
+          layer.position.y = -8;
+          layer.position.x = (Math.random() - 0.5) * 6;
+          layer.position.z = (Math.random() - 0.5) * 3;
           layer.scale.set(
-            0.8 + Math.random() * 0.4,
-            0.8 + Math.random() * 0.4,
+            0.6 + Math.random() * 0.8,
+            0.6 + Math.random() * 0.8,
             1
           );
           layer.rotation.z = Math.random() * Math.PI;

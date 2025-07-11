@@ -3,7 +3,7 @@ import { Link } from 'wouter';
 import { ArrowRight, BookOpen, Users, Calendar } from 'lucide-react';
 import { PageTransition } from '../components/page-transition';
 import LightningBackground from '../components/lightning-background';
-import VolumetricSmokeBackground from '../components/volumetric-smoke-background';
+import SimpleSmokeBackground from '../components/simple-smoke-background';
 
 export default function Welcome2() {
   return (
@@ -12,8 +12,8 @@ export default function Welcome2() {
         {/* Lightning Background */}
         <LightningBackground className="z-0" />
         
-        {/* Volumetric Smoke Background */}
-        <VolumetricSmokeBackground className="z-5" />
+        {/* Simple Smoke Background */}
+        <SimpleSmokeBackground className="z-5" />
         
         {/* Welcome content */}
         <div className="relative z-20 flex items-center justify-center min-h-screen px-4">
