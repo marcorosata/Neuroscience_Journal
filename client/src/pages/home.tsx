@@ -107,21 +107,7 @@ export default function Home() {
         }}
       />
       
-      {/* Floating particles */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full opacity-20 animate-pulse"
-            style={{
-              left: `${20 + i * 15}%`,
-              top: `${30 + (i % 3) * 20}%`,
-              animationDelay: `${i * 0.5}s`,
-              transform: `translateY(${-scrollY * (0.1 + i * 0.02)}px)`,
-            }}
-          />
-        ))}
-      </div>
+      
       
       <div className="relative z-10">
         <HeroSection />
