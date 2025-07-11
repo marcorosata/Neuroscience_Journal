@@ -9,6 +9,7 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import Cover from "@/pages/cover";
 import Welcome from "@/pages/welcome";
+import Welcome2 from "@/pages/welcome2";
 import BrainDemo from "@/pages/brain-demo";
 import Home from "@/pages/home";
 import About from "@/pages/about";
@@ -44,6 +45,9 @@ function Router() {
       
       {/* Welcome page - standalone with brain background */}
       <Route path="/welcome" component={Welcome} />
+      
+      {/* Welcome2 page - standalone with flowing lines background */}
+      <Route path="/welcome2" component={Welcome2} />
       
       {/* Brain demo page - just the brain visualization */}
       <Route path="/brain-demo" component={BrainDemo} />

@@ -158,8 +158,10 @@ export default function FlowingLinesBackground({ className = '' }: FlowingLinesB
             
             // Create gradient along the line
             const gradient = ctx.createLinearGradient(prev.x, prev.y, curr.x, curr.y);
-            gradient.addColorStop(0, line.color + Math.floor(prev.opacity * 255).toString(16).padStart(2, '0'));
-            gradient.addColorStop(1, line.color + Math.floor(curr.opacity * 255).toString(16).padStart(2, '0'));
+            const prevAlpha = Math.floor(prev.opacity * 255).toString(16).padStart(2, '0');
+            const currAlpha = Math.floor(curr.opacity * 255).toString(16).padStart(2, '0');
+            gradient.addColorStop(0, line.color + prevAlpha);
+            gradient.addColorStop(1, line.color + currAlpha);
             
             ctx.strokeStyle = gradient;
             ctx.lineWidth = line.width * (i / line.trail.length);
