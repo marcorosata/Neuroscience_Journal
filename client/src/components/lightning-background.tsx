@@ -96,13 +96,13 @@ export default function LightningBackground({ className = '' }: LightningBackgro
         vx,
         vy,
         color: lightningColors[Math.floor(Math.random() * lightningColors.length)],
-        width: 0.2 + Math.random() * 0.4,
+        width: 0.4 + Math.random() * 0.8, // Thicker lightning bolts
         nodes: [],
         angle: Math.atan2(vy, vx),
         flickerIntensity: 0.9 + Math.random() * 0.1,
         branchChance: 0.01 + Math.random() * 0.02,
         visible: false,
-        lifespan: 10 + Math.random() * 20, // 0.2-0.5 seconds at 60fps
+        lifespan: 15 + Math.random() * 30, // 0.3-0.8 seconds at 60fps
         age: 0,
         dormantTime: 0
       };
@@ -136,10 +136,12 @@ export default function LightningBackground({ className = '' }: LightningBackgro
 
 
 
-    // Initialize just 1 lightning bolt for sparse, natural effect
-    const bolt = createLightningBolt();
-    generateLightningNodes(bolt);
-    boltsRef.current.push(bolt);
+    // Initialize 4 lightning bolts for more dramatic effect
+    for (let i = 0; i < 4; i++) {
+      const bolt = createLightningBolt();
+      generateLightningNodes(bolt);
+      boltsRef.current.push(bolt);
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY };
@@ -166,14 +168,14 @@ export default function LightningBackground({ className = '' }: LightningBackgro
           if (bolt.age >= bolt.lifespan) {
             bolt.visible = false;
             bolt.age = 0;
-            bolt.dormantTime = 180 + Math.random() * 600; // 3-13 seconds dormant
+            bolt.dormantTime = 60 + Math.random() * 180; // 1-4 seconds dormant (more frequent)
           }
         } else {
           // Lightning is dormant - check if it should appear
           if (bolt.age >= bolt.dormantTime) {
             bolt.visible = true;
             bolt.age = 0;
-            bolt.lifespan = 10 + Math.random() * 20; // 0.2-0.5 seconds visible
+            bolt.lifespan = 15 + Math.random() * 30; // 0.3-0.8 seconds visible (longer)
             // Create new lightning position and pattern
             const newBolt = createLightningBolt();
             bolt.x = newBolt.x;
@@ -198,9 +200,9 @@ export default function LightningBackground({ className = '' }: LightningBackgro
             const flickerIntensity = bolt.flickerIntensity * flicker;
             
             // Layer 1: Atmospheric glow (distant scattering)
-            ctx.shadowBlur = 80 * flickerIntensity;
+            ctx.shadowBlur = 120 * flickerIntensity;
             ctx.shadowColor = bolt.color;
-            ctx.globalAlpha = 0.3 * flickerIntensity;
+            ctx.globalAlpha = 0.5 * flickerIntensity;
             
             ctx.beginPath();
             ctx.moveTo(bolt.nodes[0].x, bolt.nodes[0].y);
@@ -214,8 +216,8 @@ export default function LightningBackground({ className = '' }: LightningBackgro
             ctx.stroke();
             
             // Layer 2: Medium atmospheric glow
-            ctx.shadowBlur = 40 * flickerIntensity;
-            ctx.globalAlpha = 0.6 * flickerIntensity;
+            ctx.shadowBlur = 60 * flickerIntensity;
+            ctx.globalAlpha = 0.8 * flickerIntensity;
             
             ctx.beginPath();
             ctx.moveTo(bolt.nodes[0].x, bolt.nodes[0].y);
@@ -227,8 +229,8 @@ export default function LightningBackground({ className = '' }: LightningBackgro
             ctx.stroke();
             
             // Layer 3: Close atmospheric glow
-            ctx.shadowBlur = 20 * flickerIntensity;
-            ctx.globalAlpha = 0.8 * flickerIntensity;
+            ctx.shadowBlur = 30 * flickerIntensity;
+            ctx.globalAlpha = 0.9 * flickerIntensity;
             
             ctx.beginPath();
             ctx.moveTo(bolt.nodes[0].x, bolt.nodes[0].y);
@@ -240,7 +242,7 @@ export default function LightningBackground({ className = '' }: LightningBackgro
             ctx.stroke();
             
             // Layer 4: Main discharge channel
-            ctx.shadowBlur = 8 * flickerIntensity;
+            ctx.shadowBlur = 15 * flickerIntensity;
             ctx.globalAlpha = 1;
             
             ctx.beginPath();
@@ -253,7 +255,7 @@ export default function LightningBackground({ className = '' }: LightningBackgro
             ctx.stroke();
             
             // Layer 5: Bright plasma core
-            ctx.shadowBlur = 4 * flickerIntensity;
+            ctx.shadowBlur = 8 * flickerIntensity;
             ctx.shadowColor = '#ffffff';
             
             ctx.beginPath();
