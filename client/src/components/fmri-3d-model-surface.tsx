@@ -202,93 +202,77 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
           brainMeshRef.current = mainBrainMesh;
           
           // Create surface-based activation patterns that follow brain geometry
+          const raycaster = new THREE.Raycaster();
+          
+          // Update brain regions to be on the actual brain scale
           regionsRef.current.forEach(region => {
-            // Create activation patches that conform to brain surface
-            const patchSize = region.radius * 15; // Large but reasonable size
-            const patchResolution = 32; // Number of vertices in patch
+            // Scale region positions to match brain model scale (approximately 50-60 units)
+            region.position.multiplyScalar(40);
+          });
+          
+          regionsRef.current.forEach(region => {
+            // Cast ray from region position toward brain center to find surface
+            const rayDirection = region.position.clone().negate().normalize();
+            const rayOrigin = region.position.clone().add(rayDirection.clone().multiplyScalar(-50));
             
-            // Create a grid of points around the region center
-            const activationPoints: THREE.Vector3[] = [];
-            const raycaster = new THREE.Raycaster();
+            raycaster.set(rayOrigin, rayDirection.clone().negate());
+            const intersects = raycaster.intersectObject(mainBrainMesh, true);
             
-            // Generate points in a circular pattern around the region center
-            for (let angle = 0; angle < Math.PI * 2; angle += (Math.PI * 2) / patchResolution) {
-              for (let radius = 0; radius < patchSize; radius += patchSize / 8) {
-                const x = Math.cos(angle) * radius;
-                const z = Math.sin(angle) * radius;
+            if (intersects.length > 0) {
+              // Get the actual surface point
+              const surfacePoint = intersects[0].point;
+              const surfaceNormal = intersects[0].face ? intersects[0].face.normal.clone().normalize() : new THREE.Vector3(0, 1, 0);
+              
+              console.log(`Region ${region.id} placed at:`, surfacePoint);
+              
+              // Create multiple layers for heat wave effect
+              const glowLayers = 5;
+              
+              for (let layerIndex = 0; layerIndex < glowLayers; layerIndex++) {
+                const layerSize = 5 + layerIndex * 3; // Reasonable sizes for brain surface
+                const layerOpacity = Math.exp(-layerIndex * 0.3);
+                const layerOffset = layerIndex * 0.1; // Small offset for each layer
                 
-                // Create a point in local space around the region
-                const localPoint = new THREE.Vector3(x, 0, z);
+                // Create a flat disc geometry
+                const geometry = new THREE.CircleGeometry(layerSize, 64);
                 
-                // Transform to world space relative to region position
-                const worldPoint = region.position.clone().add(localPoint);
+                const material = new THREE.MeshPhongMaterial({
+                  color: region.color,
+                  emissive: region.color,
+                  emissiveIntensity: 0,
+                  transparent: true,
+                  opacity: 0,
+                  depthWrite: false,
+                  blending: THREE.AdditiveBlending,
+                  side: THREE.DoubleSide
+                });
                 
-                // Cast ray from far outside toward brain center to find surface intersection
-                const rayOrigin = worldPoint.clone().normalize().multiplyScalar(10);
-                const rayDirection = worldPoint.clone().sub(rayOrigin).normalize();
+                const activationMesh = new THREE.Mesh(geometry, material);
                 
-                raycaster.set(rayOrigin, rayDirection);
-                const intersects = raycaster.intersectObject(mainBrainMesh, true);
+                // Position the mesh at the surface point with slight offset
+                const offsetPosition = surfacePoint.clone().add(
+                  surfaceNormal.clone().multiplyScalar(layerOffset)
+                );
+                activationMesh.position.copy(offsetPosition);
                 
-                if (intersects.length > 0) {
-                  // Add the intersection point (actual brain surface)
-                  const surfacePoint = intersects[0].point.clone();
-                  activationPoints.push(surfacePoint);
-                }
+                // Orient the mesh to match the surface normal
+                const up = new THREE.Vector3(0, 1, 0);
+                const quaternion = new THREE.Quaternion();
+                quaternion.setFromUnitVectors(up, surfaceNormal);
+                activationMesh.quaternion.copy(quaternion);
+                
+                activationMesh.userData = { 
+                  regionId: region.id, 
+                  layerIndex: layerIndex,
+                  baseOpacity: layerOpacity,
+                  wavePhase: Math.random() * Math.PI * 2,
+                  surfaceNormal: surfaceNormal.clone()
+                };
+                
+                activationGroup.add(activationMesh);
               }
-            }
-            
-            // Create multiple layers for heat wave effect
-            const glowLayers = 3;
-            
-            for (let layerIndex = 0; layerIndex < glowLayers; layerIndex++) {
-              const layerScale = 1 + layerIndex * 0.3;
-              const layerOpacity = Math.exp(-layerIndex * 0.4);
-              
-              // Create geometry from surface points
-              const geometry = new THREE.BufferGeometry();
-              const positions: number[] = [];
-              const indices: number[] = [];
-              
-              // Add all surface points
-              activationPoints.forEach(point => {
-                const scaledPoint = point.clone().sub(region.position).multiplyScalar(layerScale).add(region.position);
-                positions.push(scaledPoint.x, scaledPoint.y, scaledPoint.z);
-              });
-              
-              // Create triangular faces (simple fan triangulation from center)
-              const centerIndex = positions.length / 3;
-              positions.push(region.position.x, region.position.y, region.position.z);
-              
-              for (let i = 0; i < activationPoints.length; i++) {
-                const next = (i + 1) % activationPoints.length;
-                indices.push(centerIndex, i, next);
-              }
-              
-              geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-              geometry.setIndex(indices);
-              geometry.computeVertexNormals();
-              
-              const material = new THREE.MeshPhongMaterial({
-                color: region.color,
-                emissive: region.color,
-                emissiveIntensity: 0,
-                transparent: true,
-                opacity: 0,
-                depthWrite: false,
-                blending: THREE.AdditiveBlending,
-                side: THREE.DoubleSide
-              });
-              
-              const activationMesh = new THREE.Mesh(geometry, material);
-              activationMesh.userData = { 
-                regionId: region.id, 
-                layerIndex: layerIndex,
-                baseOpacity: layerOpacity,
-                wavePhase: Math.random() * Math.PI * 2
-              };
-              
-              activationGroup.add(activationMesh);
+            } else {
+              console.warn(`No intersection found for region ${region.id}`);
             }
           });
         }
