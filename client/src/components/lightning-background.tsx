@@ -149,9 +149,8 @@ export default function LightningBackground({ className = '' }: LightningBackgro
     const animate = () => {
       animationIdRef.current = requestAnimationFrame(animate);
 
-      // Very slow fade effect for long-lasting trails from sparse lightning
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.01)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Clear the canvas completely to prevent lightning from sticking
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 
 

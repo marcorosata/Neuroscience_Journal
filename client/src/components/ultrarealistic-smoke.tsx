@@ -32,25 +32,25 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
   const timeRef = useRef(0);
 
   useEffect(() => {
-    // Initialize smoke particles with enhanced physics properties
+    // Initialize debris/dust particles
     const initParticles = () => {
-      particlesRef.current = Array.from({ length: 50 }, (_, i) => ({
+      particlesRef.current = Array.from({ length: 12 }, (_, i) => ({
         id: i,
-        x: 40 + Math.random() * 20, // Wider spawn area
-        y: 105 + Math.random() * 10,
-        z: Math.random() * 15,
-        vx: (Math.random() - 0.5) * 0.15,
-        vy: -0.3 - Math.random() * 0.4, // Variable upward motion
-        vz: (Math.random() - 0.5) * 0.08,
-        size: 6 + Math.random() * 8,
-        opacity: 0.7 + Math.random() * 0.3,
+        x: 20 + Math.random() * 60, // Wider spawn area
+        y: 100 + Math.random() * 15,
+        z: Math.random() * 10,
+        vx: (Math.random() - 0.5) * 0.1,
+        vy: -0.1 - Math.random() * 0.2, // Slower upward motion
+        vz: (Math.random() - 0.5) * 0.05,
+        size: 2 + Math.random() * 4, // Much smaller particles
+        opacity: 0.3 + Math.random() * 0.4,
         life: 0,
-        maxLife: 500 + Math.random() * 400,
-        temperature: 1.2 + Math.random() * 0.8, // Higher initial temperature
-        density: 0.4 + Math.random() * 0.5,
-        turbulence: 0.2 + Math.random() * 0.6,
+        maxLife: 800 + Math.random() * 600,
+        temperature: 0.2 + Math.random() * 0.3, // Low temperature for debris
+        density: 0.6 + Math.random() * 0.4,
+        turbulence: 0.1 + Math.random() * 0.3,
         rotation: Math.random() * 360,
-        rotationSpeed: (Math.random() - 0.5) * 3
+        rotationSpeed: (Math.random() - 0.5) * 1.5
       }));
     };
 
@@ -154,28 +154,28 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
         if (particle.x < -10) particle.x = 110;
         if (particle.x > 110) particle.x = -10;
         
-        // Reset particle when it dies with enhanced properties
+        // Reset particle when it dies - debris/dust properties
         if (particle.life >= particle.maxLife || particle.y < -20) {
-          particle.x = 40 + Math.random() * 20;
-          particle.y = 105 + Math.random() * 10;
-          particle.z = Math.random() * 15;
-          particle.vx = (Math.random() - 0.5) * 0.15;
-          particle.vy = -0.3 - Math.random() * 0.4;
-          particle.vz = (Math.random() - 0.5) * 0.08;
-          particle.size = 6 + Math.random() * 8;
-          particle.opacity = 0.7 + Math.random() * 0.3;
+          particle.x = 20 + Math.random() * 60;
+          particle.y = 100 + Math.random() * 15;
+          particle.z = Math.random() * 10;
+          particle.vx = (Math.random() - 0.5) * 0.1;
+          particle.vy = -0.1 - Math.random() * 0.2;
+          particle.vz = (Math.random() - 0.5) * 0.05;
+          particle.size = 2 + Math.random() * 4;
+          particle.opacity = 0.3 + Math.random() * 0.4;
           particle.life = 0;
-          particle.temperature = 1.2 + Math.random() * 0.8;
-          particle.density = 0.4 + Math.random() * 0.5;
-          particle.turbulence = 0.2 + Math.random() * 0.6;
+          particle.temperature = 0.2 + Math.random() * 0.3;
+          particle.density = 0.6 + Math.random() * 0.4;
+          particle.turbulence = 0.1 + Math.random() * 0.3;
           particle.rotation = Math.random() * 360;
         }
         
         // Update DOM element with enhanced visual effects
         const element = containerRef.current?.querySelector(`[data-smoke="${index}"]`) as HTMLElement;
         if (element) {
-          const scale = 1 + ageRatio * 0.8;
-          const blur = 1 + ageRatio * 3;
+          const scale = 1 + ageRatio * 0.5;
+          const blur = 0.2 + ageRatio * 0.8; // Sharper debris appearance
           
           element.style.left = `${particle.x}%`;
           element.style.top = `${particle.y}%`;
@@ -183,22 +183,20 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
           element.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${particle.rotation}deg)`;
           element.style.filter = `blur(${blur}px)`;
           
-          // Advanced temperature-based color with realistic smoke spectrum
-          const heat = Math.min(particle.temperature, 2.0);
-          const coolness = Math.max(0, 1.0 - heat);
+          // Debris/dust appearance - earthy, grainy colors
+          const variation = Math.sin(timeRef.current * 0.05 + index * 0.5) * 20;
           
-          // Hot smoke: bright white/yellow, Cool smoke: gray/blue
-          const r = Math.min(255, 220 + heat * 35 - coolness * 50);
-          const g = Math.min(255, 220 + heat * 35 - coolness * 60);
-          const b = Math.min(255, 220 + heat * 20 - coolness * 40);
+          // Earth tones: browns, grays, muted colors for debris
+          const baseR = 120 + variation;
+          const baseG = 100 + variation * 0.8;
+          const baseB = 80 + variation * 0.6;
           
-          // Add subtle color variations for realism
-          const colorVariation = Math.sin(timeRef.current * 0.1 + index * 0.3) * 15;
-          const finalR = Math.max(0, Math.min(255, r + colorVariation));
-          const finalG = Math.max(0, Math.min(255, g + colorVariation));
-          const finalB = Math.max(0, Math.min(255, b + colorVariation));
+          const finalR = Math.max(60, Math.min(180, baseR));
+          const finalG = Math.max(50, Math.min(150, baseG));
+          const finalB = Math.max(40, Math.min(120, baseB));
           
-          element.style.background = `radial-gradient(circle, rgba(${finalR},${finalG},${finalB},${particle.density}) 0%, rgba(${finalR-30},${finalG-30},${finalB-30},${particle.density * 0.8}) 30%, rgba(${finalR-60},${finalG-60},${finalB-60},${particle.density * 0.5}) 60%, rgba(${finalR-90},${finalG-90},${finalB-90},${particle.density * 0.2}) 80%, transparent 100%)`;
+          // Sharp edges for debris particles, not soft smoke
+          element.style.background = `radial-gradient(circle, rgba(${finalR},${finalG},${finalB},${particle.opacity}) 0%, rgba(${finalR-20},${finalG-20},${finalB-20},${particle.opacity * 0.7}) 60%, transparent 100%)`;
         }
       });
       
@@ -220,7 +218,7 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
       ref={containerRef}
       className={`fixed inset-0 pointer-events-none z-10 ${className}`}
     >
-      {Array.from({ length: 50 }, (_, i) => (
+      {Array.from({ length: 12 }, (_, i) => (
         <div
           key={i}
           data-smoke={i}

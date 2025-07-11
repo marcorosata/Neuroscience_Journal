@@ -11,13 +11,12 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 - **Default Route**: Changed default route from cover page to welcome page (/ now shows welcome instead of cover)
 - **Removed Cover Page**: Completely removed the cover page component and route - welcome is now the only entry point
 - **Minimalist Design**: Reduced content to show only "Welcome" and "CNS Student Journal" titles
-- **Interactive Background**: Combined lightning and smoke effects with cursor interaction on welcome page
-- **Fixed Smoke Visibility**: Resolved smoke particle visibility issues by switching from Three.js to CSS-based approach
-- **Working Smoke System**: Implemented visible smoke particles that drift upward and respond to mouse interaction
-- **Ultrarealistic Smoke Physics**: Enhanced smoke with fluid dynamics simulation, curl noise turbulence, buoyancy effects, temperature-based behavior, and atmospheric wind patterns
-- **Advanced Particle System**: Added temperature cooling, density changes, particle expansion, air resistance, and physics-based mouse interaction
-- **Enhanced Lightning Timing**: Fixed lightning to appear for just brief moments (0.2-0.5 seconds) then disappear, preventing sticky behavior
-- **Improved Smoke Visuals**: Added 50 particles with advanced 3D curl noise, temperature-based color gradients, non-linear age effects, and realistic atmospheric scattering
+- **Interactive Background**: Combined lightning and debris/dust effects with cursor interaction on welcome page
+- **Fixed Lightning Visibility**: Resolved lightning sticking issue by properly clearing canvas between frames
+- **Debris/Dust Particle System**: Converted smoke to realistic debris/dust with earthy colors and sharp edges
+- **Reduced Particle Count**: Minimized particles from 50 to 12 for cleaner, more focused debris effect
+- **Enhanced Lightning Timing**: Fixed lightning to appear for just brief moments (0.2-0.5 seconds) then disappear completely
+- **Debris Physics**: Slower upward motion, reduced turbulence, and earth-tone coloring for realistic debris appearance
 
 - **3D fMRI Brain Visualization**: Created interactive 3D brain model with realistic anatomical shape
 - **Interactive Rotation**: Click and drag to manually rotate brain, auto-rotates when idle
