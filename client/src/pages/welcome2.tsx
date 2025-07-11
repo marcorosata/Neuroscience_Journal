@@ -2,14 +2,14 @@ import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { ArrowRight, BookOpen, Users, Calendar } from 'lucide-react';
 import { PageTransition } from '../components/page-transition';
-import FlowingLinesBackground from '../components/flowing-lines-background';
+import LightningBackground from '../components/lightning-background';
 
 export default function Welcome2() {
   return (
     <PageTransition>
       <div className="relative min-h-screen bg-black text-white overflow-hidden">
-        {/* Flowing Lines Background */}
-        <FlowingLinesBackground className="z-0" />
+        {/* Lightning Background */}
+        <LightningBackground className="z-0" />
         
         {/* Welcome content */}
         <div className="relative z-20 flex items-center justify-center min-h-screen px-4">
