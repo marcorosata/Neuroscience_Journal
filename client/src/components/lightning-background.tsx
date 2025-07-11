@@ -144,23 +144,26 @@ export default function LightningBackground({ className = '' }: LightningBackgro
       }
     };
 
-    // Create smoke particle function
+    // Create realistic smoke particle function with physics-based properties
     const createSmokeParticle = (): SmokeParticle => {
+      const baseY = canvas.height + Math.random() * 200;
+      const baseX = Math.random() * canvas.width;
+      
       return {
-        x: Math.random() * canvas.width,
-        y: canvas.height + Math.random() * 100,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: -0.3 - Math.random() * 0.7,
-        size: 20 + Math.random() * 40,
-        opacity: 0.1 + Math.random() * 0.2,
+        x: baseX,
+        y: baseY,
+        vx: (Math.random() - 0.5) * 0.3, // Gentle horizontal drift
+        vy: -0.5 - Math.random() * 0.8,  // Realistic upward movement
+        size: 15 + Math.random() * 30,   // Varied sizes
+        opacity: 0.05 + Math.random() * 0.15, // Very subtle opacity
         life: 0,
-        maxLife: 300 + Math.random() * 400,
-        color: `rgba(${100 + Math.random() * 50}, ${100 + Math.random() * 50}, ${120 + Math.random() * 50}, 0.1)`
+        maxLife: 400 + Math.random() * 600, // Longer lifespan
+        color: `rgba(${40 + Math.random() * 30}, ${40 + Math.random() * 30}, ${50 + Math.random() * 30}, ${0.02 + Math.random() * 0.05})`
       };
     };
 
-    // Initialize smoke particles
-    for (let i = 0; i < 15; i++) {
+    // Initialize more smoke particles for realistic density
+    for (let i = 0; i < 25; i++) {
       smokeParticlesRef.current.push(createSmokeParticle());
     }
 
@@ -178,32 +181,70 @@ export default function LightningBackground({ className = '' }: LightningBackgro
       animationIdRef.current = requestAnimationFrame(animate);
 
       // Very slow fade effect for long-lasting trails from sparse lightning
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.01)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Animate and render smoke particles
+      // Animate and render realistic smoke particles with turbulence
       smokeParticlesRef.current.forEach((particle, index) => {
+        // Add turbulent motion using Perlin-like noise approximation
+        const time = Date.now() * 0.001;
+        const noiseX = Math.sin(time + particle.x * 0.01) * 0.1;
+        const noiseY = Math.sin(time + particle.y * 0.01) * 0.05;
+        
+        // Apply realistic physics: buoyancy, drag, and turbulence
+        particle.vx += noiseX + (Math.random() - 0.5) * 0.02; // Turbulent drift
+        particle.vy += noiseY - 0.01; // Buoyancy effect
+        particle.vx *= 0.99; // Air resistance
+        particle.vy *= 0.995; // Vertical drag
+        
         // Update particle position
         particle.x += particle.vx;
         particle.y += particle.vy;
         particle.life++;
 
-        // Expand and fade particle
-        particle.size += 0.2;
-        particle.opacity *= 0.998;
+        // Realistic expansion and dissipation
+        particle.size += 0.15 + Math.sin(time + particle.life * 0.1) * 0.05;
+        particle.opacity *= 0.9995; // Very gradual fade
 
-        // Draw smoke particle
-        const particleOpacity = particle.opacity * (1 - particle.life / particle.maxLife);
-        if (particleOpacity > 0.01) {
+        // Draw smoke particle with realistic blending
+        const lifeRatio = particle.life / particle.maxLife;
+        const particleOpacity = particle.opacity * (1 - lifeRatio * lifeRatio); // Quadratic fade
+        
+        if (particleOpacity > 0.005) {
           ctx.globalAlpha = particleOpacity;
-          ctx.fillStyle = particle.color;
+          
+          // Create gradient for more realistic smoke appearance
+          const gradient = ctx.createRadialGradient(
+            particle.x, particle.y, 0,
+            particle.x, particle.y, particle.size
+          );
+          gradient.addColorStop(0, `rgba(60, 60, 70, ${particleOpacity * 0.8})`);
+          gradient.addColorStop(0.5, `rgba(45, 45, 55, ${particleOpacity * 0.4})`);
+          gradient.addColorStop(1, `rgba(30, 30, 40, 0)`);
+          
+          ctx.fillStyle = gradient;
           ctx.beginPath();
           ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
           ctx.fill();
+          
+          // Add subtle wispy tendrils
+          if (Math.random() < 0.3) {
+            ctx.globalAlpha = particleOpacity * 0.3;
+            ctx.fillStyle = `rgba(50, 50, 60, ${particleOpacity * 0.2})`;
+            ctx.beginPath();
+            ctx.arc(
+              particle.x + Math.sin(time + particle.life * 0.05) * 15,
+              particle.y + Math.cos(time + particle.life * 0.05) * 10,
+              particle.size * 0.6,
+              0,
+              Math.PI * 2
+            );
+            ctx.fill();
+          }
         }
 
         // Reset particle if it's too old or off screen
-        if (particle.life >= particle.maxLife || particle.y < -100) {
+        if (particle.life >= particle.maxLife || particle.y < -150 || particle.x < -100 || particle.x > canvas.width + 100) {
           smokeParticlesRef.current[index] = createSmokeParticle();
         }
       });
