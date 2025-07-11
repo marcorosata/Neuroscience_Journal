@@ -43,7 +43,7 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
       0.1,
       1000
     );
-    camera.position.set(0, 0, 200);
+    camera.position.set(0, 0, 5);
     cameraRef.current = camera;
 
     // Renderer setup
@@ -78,8 +78,8 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
     controls.dampingFactor = 0.05;
     controls.rotateSpeed = 0.5;
     controls.enableZoom = true;
-    controls.minDistance = 2;
-    controls.maxDistance = 200;
+    controls.minDistance = 3;
+    controls.maxDistance = 10;
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.5;
 
@@ -174,10 +174,10 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
     // Load brain model
     const loader = new GLTFLoader();
     loader.load(
-      '/attached_assets/brain_1752183297653.glb',
+      '/attached_assets/human-brain_1752181594149.glb',
       (gltf) => {
         const brain = gltf.scene;
-        brain.scale.set(1, 1, 1);
+        brain.scale.set(2, 2, 2);
         brain.position.set(0, 0, 0);
         
         // Find the main brain mesh
@@ -201,73 +201,45 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
         if (mainBrainMesh) {
           brainMeshRef.current = mainBrainMesh;
           
-          // Create a duplicate brain mesh for glowing effects
-          const glowBrainGeometry = mainBrainMesh.geometry.clone();
-          const glowBrainMaterial = new THREE.MeshBasicMaterial({
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0,
-            depthWrite: false,
-            blending: THREE.AdditiveBlending
-          });
-          
-          const glowBrain = new THREE.Mesh(glowBrainGeometry, glowBrainMaterial);
-          glowBrain.position.copy(mainBrainMesh.position);
-          glowBrain.rotation.copy(mainBrainMesh.rotation);
-          glowBrain.scale.copy(mainBrainMesh.scale);
-          glowBrain.scale.multiplyScalar(1.01); // Slightly larger to avoid z-fighting
-          
-          activationGroup.add(glowBrain);
-          
-          // Store reference for animation
-          activationGroup.userData.glowBrain = glowBrain;
-          activationGroup.userData.glowMaterial = glowBrainMaterial;
-          
-          // Create vertex-based activation regions
-          const geometry = glowBrainGeometry;
-          const positionAttribute = geometry.attributes.position;
-          const vertexCount = positionAttribute.count;
-          
-          // Create color attribute for vertex colors
-          const colors = new Float32Array(vertexCount * 3);
-          geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-          
-          // Update material to use vertex colors
-          glowBrainMaterial.vertexColors = true;
-          
-          // Map vertices to brain regions based on position
-          const vertexRegions = new Array(vertexCount);
-          
-          for (let i = 0; i < vertexCount; i++) {
-            const vertex = new THREE.Vector3(
-              positionAttribute.getX(i),
-              positionAttribute.getY(i),
-              positionAttribute.getZ(i)
-            );
+          // Create heat wave activation regions
+          regionsRef.current.forEach(region => {
+            // Create multiple concentric circles for heat wave effect
+            const glowLayers = 5;
             
-            // Find closest region for each vertex
-            let closestRegion = null;
-            let closestDistance = Infinity;
-            
-            regionsRef.current.forEach(region => {
-              // Scale region positions to match brain scale
-              const scaledPosition = region.position.clone().normalize().multiplyScalar(50);
-              const distance = vertex.distanceTo(scaledPosition);
+            for (let i = 0; i < glowLayers; i++) {
+              const layerRadius = region.radius * (1 + i * 0.2);
+              const layerOpacity = Math.exp(-i * 0.5); // Exponential falloff for heat wave
               
-              if (distance < closestDistance && distance < 30) { // Within 30 units
-                closestDistance = distance;
-                closestRegion = region.id;
-              }
-            });
-            
-            vertexRegions[i] = closestRegion;
-          }
-          
-          // Store vertex mapping
-          activationGroup.userData.vertexRegions = vertexRegions;
-          activationGroup.userData.colorAttribute = geometry.attributes.color;
-          
-          console.log('Created surface-based activation system');
+              // Create flattened sphere for each layer
+              const geometry = new THREE.SphereGeometry(layerRadius, 20, 20);
+              geometry.scale(1, 0.15, 1); // More flattened for surface effect
+              
+              const material = new THREE.MeshPhongMaterial({
+                color: region.color,
+                emissive: region.color,
+                emissiveIntensity: 0,
+                transparent: true,
+                opacity: 0,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending,
+                side: THREE.DoubleSide
+              });
+              
+              const activationMesh = new THREE.Mesh(geometry, material);
+              activationMesh.position.copy(region.position);
+              activationMesh.userData = { 
+                regionId: region.id, 
+                layerIndex: i,
+                baseOpacity: layerOpacity,
+                wavePhase: Math.random() * Math.PI * 2
+              };
+              
+              // Orient to follow brain surface
+              activationMesh.lookAt(new THREE.Vector3(0, 0, 0));
+              
+              activationGroup.add(activationMesh);
+            }
+          });
         }
         
         scene.add(brain);
@@ -292,90 +264,69 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
       const activeRegions = regionsRef.current.filter(r => r.activation > 0.1).length;
       
       regionsRef.current.forEach(region => {
-        // Much more frequent activation - allow up to 3 regions active
-        if (Math.random() < 0.08 && activeRegions < 3) {
-          region.targetActivation = 0.9 + Math.random() * 0.1;
+        // More frequent activation - allow up to 4 regions active
+        if (Math.random() < 0.015 && activeRegions < 4) {
+          region.targetActivation = 0.6 + Math.random() * 0.4;
         }
         
-        // Slower deactivation for longer visibility
-        if (Math.random() < 0.01) {
-          region.targetActivation = Math.max(0, region.targetActivation - 0.1);
+        // Faster deactivation
+        if (Math.random() < 0.02) {
+          region.targetActivation = Math.max(0, region.targetActivation - 0.2);
         }
         
-        // Smooth transitions
+        // Faster transitions
         const diff = region.targetActivation - region.activation;
-        region.activation += diff * 0.05;
+        region.activation += diff * 0.08;
         
         // Clamp to zero if very low
-        if (region.activation < 0.01) {
+        if (region.activation < 0.05) {
           region.activation = 0;
           region.targetActivation = 0;
         }
       });
 
-      // Update brain surface glow based on region activations
-      const glowBrain = activationGroup.userData.glowBrain;
-      const glowMaterial = activationGroup.userData.glowMaterial;
-      const vertexRegions = activationGroup.userData.vertexRegions;
-      const colorAttribute = activationGroup.userData.colorAttribute;
-      
-      if (glowBrain && vertexRegions && colorAttribute) {
-        const time = Date.now() * 0.003;
-        const colors = colorAttribute.array;
-        
-        // Update vertex colors based on region activations
-        for (let i = 0; i < vertexRegions.length; i++) {
-          const regionId = vertexRegions[i];
-          let r = 0, g = 0, b = 0;
-          
-          if (regionId) {
-            const region = regionsRef.current.find(reg => reg.id === regionId);
-            if (region && region.activation > 0) {
-              // Apply pulsing effect
-              const pulse = Math.sin(time * 2) * 0.2 + 0.8;
-              const intensity = region.activation * pulse;
-              
-              // Convert color based on activation level (fMRI style)
-              if (region.activation > 0.8) {
-                // Yellow
-                r = intensity;
-                g = intensity;
-                b = 0;
-              } else if (region.activation > 0.6) {
-                // Red-orange
-                r = intensity;
-                g = intensity * 0.4;
-                b = 0;
-              } else if (region.activation > 0.4) {
-                // Orange
-                r = intensity;
-                g = intensity * 0.6;
-                b = 0;
-              } else if (region.activation > 0.2) {
-                // Red
-                r = intensity;
-                g = 0;
-                b = 0;
-              } else {
-                // Blue
-                r = 0;
-                g = intensity * 0.5;
-                b = intensity;
-              }
+      // Update activation visualizations with gradient glow
+      activationGroup.children.forEach(child => {
+        if (child instanceof THREE.Mesh && child.userData.regionId) {
+          const region = regionsRef.current.find(r => r.id === child.userData.regionId);
+          if (region && child.material instanceof THREE.MeshPhongMaterial) {
+            const material = child.material;
+            const layerIndex = child.userData.layerIndex || 0;
+            const baseOpacity = child.userData.baseOpacity || 1;
+            
+            // Heat wave intensity with exponential falloff
+            const wavePhase = child.userData.wavePhase || 0;
+            const time = Date.now() * 0.003;
+            const waveIntensity = Math.sin(time + wavePhase + layerIndex * 0.3) * 0.5 + 0.5;
+            
+            const layerIntensity = Math.exp(-layerIndex * 0.3) * waveIntensity;
+            const finalOpacity = region.activation * baseOpacity * layerIntensity * 0.8;
+            const finalEmissive = region.activation * layerIntensity * 2.5;
+            
+            material.opacity = finalOpacity;
+            material.emissiveIntensity = finalEmissive;
+            
+            // Heat wave ripple effect
+            const rippleScale = 1 + Math.sin(time * 2 + layerIndex * 0.8) * 0.1 * region.activation;
+            child.scale.set(rippleScale, rippleScale, rippleScale);
+            
+            // Change color based on activation level
+            if (region.activation > 0.8) {
+              material.color.setHex(0xffff00); // Yellow
+              material.emissive.setHex(0xffff00);
+            } else if (region.activation > 0.6) {
+              material.color.setHex(0xff4400); // Red-orange
+              material.emissive.setHex(0xff4400);
+            } else if (region.activation > 0.4) {
+              material.color.setHex(0xff8800); // Orange
+              material.emissive.setHex(0xff8800);
+            } else {
+              material.color.setHex(region.color);
+              material.emissive.setHex(region.color);
             }
           }
-          
-          colors[i * 3] = r;
-          colors[i * 3 + 1] = g;
-          colors[i * 3 + 2] = b;
         }
-        
-        colorAttribute.needsUpdate = true;
-        
-        // Update overall glow opacity based on max activation
-        const maxActivation = Math.max(...regionsRef.current.map(r => r.activation));
-        glowMaterial.opacity = maxActivation * 0.8;
-      }
+      });
 
       renderer.render(scene, camera);
     };
