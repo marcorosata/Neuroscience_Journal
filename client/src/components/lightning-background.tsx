@@ -17,6 +17,18 @@ interface LightningBolt {
   dormantTime: number;
 }
 
+interface SmokeParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  opacity: number;
+  life: number;
+  maxLife: number;
+  color: string;
+}
+
 interface LightningBackgroundProps {
   className?: string;
 }
@@ -24,6 +36,7 @@ interface LightningBackgroundProps {
 export default function LightningBackground({ className = '' }: LightningBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const boltsRef = useRef<LightningBolt[]>([]);
+  const smokeParticlesRef = useRef<SmokeParticle[]>([]);
   const animationIdRef = useRef<number>();
   const mouseRef = useRef({ x: 0, y: 0 });
 
@@ -41,14 +54,16 @@ export default function LightningBackground({ className = '' }: LightningBackgro
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Ultrarealistic lightning colors based on electrical discharge physics
+    // Dramatic lightning colors for visual impact
     const lightningColors = [
-      '#ffffff',  // Pure white core
-      '#a8d8ff',  // Blue-white (oxygen excitation)
-      '#e6f3ff',  // Cool white
-      '#fff5e6',  // Warm white
-      '#cce7ff',  // Pale blue
-      '#f0f8ff',  // Ice blue
+      '#ff006e',  // Electric magenta
+      '#8338ec',  // Electric purple
+      '#3a86ff',  // Electric blue
+      '#06ffa5',  // Electric cyan
+      '#ff4365',  // Electric red
+      '#ffbe0b',  // Electric yellow
+      '#00f5ff',  // Bright cyan
+      '#ff5722',  // Electric orange
     ];
 
     const createLightningBolt = (): LightningBolt => {
@@ -129,6 +144,26 @@ export default function LightningBackground({ className = '' }: LightningBackgro
       }
     };
 
+    // Create smoke particle function
+    const createSmokeParticle = (): SmokeParticle => {
+      return {
+        x: Math.random() * canvas.width,
+        y: canvas.height + Math.random() * 100,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: -0.3 - Math.random() * 0.7,
+        size: 20 + Math.random() * 40,
+        opacity: 0.1 + Math.random() * 0.2,
+        life: 0,
+        maxLife: 300 + Math.random() * 400,
+        color: `rgba(${100 + Math.random() * 50}, ${100 + Math.random() * 50}, ${120 + Math.random() * 50}, 0.1)`
+      };
+    };
+
+    // Initialize smoke particles
+    for (let i = 0; i < 15; i++) {
+      smokeParticlesRef.current.push(createSmokeParticle());
+    }
+
     // Initialize just 1 lightning bolt for sparse, natural effect
     const bolt = createLightningBolt();
     generateLightningNodes(bolt);
@@ -145,6 +180,35 @@ export default function LightningBackground({ className = '' }: LightningBackgro
       // Very slow fade effect for long-lasting trails from sparse lightning
       ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Animate and render smoke particles
+      smokeParticlesRef.current.forEach((particle, index) => {
+        // Update particle position
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.life++;
+
+        // Expand and fade particle
+        particle.size += 0.2;
+        particle.opacity *= 0.998;
+
+        // Draw smoke particle
+        const particleOpacity = particle.opacity * (1 - particle.life / particle.maxLife);
+        if (particleOpacity > 0.01) {
+          ctx.globalAlpha = particleOpacity;
+          ctx.fillStyle = particle.color;
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Reset particle if it's too old or off screen
+        if (particle.life >= particle.maxLife || particle.y < -100) {
+          smokeParticlesRef.current[index] = createSmokeParticle();
+        }
+      });
+
+      ctx.globalAlpha = 1;
 
       boltsRef.current.forEach((bolt, index) => {
         // Update age
