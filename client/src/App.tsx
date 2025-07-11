@@ -4,7 +4,6 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { PageTransition } from "@/components/page-transition";
-import DynamicParticles from "@/components/dynamic-particles";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 
@@ -25,7 +24,6 @@ import NotFound from "@/pages/not-found";
 function JournalLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col relative">
-      <DynamicParticles density={20} speed={0.2} />
       <Header />
       <main className="flex-1 relative z-10">
         <PageTransition>

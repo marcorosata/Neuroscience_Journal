@@ -22,6 +22,7 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 - **Multi-Material System**: Implemented dust, sand, pollen, ash, and debris particles with unique physical properties
 - **Interactive Controls**: Real-time physics parameter adjustment with simulation presets
 - **Advanced Physics**: Verlet integration, drag forces, temperature effects, and mouse interaction
+- **Removed Moving Background**: Eliminated dynamic particles from home page and other journal pages for cleaner interface
 
 - **3D fMRI Brain Visualization**: Created interactive 3D brain model with realistic anatomical shape
 - **Interactive Rotation**: Click and drag to manually rotate brain, auto-rotates when idle
