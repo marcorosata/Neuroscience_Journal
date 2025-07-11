@@ -23,10 +23,11 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 - **Atmospheric Scattering**: 5-layer rendering system simulating real atmospheric light scattering
 - **Realistic Electrical Colors**: Physics-based color palette for authentic electrical discharge appearance
 - **Complex Fractal Branching**: Multiple-layer branch rendering for realistic lightning patterns
-- **Volumetric Smoke System**: Created realistic 3D smoke using layered shader planes with advanced fragment shaders
-- **Turbulent Motion**: Implemented multi-octave noise and fractal Brownian motion for authentic smoke patterns
-- **Realistic Smoke Physics**: 8 layered smoke planes with expansion, rotation, and vertical dissipation effects
-- **Shader-Based Rendering**: Advanced vertex and fragment shaders for volumetric smoke with wispy tendrils
+- **Interactive Smoke System**: Created realistic 3D smoke particles with mouse cursor interaction
+- **Cursor-Responsive Physics**: Smoke particles react to mouse movement with realistic turbulence and dispersion
+- **Velocity-Based Animation**: Particles have individual velocities affected by cursor proximity and natural forces
+- **Realistic Smoke Behavior**: Upward drift, velocity damping, and natural turbulence for authentic smoke physics
+- **Real-Time Interaction**: Particles are pushed away from cursor with distance-based force calculations
 
 ## User Preferences
 
