@@ -1,0 +1,262 @@
+Chatbot
+
+
+production
+Architecture
+Observability
+Logs
+Settings
+
+Share
+
+
+
+
+
+
+
+
+
+
+
+Activity
+
+
+recognify-testbot
+Deployments
+Variables
+Metrics
+Settings
+recognify-testbot-production.up.railway.app
+europe-west4-drams3a
+1 Replica
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+History
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+recognify-testbot
+/
+532f41a
+Jul 11, 2025, 4:18 PM
+Failed
+
+recognify-testbot-production.up.railway.app
+Get Help
+
+Details
+Build Logs
+Deploy Logs
+HTTP Logs
+
+Filter
+Filter logs using "", (), AND, OR, -
+
+
+
+You reached the start of the range → Jul 11, 2025, 4:18 PM
+
+/opt/venv/lib/python3.12/site-packages/pydantic/_migration.py:283: UserWarning: `pydantic.generics:GenericModel` has been moved to `pydantic.BaseModel`.
+
+  warnings.warn(f'`{import_path}` has been moved to `{new_location}`.')
+
+2025-07-11 14:25:59,627 - __main__ - ERROR - ❌ Application startup failed: All parameters must be present on typing.Generic; you should inherit from typing.Generic[~T, ~T].
+
+2025-07-11 14:25:59,913 - chatbot.unified_manager - INFO - 🔄 UnifiedManager: Database connection closed
+
+2025-07-11 14:26:03,188 - __main__ - INFO - === Railway Startup Environment Check ===
+
+2025-07-11 14:26:03,188 - __main__ - INFO - Python version: 3.12.7 (main, Oct  1 2024, 02:05:46) [GCC 13.3.0]
+
+2025-07-11 14:26:03,188 - __main__ - INFO - Current working directory: /app
+
+2025-07-11 14:26:03,188 - __main__ - INFO - === Environment Variables ===
+
+2025-07-11 14:26:03,189 - __main__ - INFO - OPENAI_API_KEY: SET
+
+2025-07-11 14:26:03,189 - __main__ - INFO - OPENAI_API_KEY length: 164
+
+2025-07-11 14:26:03,189 - __main__ - INFO - === All Environment Variables ===
+
+2025-07-11 14:26:03,189 - __main__ - INFO - OPENAI_API_KEY: SET
+
+2025-07-11 14:26:03,189 - __main__ - INFO - === Testing OpenAI Import ===
+
+2025-07-11 14:26:03,818 - __main__ - INFO - OpenAI library version: 1.93.0
+
+2025-07-11 14:26:03,818 - __main__ - INFO - OpenAI API key in library: NOT SET
+
+2025-07-11 14:26:03,818 - __main__ - INFO - === Testing LangChain Import ===
+
+2025-07-11 14:26:04,269 - __main__ - INFO - LangChain OpenAI imported successfully
+
+2025-07-11 14:26:04,270 - __main__ - INFO - 🤖 Starting Recognify Chatbot on Railway...
+
+2025-07-11 14:26:04,270 - __main__ - INFO - 🚂 Running on Railway platform
+
+2025-07-11 14:26:04,581 - config.config_properties - INFO - ✅ Using Railway MYSQL_URL configuration
+
+2025-07-11 14:26:04,714 - config.config_properties - INFO - ✅ Using Railway MYSQL_URL configuration
+
+2025-07-11 14:26:04,834 - config.config_properties - INFO - Database configuration validated successfully
+
+2025-07-11 14:26:04,834 - config.config_properties - INFO - ✅ Using Railway MYSQL_URL configuration
+
+2025-07-11 14:26:04,950 - __main__ - INFO - ✅ Database connection successful
+
+2025-07-11 14:26:04,951 - __main__ - INFO - 🔄 Initializing database schema...
+
+2025-07-11 14:26:04,955 - railway.setup_database - INFO - 🚀 Starting Recognify Chatbot Database Setup
+
+2025-07-11 14:26:04,955 - railway.setup_database - INFO - 🚂 Running on Railway - using environment variables instead of .env file
+
+2025-07-11 14:26:04,955 - railway.setup_database - INFO - 🔍 Testing MySQL connection...
+
+2025-07-11 14:26:04,955 - config.config_properties - INFO - ✅ Using Railway MYSQL_URL configuration
+
+2025-07-11 14:26:05,079 - railway.setup_database - INFO - ✅ Successfully connected to MySQL version: 9.3.0
+
+2025-07-11 14:26:05,080 - railway.setup_database - INFO - 📁 Creating database...
+
+2025-07-11 14:26:05,080 - config.config_properties - INFO - ✅ Using Railway MYSQL_URL configuration
+
+2025-07-11 14:26:05,197 - railway.setup_database - ERROR - ❌ Failed to create database.
+
+2025-07-11 14:26:05,198 - __main__ - WARNING - ⚠️ Database setup had issues, but continuing...
+
+2025-07-11 14:26:05,198 - __main__ - INFO - 🔄 Running critical database migrations...
+
+2025-07-11 14:26:05,198 - config.config_properties - INFO - ✅ Using Railway MYSQL_URL configuration
+
+2025-07-11 14:26:05,346 - railway.setup_database - INFO - ✅ Updated existing therapeutic_plans records with plan_version = 1
+
+2025-07-11 14:26:05,361 - railway.setup_database - INFO - ✅ Database migrations completed
+
+2025-07-11 14:26:05,361 - __main__ - INFO - ✅ Critical migrations completed
+
+2025-07-11 14:26:05,361 - __main__ - INFO - 🚀 Starting Recognify Chatbot application...
+
+✅ OpenAI LLMs initialized successfully with API key: sk-proj-Hj...
+
+   - Main model: gpt-4o (complex reasoning)
+
+   - Fast model: gpt-4o-mini (simple tasks)
+
+   - Ultra-fast model: gpt-4o-mini (classification)
+
+✅ TherapeuticAgent: OpenAI API key configured: sk-proj-Hj...
+
+2025-07-11 14:26:06,906 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+
+2025-07-11 14:26:06,963 - chromadb.telemetry.product.posthog - ERROR - Failed to send telemetry event ClientStartEvent: capture() takes 1 positional argument but 3 were given
+
+✅ ModularGraphBuilder imported successfully
+
+✅ Database migration script imported successfully
+
+⚠️ Database setup script import failed: cannot import name 'setup_database' from 'railway.setup_database' (/app/railway/setup_database.py)
+
+⚠️ Local dev setup script import failed: cannot import name 'setup_local_development' from 'local.setup_local_dev' (/app/local/setup_local_dev.py)
+
+✅ UnifiedManager imported successfully
+
+🔄 Initializing UnifiedManager...
+
+2025-07-11 14:26:07,081 - config.config_properties - INFO - ✅ Using Railway MYSQL_URL configuration
+
+2025-07-11 14:26:07,173 - chatbot.unified_manager - INFO - ✅ UnifiedManager: Database connections established
+
+2025-07-11 14:26:07,205 - chatbot.unified_manager - INFO - ✅ UnifiedManager: Database connections tested successfully
+
+✅ UnifiedManager initialized successfully
+
+🔄 Initializing Unified GraphRAG...
+
+2025-07-11 14:26:07,207 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+
+2025-07-11 14:26:07,217 - chromadb.telemetry.product.posthog - ERROR - Failed to send telemetry event ClientStartEvent: capture() takes 1 positional argument but 3 were given
+
+2025-07-11 14:26:07,217 - graphrag.UnifiedRAGStore - INFO - ✅ Initialized UnifiedRAGStore with unified capabilities
+
+✅ Unified GraphRAG initialized successfully
+
+📝 Setting unified stores in nodes module...
+
+   UNIFIED_RAGSTORE: <class 'graphrag.UnifiedRAGStore.UnifiedRAGStore'>
+
+   TEMPORAL_GRAPH_RETRIEVER: <class 'graphrag.TemporalGraphRetriever.TemporalGraphRetriever'>
+
+✅ Unified stores set in nodes module
+
+🔄 Initializing default topic...
+
+📝 Storing default topic in unified storage...
+
+✅ Default topic stored using unified temporal upsert: {'graph_results': {'topic_ids': ['default'], 'timestamp': '2025-07-11T14:26:07.217628'}, 'vector_results': {}}
+
+✅ Default topic initialized successfully
+
+2025-07-11 14:26:07,217 - graphrag.UnifiedRAGStore - INFO - ✅ Temporal upsert completed for 1 topics
+
+/opt/venv/lib/python3.12/site-packages/pydantic/_migration.py:283: UserWarning: `pydantic.generics:GenericModel` has been moved to `pydantic.BaseModel`.
+
+  warnings.warn(f'`{import_path}` has been moved to `{new_location}`.')
+
+2025-07-11 14:26:07,243 - __main__ - ERROR - ❌ Application startup failed: All parameters must be present on typing.Generic; you should inherit from typing.Generic[~T, ~T].
+
+2025-07-11 14:26:07,521 - chatbot.unified_manager - INFO - 🔄 UnifiedManager: Database connection closed
+
+2025-07-11 14:26:08,811 - __main__ - INFO - === Railway Startup Environment Check ===
+
+2025-07-11 14:26:08,811 - __main__ - INFO - Python version: 3.12.7 (main, Oct  1 2024, 02:05:46) [GCC 13.3.0]
+
+2025-07-11 14:26:08,811 - __main__ - INFO - Current working directory: /app
+
+2025-07-11 14:26:08,811 - __main__ - INFO - === Environment Variables ===
+
+
+recognify-testbot | Railway

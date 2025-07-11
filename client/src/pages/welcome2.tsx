@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 import { PageTransition } from '../components/page-transition';
 import LightningBackground from '../components/lightning-background';
-import WorkingSmoke from '../components/working-smoke';
+import UltrarealisticSmoke from '../components/ultrarealistic-smoke';
 
 export default function Welcome2() {
   return (
@@ -11,8 +11,8 @@ export default function Welcome2() {
         {/* Lightning Background */}
         <LightningBackground className="z-0" />
         
-        {/* Working Smoke */}
-        <WorkingSmoke />
+        {/* Ultrarealistic Smoke */}
+        <UltrarealisticSmoke />
         
         {/* Welcome content */}
         <div className="relative z-20 flex items-center justify-center min-h-screen px-4">

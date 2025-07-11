@@ -12,6 +12,8 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 - **Interactive Background**: Combined lightning and smoke effects with cursor interaction on welcome page
 - **Fixed Smoke Visibility**: Resolved smoke particle visibility issues by switching from Three.js to CSS-based approach
 - **Working Smoke System**: Implemented visible smoke particles that drift upward and respond to mouse interaction
+- **Ultrarealistic Smoke Physics**: Enhanced smoke with fluid dynamics simulation, curl noise turbulence, buoyancy effects, temperature-based behavior, and atmospheric wind patterns
+- **Advanced Particle System**: Added temperature cooling, density changes, particle expansion, air resistance, and physics-based mouse interaction
 
 - **3D fMRI Brain Visualization**: Created interactive 3D brain model with realistic anatomical shape
 - **Interactive Rotation**: Click and drag to manually rotate brain, auto-rotates when idle
