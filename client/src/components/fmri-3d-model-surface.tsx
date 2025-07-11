@@ -201,18 +201,73 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
         if (mainBrainMesh) {
           brainMeshRef.current = mainBrainMesh;
           
-          // Create surface-based activation patterns using the actual brain geometry
+          // Create surface-based activation patterns that follow brain geometry
           regionsRef.current.forEach(region => {
-            // Create multiple concentric layers for heat wave effect
-            const glowLayers = 5;
+            // Create activation patches that conform to brain surface
+            const patchSize = region.radius * 15; // Large but reasonable size
+            const patchResolution = 32; // Number of vertices in patch
             
-            for (let i = 0; i < glowLayers; i++) {
-              const layerRadius = region.radius * (75 + i * 25); // 50x bigger base size and growth
-              const layerOpacity = Math.exp(-i * 0.3); // Less aggressive falloff
+            // Create a grid of points around the region center
+            const activationPoints: THREE.Vector3[] = [];
+            const raycaster = new THREE.Raycaster();
+            
+            // Generate points in a circular pattern around the region center
+            for (let angle = 0; angle < Math.PI * 2; angle += (Math.PI * 2) / patchResolution) {
+              for (let radius = 0; radius < patchSize; radius += patchSize / 8) {
+                const x = Math.cos(angle) * radius;
+                const z = Math.sin(angle) * radius;
+                
+                // Create a point in local space around the region
+                const localPoint = new THREE.Vector3(x, 0, z);
+                
+                // Transform to world space relative to region position
+                const worldPoint = region.position.clone().add(localPoint);
+                
+                // Cast ray from far outside toward brain center to find surface intersection
+                const rayOrigin = worldPoint.clone().normalize().multiplyScalar(10);
+                const rayDirection = worldPoint.clone().sub(rayOrigin).normalize();
+                
+                raycaster.set(rayOrigin, rayDirection);
+                const intersects = raycaster.intersectObject(mainBrainMesh, true);
+                
+                if (intersects.length > 0) {
+                  // Add the intersection point (actual brain surface)
+                  const surfacePoint = intersects[0].point.clone();
+                  activationPoints.push(surfacePoint);
+                }
+              }
+            }
+            
+            // Create multiple layers for heat wave effect
+            const glowLayers = 3;
+            
+            for (let layerIndex = 0; layerIndex < glowLayers; layerIndex++) {
+              const layerScale = 1 + layerIndex * 0.3;
+              const layerOpacity = Math.exp(-layerIndex * 0.4);
               
-              // Create flattened sphere for surface contact
-              const geometry = new THREE.SphereGeometry(layerRadius, 16, 16);
-              geometry.scale(1, 0.1, 1); // Very flat on Y axis
+              // Create geometry from surface points
+              const geometry = new THREE.BufferGeometry();
+              const positions: number[] = [];
+              const indices: number[] = [];
+              
+              // Add all surface points
+              activationPoints.forEach(point => {
+                const scaledPoint = point.clone().sub(region.position).multiplyScalar(layerScale).add(region.position);
+                positions.push(scaledPoint.x, scaledPoint.y, scaledPoint.z);
+              });
+              
+              // Create triangular faces (simple fan triangulation from center)
+              const centerIndex = positions.length / 3;
+              positions.push(region.position.x, region.position.y, region.position.z);
+              
+              for (let i = 0; i < activationPoints.length; i++) {
+                const next = (i + 1) % activationPoints.length;
+                indices.push(centerIndex, i, next);
+              }
+              
+              geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+              geometry.setIndex(indices);
+              geometry.computeVertexNormals();
               
               const material = new THREE.MeshPhongMaterial({
                 color: region.color,
@@ -226,22 +281,12 @@ export default function FMRI3DModelSurface({ className = '' }: FMRI3DModelProps)
               });
               
               const activationMesh = new THREE.Mesh(geometry, material);
-              
-              // Position activation slightly above surface to avoid z-fighting
-              const offsetPosition = region.position.clone();
-              const normal = region.position.clone().normalize();
-              offsetPosition.add(normal.multiplyScalar(0.1));
-              activationMesh.position.copy(offsetPosition);
-              
               activationMesh.userData = { 
                 regionId: region.id, 
-                layerIndex: i,
+                layerIndex: layerIndex,
                 baseOpacity: layerOpacity,
                 wavePhase: Math.random() * Math.PI * 2
               };
-              
-              // Orient to face outward from brain center
-              activationMesh.lookAt(activationMesh.position.clone().add(region.position.clone().normalize()));
               
               activationGroup.add(activationMesh);
             }
