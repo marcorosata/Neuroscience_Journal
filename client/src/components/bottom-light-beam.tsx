@@ -47,7 +47,7 @@ export default function BottomLightBeam({ className = '' }: BottomLightBeamProps
         className="absolute bottom-0 left-0 right-0 light-layer"
         style={{
           height: '100%',
-          background: 'radial-gradient(circle at 50% 150%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.3) 15%, rgba(255,255,255,0.2) 30%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 70%, transparent 90%)',
+          background: 'radial-gradient(circle at 50% 150%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.15) 15%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.02) 70%, transparent 90%)',
           opacity: 1
         }}
       />
@@ -57,7 +57,7 @@ export default function BottomLightBeam({ className = '' }: BottomLightBeamProps
         className="absolute bottom-0 left-0 right-0 light-layer"
         style={{
           height: '80%',
-          background: 'radial-gradient(ellipse 120% 90% at 50% 100%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.15) 15%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.03) 60%, transparent 75%)',
+          background: 'radial-gradient(ellipse 120% 90% at 50% 100%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.08) 15%, rgba(255,255,255,0.05) 30%, rgba(255,255,255,0.03) 45%, rgba(255,255,255,0.01) 60%, transparent 75%)',
           filter: 'blur(25px)',
           opacity: 0.9
         }}
@@ -68,7 +68,7 @@ export default function BottomLightBeam({ className = '' }: BottomLightBeamProps
         className="absolute bottom-0 left-0 right-0 light-layer"
         style={{
           height: '60%',
-          background: 'radial-gradient(ellipse 100% 80% at 50% 100%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.04) 20%, rgba(255,255,255,0.02) 40%, rgba(255,255,255,0.01) 60%, transparent 80%)',
+          background: 'radial-gradient(ellipse 100% 80% at 50% 100%, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.02) 20%, rgba(255,255,255,0.01) 40%, rgba(255,255,255,0.005) 60%, transparent 80%)',
           filter: 'blur(30px)',
           opacity: 1
         }}
@@ -79,7 +79,7 @@ export default function BottomLightBeam({ className = '' }: BottomLightBeamProps
         className="absolute bottom-0 left-0 right-0 light-layer"
         style={{
           height: '300px',
-          background: 'radial-gradient(ellipse 200% 100% at 50% 100%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.3) 5%, rgba(255,255,255,0.2) 15%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.05) 50%, transparent 70%)',
+          background: 'radial-gradient(ellipse 200% 100% at 50% 100%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.15) 5%, rgba(255,255,255,0.1) 15%, rgba(255,255,255,0.05) 30%, rgba(255,255,255,0.02) 50%, transparent 70%)',
           filter: 'blur(20px)',
           opacity: 0.9
         }}
@@ -90,7 +90,7 @@ export default function BottomLightBeam({ className = '' }: BottomLightBeamProps
         className="absolute bottom-0 left-0 right-0 light-layer"
         style={{
           height: '60px',
-          background: 'linear-gradient(to top, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
+          background: 'linear-gradient(to top, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 50%, transparent 100%)',
           opacity: 0.8,
           filter: 'blur(8px)'
         }}
@@ -101,7 +101,7 @@ export default function BottomLightBeam({ className = '' }: BottomLightBeamProps
         className="absolute bottom-0 left-0 right-0"
         style={{
           height: '100%',
-          background: 'radial-gradient(circle at 50% 150%, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.02) 20%, rgba(255,255,255,0.01) 40%, transparent 60%)',
+          background: 'radial-gradient(circle at 50% 150%, rgba(255,255,255,0.015) 0%, rgba(255,255,255,0.01) 20%, rgba(255,255,255,0.005) 40%, transparent 60%)',
           filter: 'blur(40px)',
           opacity: 0.7
         }}
