@@ -18,6 +18,11 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 - **Anatomical Accuracy**: Proper brain proportions with temporal lobes, frontal bulge, and occipital shape
 - **Standard fMRI Colors**: Blue to red to yellow color scale matching real fMRI data
 - **Surface Glowing**: GLB model integration with surface-based activation visualization
+- **Ultrarealistic Lightning Background**: Implemented multi-layered atmospheric lightning effects with realistic electrical discharge physics
+- **Natural Lightning Timing**: Lightning appears in brief 0.5-1.5 second bursts with 3-13 second dormant periods
+- **Atmospheric Scattering**: 5-layer rendering system simulating real atmospheric light scattering
+- **Realistic Electrical Colors**: Physics-based color palette for authentic electrical discharge appearance
+- **Complex Fractal Branching**: Multiple-layer branch rendering for realistic lightning patterns
 
 ## User Preferences
 

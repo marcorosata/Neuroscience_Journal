@@ -41,16 +41,14 @@ export default function LightningBackground({ className = '' }: LightningBackgro
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Lightning colors
-    const colors = [
-      '#ff006e',  // Pink
-      '#fb5607',  // Orange
-      '#ffbe0b',  // Yellow
-      '#8338ec',  // Purple
-      '#3a86ff',  // Blue
-      '#06ffa5',  // Cyan
-      '#ff4365',  // Red
-      '#00f5ff',  // Light blue
+    // Ultrarealistic lightning colors based on electrical discharge physics
+    const lightningColors = [
+      '#ffffff',  // Pure white core
+      '#a8d8ff',  // Blue-white (oxygen excitation)
+      '#e6f3ff',  // Cool white
+      '#fff5e6',  // Warm white
+      '#cce7ff',  // Pale blue
+      '#f0f8ff',  // Ice blue
     ];
 
     const createLightningBolt = (): LightningBolt => {
@@ -92,7 +90,7 @@ export default function LightningBackground({ className = '' }: LightningBackgro
         y,
         vx,
         vy,
-        color: colors[Math.floor(Math.random() * colors.length)],
+        color: lightningColors[Math.floor(Math.random() * lightningColors.length)],
         width: 2 + Math.random() * 4,
         nodes: [],
         angle: Math.atan2(vy, vx),
@@ -172,7 +170,7 @@ export default function LightningBackground({ className = '' }: LightningBackgro
             bolt.y = newBolt.y;
             bolt.vx = newBolt.vx;
             bolt.vy = newBolt.vy;
-            bolt.color = newBolt.color;
+            bolt.color = lightningColors[Math.floor(Math.random() * lightningColors.length)];
             bolt.angle = newBolt.angle;
             generateLightningNodes(bolt);
           }
@@ -184,65 +182,114 @@ export default function LightningBackground({ className = '' }: LightningBackgro
           bolt.x += bolt.vx * 0.3;
           bolt.y += bolt.vy * 0.3;
 
-          // Draw lightning bolt with natural flicker
+          // Draw ultrarealistic lightning with multiple atmospheric layers
           if (bolt.nodes.length > 1) {
-            const flicker = Math.random() < 0.3 ? 0.5 : 1; // Natural flicker
+            const flicker = Math.random() < 0.2 ? 0.6 : 1; // Subtle realistic flicker
             const flickerIntensity = bolt.flickerIntensity * flicker;
             
-            ctx.shadowBlur = 15 * flickerIntensity;
+            // Layer 1: Atmospheric glow (distant scattering)
+            ctx.shadowBlur = 80 * flickerIntensity;
             ctx.shadowColor = bolt.color;
+            ctx.globalAlpha = 0.3 * flickerIntensity;
             
-            // Draw main lightning bolt
             ctx.beginPath();
             ctx.moveTo(bolt.nodes[0].x, bolt.nodes[0].y);
-            
             for (let i = 1; i < bolt.nodes.length; i++) {
               ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
             }
-            
             ctx.strokeStyle = bolt.color;
-            ctx.lineWidth = bolt.width * flickerIntensity;
+            ctx.lineWidth = bolt.width * 8 * flickerIntensity;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
             ctx.stroke();
             
-            // Draw bright core
+            // Layer 2: Medium atmospheric glow
+            ctx.shadowBlur = 40 * flickerIntensity;
+            ctx.globalAlpha = 0.6 * flickerIntensity;
+            
             ctx.beginPath();
             ctx.moveTo(bolt.nodes[0].x, bolt.nodes[0].y);
-            
             for (let i = 1; i < bolt.nodes.length; i++) {
               ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
             }
-            
-            ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = Math.max(0.3, bolt.width * 0.3 * flickerIntensity);
+            ctx.strokeStyle = bolt.color;
+            ctx.lineWidth = bolt.width * 4 * flickerIntensity;
             ctx.stroke();
             
-            // Draw sparse branches
-            if (Math.random() < bolt.branchChance * 0.5) {
+            // Layer 3: Close atmospheric glow
+            ctx.shadowBlur = 20 * flickerIntensity;
+            ctx.globalAlpha = 0.8 * flickerIntensity;
+            
+            ctx.beginPath();
+            ctx.moveTo(bolt.nodes[0].x, bolt.nodes[0].y);
+            for (let i = 1; i < bolt.nodes.length; i++) {
+              ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
+            }
+            ctx.strokeStyle = bolt.color;
+            ctx.lineWidth = bolt.width * 2 * flickerIntensity;
+            ctx.stroke();
+            
+            // Layer 4: Main discharge channel
+            ctx.shadowBlur = 8 * flickerIntensity;
+            ctx.globalAlpha = 1;
+            
+            ctx.beginPath();
+            ctx.moveTo(bolt.nodes[0].x, bolt.nodes[0].y);
+            for (let i = 1; i < bolt.nodes.length; i++) {
+              ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
+            }
+            ctx.strokeStyle = bolt.color;
+            ctx.lineWidth = bolt.width * flickerIntensity;
+            ctx.stroke();
+            
+            // Layer 5: Bright plasma core
+            ctx.shadowBlur = 4 * flickerIntensity;
+            ctx.shadowColor = '#ffffff';
+            
+            ctx.beginPath();
+            ctx.moveTo(bolt.nodes[0].x, bolt.nodes[0].y);
+            for (let i = 1; i < bolt.nodes.length; i++) {
+              ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
+            }
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = Math.max(0.5, bolt.width * 0.2 * flickerIntensity);
+            ctx.stroke();
+            
+            // Realistic fractal branches
+            if (Math.random() < bolt.branchChance * 0.8) {
               const branchStart = Math.floor(Math.random() * bolt.nodes.length);
               const branchNode = bolt.nodes[branchStart];
               
               if (branchNode) {
-                const branchLength = 2 + Math.floor(Math.random() * 3);
-                const branchAngle = bolt.angle + (Math.random() - 0.5) * Math.PI * 0.4;
+                const branchLength = 3 + Math.floor(Math.random() * 5);
+                const branchAngle = bolt.angle + (Math.random() - 0.5) * Math.PI * 0.8;
                 
-                ctx.beginPath();
-                ctx.moveTo(branchNode.x, branchNode.y);
-                
-                for (let i = 1; i < branchLength; i++) {
-                  const branchX = branchNode.x + Math.cos(branchAngle) * i * 30 + (Math.random() - 0.5) * 20;
-                  const branchY = branchNode.y + Math.sin(branchAngle) * i * 30 + (Math.random() - 0.5) * 20;
-                  ctx.lineTo(branchX, branchY);
+                // Multiple branch layers for realism
+                for (let layer = 0; layer < 3; layer++) {
+                  ctx.shadowBlur = (25 - layer * 8) * flickerIntensity;
+                  ctx.shadowColor = bolt.color;
+                  ctx.globalAlpha = (0.4 + layer * 0.2) * flickerIntensity;
+                  
+                  ctx.beginPath();
+                  ctx.moveTo(branchNode.x, branchNode.y);
+                  
+                  for (let i = 1; i < branchLength; i++) {
+                    const progress = i / branchLength;
+                    const branchX = branchNode.x + Math.cos(branchAngle) * i * 25 + (Math.random() - 0.5) * 15 * progress;
+                    const branchY = branchNode.y + Math.sin(branchAngle) * i * 25 + (Math.random() - 0.5) * 15 * progress;
+                    ctx.lineTo(branchX, branchY);
+                  }
+                  
+                  ctx.strokeStyle = bolt.color;
+                  ctx.lineWidth = bolt.width * (0.6 - layer * 0.15) * flickerIntensity;
+                  ctx.stroke();
                 }
-                
-                ctx.strokeStyle = bolt.color;
-                ctx.lineWidth = bolt.width * 0.4 * flickerIntensity;
-                ctx.stroke();
               }
             }
             
+            // Reset drawing state
             ctx.shadowBlur = 0;
+            ctx.globalAlpha = 1;
           }
         }
       });
