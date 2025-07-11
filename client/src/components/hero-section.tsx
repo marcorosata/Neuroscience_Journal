@@ -84,8 +84,7 @@ export default function HeroSection() {
                   View Current Issue
                 </Button>
                 <Button 
-                  variant="outline" 
-                  className="border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold"
+                  className="bg-poppy hover:bg-berry text-white px-8 py-4 text-lg font-semibold"
                   onClick={() => setLocation("/archive")}
                 >
                   <Download className="h-5 w-5 mr-2" />
