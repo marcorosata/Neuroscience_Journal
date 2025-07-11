@@ -34,7 +34,7 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
   useEffect(() => {
     // Initialize debris/dust particles
     const initParticles = () => {
-      const count = 24; // Doubled particle count for more density, was 12
+      const count = 96; // 4x more particles (24 * 4 = 96)
       particlesRef.current = Array.from({ length: count }, (_, i) => ({
         id: i,
         x: 20 + Math.random() * 60, // Wider spawn area
@@ -43,8 +43,8 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
         vx: (Math.random() - 0.5) * 0.1,
         vy: -0.1 - Math.random() * 0.2, // Slower upward motion
         vz: (Math.random() - 0.5) * 0.05,
-        size: 1 + Math.random() * 2, // Much smaller particles, was 2-4
-        opacity: 0.4 + Math.random() * 0.5, // Slightly brighter, was 0.3-0.4
+        size: 0.25 + Math.random() * 0.5, // 4x smaller particles (1-3 -> 0.25-0.75)
+        opacity: 0.8 + Math.random() * 0.2, // 4x brighter (0.4-0.9 -> 0.8-1.0)
         life: 0,
         maxLife: 800 + Math.random() * 600,
         temperature: 0.2 + Math.random() * 0.3, // Low temperature for debris
@@ -163,8 +163,8 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
           particle.vx = (Math.random() - 0.5) * 0.1;
           particle.vy = -0.1 - Math.random() * 0.2;
           particle.vz = (Math.random() - 0.5) * 0.05;
-          particle.size = 1 + Math.random() * 2; //Halved size
-          particle.opacity = 0.4 + Math.random() * 0.5; //Slightly brighter
+          particle.size = 0.25 + Math.random() * 0.5; // 4x smaller
+          particle.opacity = 0.8 + Math.random() * 0.2; // 4x brighter
           particle.life = 0;
           particle.temperature = 0.2 + Math.random() * 0.3;
           particle.density = 0.6 + Math.random() * 0.4;
@@ -219,7 +219,7 @@ export default function UltrarealisticSmoke({ className = '' }: UltrarealisticSm
       ref={containerRef}
       className={`fixed inset-0 pointer-events-none z-10 ${className}`}
     >
-      {Array.from({ length: 24 }, (_, i) => ( //Updated length to the count
+      {Array.from({ length: 96 }, (_, i) => ( // 4x more particles
         <div
           key={i}
           data-smoke={i}
