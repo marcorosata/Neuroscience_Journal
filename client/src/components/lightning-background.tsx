@@ -11,6 +11,10 @@ interface LightningBolt {
   angle: number;
   flickerIntensity: number;
   branchChance: number;
+  visible: boolean;
+  lifespan: number;
+  age: number;
+  dormantTime: number;
 }
 
 interface LightningBackgroundProps {
@@ -93,7 +97,11 @@ export default function LightningBackground({ className = '' }: LightningBackgro
         nodes: [],
         angle: Math.atan2(vy, vx),
         flickerIntensity: 0.9 + Math.random() * 0.1,
-        branchChance: 0.01 + Math.random() * 0.02
+        branchChance: 0.01 + Math.random() * 0.02,
+        visible: false,
+        lifespan: 30 + Math.random() * 60, // 0.5-1.5 seconds at 60fps
+        age: 0,
+        dormantTime: 0
       };
     };
 
@@ -141,99 +149,101 @@ export default function LightningBackground({ className = '' }: LightningBackgro
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       boltsRef.current.forEach((bolt, index) => {
-        // Update position
-        bolt.x += bolt.vx;
-        bolt.y += bolt.vy;
-
-        // Regenerate lightning path extremely rarely for sparse action potential effect
-        if (Math.random() < 0.001) {
-          generateLightningNodes(bolt);
-        }
-
-        // Draw lightning bolt with much less frequent flicker
-        if (bolt.nodes.length > 1) {
-          const flicker = Math.random() < 0.05 ? 0.2 : 1; // Very rare flicker
-          const flickerIntensity = bolt.flickerIntensity * flicker;
-          
-          ctx.shadowBlur = 20 * flickerIntensity;
-          ctx.shadowColor = bolt.color;
-          
-          // Draw main lightning bolt
-          ctx.beginPath();
-          ctx.moveTo(bolt.nodes[0].x, bolt.nodes[0].y);
-          
-          for (let i = 1; i < bolt.nodes.length; i++) {
-            ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
-          }
-          
-          ctx.strokeStyle = bolt.color;
-          ctx.lineWidth = bolt.width * flickerIntensity;
-          ctx.lineCap = 'round';
-          ctx.lineJoin = 'round';
-          ctx.stroke();
-          
-          // Draw bright core
-          ctx.beginPath();
-          ctx.moveTo(bolt.nodes[0].x, bolt.nodes[0].y);
-          
-          for (let i = 1; i < bolt.nodes.length; i++) {
-            ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
-          }
-          
-          ctx.strokeStyle = '#ffffff';
-          ctx.lineWidth = Math.max(0.5, bolt.width * 0.4 * flickerIntensity);
-          ctx.stroke();
-          
-          // Draw sparse branches for more natural action potential look
-          if (Math.random() < bolt.branchChance * 0.3) {
-            const branchStart = Math.floor(Math.random() * bolt.nodes.length);
-            const branchNode = bolt.nodes[branchStart];
-            
-            if (branchNode) {
-              const branchLength = 2 + Math.floor(Math.random() * 3);
-              const branchAngle = bolt.angle + (Math.random() - 0.5) * Math.PI * 0.4;
-              
-              ctx.beginPath();
-              ctx.moveTo(branchNode.x, branchNode.y);
-              
-              for (let i = 1; i < branchLength; i++) {
-                const branchX = branchNode.x + Math.cos(branchAngle) * i * 40 + (Math.random() - 0.5) * 30;
-                const branchY = branchNode.y + Math.sin(branchAngle) * i * 40 + (Math.random() - 0.5) * 30;
-                ctx.lineTo(branchX, branchY);
-              }
-              
-              ctx.strokeStyle = bolt.color;
-              ctx.lineWidth = bolt.width * 0.5 * flickerIntensity;
-              ctx.stroke();
-            }
-          }
-          
-          ctx.shadowBlur = 0;
-        }
-
-        // Mouse interaction - lightning avoids cursor
-        const dx = bolt.x - mouseRef.current.x;
-        const dy = bolt.y - mouseRef.current.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+        // Update age
+        bolt.age++;
         
-        if (distance < 120) {
-          const force = (120 - distance) / 120;
-          bolt.vx += (dx / distance) * force * 0.2;
-          bolt.vy += (dy / distance) * force * 0.2;
-          
-          // Dampen velocity
-          bolt.vx *= 0.98;
-          bolt.vy *= 0.98;
-          
-          // Force regeneration of lightning path
-          generateLightningNodes(bolt);
+        // Handle lightning state transitions
+        if (bolt.visible) {
+          // Lightning is currently visible - check if it should disappear
+          if (bolt.age >= bolt.lifespan) {
+            bolt.visible = false;
+            bolt.age = 0;
+            bolt.dormantTime = 180 + Math.random() * 600; // 3-13 seconds dormant
+          }
+        } else {
+          // Lightning is dormant - check if it should appear
+          if (bolt.age >= bolt.dormantTime) {
+            bolt.visible = true;
+            bolt.age = 0;
+            bolt.lifespan = 30 + Math.random() * 60; // 0.5-1.5 seconds visible
+            // Create new lightning position and pattern
+            const newBolt = createLightningBolt();
+            bolt.x = newBolt.x;
+            bolt.y = newBolt.y;
+            bolt.vx = newBolt.vx;
+            bolt.vy = newBolt.vy;
+            bolt.color = newBolt.color;
+            bolt.angle = newBolt.angle;
+            generateLightningNodes(bolt);
+          }
         }
 
-        // Reset bolt only when it's completely off screen (more generous bounds)
-        if (bolt.x < -400 || bolt.x > canvas.width + 400 || 
-            bolt.y < -400 || bolt.y > canvas.height + 400) {
-          boltsRef.current[index] = createLightningBolt();
-          generateLightningNodes(boltsRef.current[index]);
+        // Only draw and update if lightning is visible
+        if (bolt.visible) {
+          // Update position slowly
+          bolt.x += bolt.vx * 0.3;
+          bolt.y += bolt.vy * 0.3;
+
+          // Draw lightning bolt with natural flicker
+          if (bolt.nodes.length > 1) {
+            const flicker = Math.random() < 0.3 ? 0.5 : 1; // Natural flicker
+            const flickerIntensity = bolt.flickerIntensity * flicker;
+            
+            ctx.shadowBlur = 15 * flickerIntensity;
+            ctx.shadowColor = bolt.color;
+            
+            // Draw main lightning bolt
+            ctx.beginPath();
+            ctx.moveTo(bolt.nodes[0].x, bolt.nodes[0].y);
+            
+            for (let i = 1; i < bolt.nodes.length; i++) {
+              ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
+            }
+            
+            ctx.strokeStyle = bolt.color;
+            ctx.lineWidth = bolt.width * flickerIntensity;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+            
+            // Draw bright core
+            ctx.beginPath();
+            ctx.moveTo(bolt.nodes[0].x, bolt.nodes[0].y);
+            
+            for (let i = 1; i < bolt.nodes.length; i++) {
+              ctx.lineTo(bolt.nodes[i].x, bolt.nodes[i].y);
+            }
+            
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = Math.max(0.3, bolt.width * 0.3 * flickerIntensity);
+            ctx.stroke();
+            
+            // Draw sparse branches
+            if (Math.random() < bolt.branchChance * 0.5) {
+              const branchStart = Math.floor(Math.random() * bolt.nodes.length);
+              const branchNode = bolt.nodes[branchStart];
+              
+              if (branchNode) {
+                const branchLength = 2 + Math.floor(Math.random() * 3);
+                const branchAngle = bolt.angle + (Math.random() - 0.5) * Math.PI * 0.4;
+                
+                ctx.beginPath();
+                ctx.moveTo(branchNode.x, branchNode.y);
+                
+                for (let i = 1; i < branchLength; i++) {
+                  const branchX = branchNode.x + Math.cos(branchAngle) * i * 30 + (Math.random() - 0.5) * 20;
+                  const branchY = branchNode.y + Math.sin(branchAngle) * i * 30 + (Math.random() - 0.5) * 20;
+                  ctx.lineTo(branchX, branchY);
+                }
+                
+                ctx.strokeStyle = bolt.color;
+                ctx.lineWidth = bolt.width * 0.4 * flickerIntensity;
+                ctx.stroke();
+              }
+            }
+            
+            ctx.shadowBlur = 0;
+          }
         }
       });
     };
