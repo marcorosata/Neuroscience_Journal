@@ -33,9 +33,10 @@ export default function SimpleSmokeBackground({ className = '' }: SimpleSmokeBac
     
     // Simple radial gradient
     const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.5)');
-    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    gradient.addColorStop(0, 'rgba(220, 220, 220, 1)');
+    gradient.addColorStop(0.4, 'rgba(180, 180, 180, 0.8)');
+    gradient.addColorStop(0.8, 'rgba(120, 120, 120, 0.4)');
+    gradient.addColorStop(1, 'rgba(60, 60, 60, 0)');
     
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 64, 64);
@@ -43,7 +44,7 @@ export default function SimpleSmokeBackground({ className = '' }: SimpleSmokeBac
     const texture = new THREE.CanvasTexture(canvas);
 
     // Create smoke particles
-    const particleCount = 40;
+    const particleCount = 60;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const scales = new Float32Array(particleCount);
@@ -51,10 +52,10 @@ export default function SimpleSmokeBackground({ className = '' }: SimpleSmokeBac
     
     for (let i = 0; i < particleCount; i++) {
       const i3 = i * 3;
-      positions[i3] = (Math.random() - 0.5) * 15;
-      positions[i3 + 1] = -8 + Math.random() * 16;
-      positions[i3 + 2] = (Math.random() - 0.5) * 8;
-      scales[i] = 1 + Math.random() * 2;
+      positions[i3] = (Math.random() - 0.5) * 20;
+      positions[i3 + 1] = -10 + Math.random() * 20;
+      positions[i3 + 2] = (Math.random() - 0.5) * 10;
+      scales[i] = 2 + Math.random() * 3;
       
       // Initialize velocities for realistic smoke movement
       velocities[i3] = (Math.random() - 0.5) * 0.01; // slight horizontal drift
@@ -71,11 +72,11 @@ export default function SimpleSmokeBackground({ className = '' }: SimpleSmokeBac
     const material = new THREE.PointsMaterial({
       map: texture,
       transparent: true,
-      opacity: 0.8,
-      size: 8,
+      opacity: 0.9,
+      size: 15,
       sizeAttenuation: true,
-      color: 0xcccccc,
-      blending: THREE.AdditiveBlending,
+      color: 0xaaaaaa,
+      blending: THREE.NormalBlending,
       depthWrite: false
     });
 
@@ -151,10 +152,10 @@ export default function SimpleSmokeBackground({ className = '' }: SimpleSmokeBac
         positionArray[i3 + 2] += Math.cos(time * 0.2 + i * 0.1) * 0.002;
         
         // Reset when too high
-        if (positionArray[i3 + 1] > 10) {
-          positionArray[i3 + 1] = -8;
-          positionArray[i3] = (Math.random() - 0.5) * 15;
-          positionArray[i3 + 2] = (Math.random() - 0.5) * 8;
+        if (positionArray[i3 + 1] > 12) {
+          positionArray[i3 + 1] = -10;
+          positionArray[i3] = (Math.random() - 0.5) * 20;
+          positionArray[i3 + 2] = (Math.random() - 0.5) * 10;
           
           // Reset velocities
           velocityArray[i3] = (Math.random() - 0.5) * 0.01;
