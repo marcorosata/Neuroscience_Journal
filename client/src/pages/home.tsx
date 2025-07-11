@@ -194,7 +194,7 @@ export default function Home() {
                           }`}
                         >
                           <div className="relative mb-4">
-                            <div className="w-28 h-28 mx-auto rounded-full bg-gradient-to-br from-maroon/10 to-blue-600/10 border-2 border-maroon/20 group-hover:border-maroon/40 transition-all duration-300 flex items-center justify-center">
+                            <div className="w-28 h-28 mx-auto rounded-full bg-red-600 border-2 border-red-700 group-hover:border-red-800 transition-all duration-300 flex items-center justify-center"></div>
                               {editor.imageUrl ? (
                                 <img 
                                   src={editor.imageUrl}
