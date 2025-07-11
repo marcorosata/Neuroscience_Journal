@@ -17,10 +17,6 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 - **Reduced Particle Count**: Minimized particles from 50 to 12 for cleaner, more focused debris effect
 - **Enhanced Lightning Timing**: Fixed lightning to appear for just brief moments (0.2-0.5 seconds) then disappear completely
 - **Debris Physics**: Slower upward motion, reduced turbulence, and earth-tone coloring for realistic debris appearance
-- **Minimalistic Home Page**: Removed all animations, background effects, and complex layouts from home page
-- **Clean White Background**: Replaced animated backgrounds with simple white background for journal pages
-- **Simplified Content**: Streamlined home page to focus on essential content without visual distractions
-- **Basic Article Display**: Created simple article grid layout without fancy animations or effects
 
 - **3D fMRI Brain Visualization**: Created interactive 3D brain model with realistic anatomical shape
 - **Interactive Rotation**: Click and drag to manually rotate brain, auto-rotates when idle
