@@ -39,11 +39,11 @@ function JournalLayout({ children }: { children: React.ReactNode }) {
 function Router() {
   return (
     <Switch>
-      {/* Cover page - clean entry point with no header/footer */}
-      <Route path="/" component={Cover} />
+      {/* Welcome page - default route with lightning and smoke background */}
+      <Route path="/" component={Welcome2} />
       
-      {/* Welcome page - standalone with lightning and smoke background */}
-      <Route path="/welcome" component={Welcome2} />
+      {/* Cover page - alternative entry point */}
+      <Route path="/cover" component={Cover} />
       
       {/* Brain demo page - just the brain visualization */}
       <Route path="/brain-demo" component={BrainDemo} />
