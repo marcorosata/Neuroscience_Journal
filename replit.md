@@ -23,10 +23,10 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 - **Atmospheric Scattering**: 5-layer rendering system simulating real atmospheric light scattering
 - **Realistic Electrical Colors**: Physics-based color palette for authentic electrical discharge appearance
 - **Complex Fractal Branching**: Multiple-layer branch rendering for realistic lightning patterns
-- **Three.js Smoke System**: Implemented 3D smoke particles using Three.js with realistic physics simulation
-- **Turbulent Motion**: Added sine-wave based turbulence for natural smoke movement patterns
-- **Particle-Based Rendering**: 50 smoke particles with upward drift, expansion, and natural fade effects
-- **Layered Background**: Combined Three.js smoke with canvas-based lightning for depth and realism
+- **Volumetric Smoke System**: Created realistic 3D smoke using layered shader planes with advanced fragment shaders
+- **Turbulent Motion**: Implemented multi-octave noise and fractal Brownian motion for authentic smoke patterns
+- **Realistic Smoke Physics**: 8 layered smoke planes with expansion, rotation, and vertical dissipation effects
+- **Shader-Based Rendering**: Advanced vertex and fragment shaders for volumetric smoke with wispy tendrils
 
 ## User Preferences
 
