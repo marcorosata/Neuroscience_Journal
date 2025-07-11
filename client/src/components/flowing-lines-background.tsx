@@ -102,6 +102,7 @@ export default function FlowingLinesBackground({ className = '' }: FlowingLinesB
     for (let i = 0; i < 15; i++) {
       linesRef.current.push(createLine());
     }
+    console.log('Initialized', linesRef.current.length, 'flowing lines');
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY };
@@ -213,8 +214,11 @@ export default function FlowingLinesBackground({ className = '' }: FlowingLinesB
   return (
     <canvas 
       ref={canvasRef} 
-      className={`absolute inset-0 ${className}`}
-      style={{ background: 'linear-gradient(to bottom, #000000, #0a0a0a)' }}
+      className={`absolute inset-0 z-10 ${className}`}
+      style={{ 
+        background: 'linear-gradient(to bottom, #000000, #0a0a0a)',
+        pointerEvents: 'none'
+      }}
     />
   );
 }
