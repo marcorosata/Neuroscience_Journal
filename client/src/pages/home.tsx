@@ -189,9 +189,7 @@ export default function Home() {
                         .map((editor, index) => (
                         <div 
                           key={editor.id} 
-                          className={`group text-center transition-all duration-700 delay-${(index + 1) * 150} ${
-                            isEditorialVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                          }`}
+                          className="group text-center"
                         >
                           <div className="relative mb-4">
                             <div className="w-28 h-28 mx-auto rounded-full bg-red-600 border-2 border-red-700 group-hover:border-red-800 transition-all duration-300 flex items-center justify-center">
