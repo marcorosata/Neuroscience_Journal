@@ -1,6 +1,7 @@
 import { PageTransition } from '../components/page-transition';
 import LightningBackground from '../components/lightning-background';
 import UltrarealisticSmoke from '../components/ultrarealistic-smoke';
+import { Link } from 'wouter';
 
 export default function Welcome2() {
   return (
@@ -26,7 +27,7 @@ export default function Welcome2() {
             </div>
 
             {/* Main welcome message */}
-            <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
+            <h1 className="text-6xl md:text-8xl font-bold mb-6 text-white">
               Welcome
             </h1>
 
@@ -34,6 +35,15 @@ export default function Welcome2() {
               <h2 className="text-2xl md:text-3xl font-light text-gray-200 mb-4">
                 CNS Student Journal
               </h2>
+            </div>
+
+            {/* Find Out More Button */}
+            <div className="mt-8">
+              <Link href="/home">
+                <button className="px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors duration-300 text-lg">
+                  Find Out More
+                </button>
+              </Link>
             </div>
 
 

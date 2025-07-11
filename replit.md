@@ -17,6 +17,11 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 - **Reduced Particle Count**: Minimized particles from 50 to 12 for cleaner, more focused debris effect
 - **Enhanced Lightning Timing**: Fixed lightning to appear for just brief moments (0.2-0.5 seconds) then disappear completely
 - **Debris Physics**: Slower upward motion, reduced turbulence, and earth-tone coloring for realistic debris appearance
+- **Find Out More Button**: Added navigation button on welcome page linking to main journal content
+- **Dust Physics Simulator**: Created comprehensive physics simulation with gravity, fluid dynamics, electrostatics, magnetism, and thermodynamics
+- **Multi-Material System**: Implemented dust, sand, pollen, ash, and debris particles with unique physical properties
+- **Interactive Controls**: Real-time physics parameter adjustment with simulation presets
+- **Advanced Physics**: Verlet integration, drag forces, temperature effects, and mouse interaction
 
 - **3D fMRI Brain Visualization**: Created interactive 3D brain model with realistic anatomical shape
 - **Interactive Rotation**: Click and drag to manually rotate brain, auto-rotates when idle

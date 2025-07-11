@@ -10,6 +10,7 @@ import Footer from "@/components/footer";
 
 import Welcome2 from "@/pages/welcome2";
 import BrainDemo from "@/pages/brain-demo";
+import DustPhysicsDemo from "@/pages/dust-physics-demo";
 import Home from "@/pages/home";
 import About from "@/pages/about";
 import CurrentIssue from "@/pages/current-issue";
@@ -44,6 +45,9 @@ function Router() {
       
       {/* Brain demo page - just the brain visualization */}
       <Route path="/brain-demo" component={BrainDemo} />
+      
+      {/* Dust physics simulator demo */}
+      <Route path="/dust-physics-demo" component={DustPhysicsDemo} />
       
       {/* Main journal pages with header/footer */}
       <Route path="/home" component={() => <JournalLayout><Home /></JournalLayout>} />
