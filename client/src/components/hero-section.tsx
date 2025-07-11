@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
-import NeuralBackground from "./neural-background";
 
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,27 +18,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-red-impact via-berry to-maroon text-white overflow-hidden">
-      {/* Dynamic Neuronal Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 scale-110 animate-pulse">
-          <img 
-            src="/attached_assets/20250609_1643_Visual Storyteller_loop_01jxaja0egeshawwdvqkdw0hpq_1749484152491.gif"
-            alt="Neuronal network animation"
-            className="w-full h-full object-cover opacity-40 mix-blend-screen animate-fade-in-slow"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-red-impact/70 via-berry/60 to-maroon/70 animate-gradient-shift"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
-        
-        {/* Floating particles overlay */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-yellow-400 rounded-full opacity-80 animate-float-1"></div>
-          <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-orange-400 rounded-full opacity-60 animate-float-2"></div>
-          <div className="absolute bottom-1/3 left-1/2 w-1.5 h-1.5 bg-yellow-300 rounded-full opacity-70 animate-float-3"></div>
-          <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-orange-300 rounded-full opacity-50 animate-float-4"></div>
-        </div>
-      </div>
+    <section className="relative bg-gradient-to-br from-red-impact via-berry to-maroon text-white">
       
       {/* Main Content Area */}
       <div className="relative z-10 min-h-[80vh] flex items-center">
@@ -47,15 +26,12 @@ export default function HeroSection() {
           <div className="grid lg:grid-cols-3 gap-12 items-center">
             
             {/* Welcome Content */}
-            <div className="lg:col-span-2 space-y-8 animate-fade-in">
+            <div className="lg:col-span-2 space-y-8">
               <div className="space-y-6">
-                <h1 className="text-5xl md:text-6xl font-bold leading-tight animate-slide-up">
+                <h1 className="text-5xl md:text-6xl font-bold leading-tight">
                   Welcome to the Website of the{" "}
-                  <span className="relative">
-                    <span className="text-white">
-                      Cognitive Neuroscience Journal!
-                    </span>
-                    <div className="absolute -top-2 -right-2 w-4 h-4 bg-yellow-400 rounded-full animate-float-1 opacity-60"></div>
+                  <span className="text-white">
+                    Cognitive Neuroscience Journal!
                   </span>
                 </h1>
                 

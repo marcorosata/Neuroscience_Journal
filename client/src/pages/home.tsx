@@ -12,8 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import { formatDate, formatAuthors, getCategoryColor } from "@/lib/utils";
-import neuralBgGif from "@assets/20250609_1453_Ethereal Neuronal Lightning_simple_compose_01jxac05xmenrts2jkcqhkrbzj_1749474641545.gif";
-import SmokeBackground from "@/components/smoke-background";
+
 import type { Article, Issue, Editor } from "@shared/schema";
 
 export default function Home() {
@@ -72,58 +71,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen relative overflow-hidden scroll-smooth">
-      {/* Interactive Neural Smoke Background */}
-      <SmokeBackground 
-        particleCount={20}
-        colors={[
-          'rgba(59, 130, 246, 0.4)',   // Blue - neural activity
-          'rgba(147, 51, 234, 0.3)',   // Purple - synaptic connections  
-          'rgba(236, 72, 153, 0.3)',   // Pink - electrical impulses
-          'rgba(34, 197, 94, 0.2)',    // Green - neural pathways
-          'rgba(249, 115, 22, 0.2)',   // Orange - neurotransmitters
-          'rgba(139, 69, 19, 0.3)'     // Maroon - Radboud theme
-        ]}
-        intensity={0.6}
-      />
-      
-      {/* Enhanced Neural Lightning Background with parallax */}
-      <div 
-        className="fixed inset-0 opacity-20 dark:opacity-15 transition-all duration-700"
-        style={{
-          backgroundImage: `url(${neuralBgGif})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          transform: `translateY(${scrollY * 0.5}px)`,
-        }}
-      />
-      
-      {/* Dynamic Gradient Overlay */}
-      <div 
-        className="fixed inset-0 bg-gradient-to-b from-gray-50/95 via-white/90 to-gray-100/95 dark:from-gray-900/95 dark:via-black/90 dark:to-gray-800/95 transition-all duration-500"
-        style={{
-          opacity: Math.min(0.95, 0.8 + scrollY * 0.0003),
-        }}
-      />
-      
-      {/* Floating particles */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full opacity-20 animate-pulse"
-            style={{
-              left: `${20 + i * 15}%`,
-              top: `${30 + (i % 3) * 20}%`,
-              animationDelay: `${i * 0.5}s`,
-              transform: `translateY(${-scrollY * (0.1 + i * 0.02)}px)`,
-            }}
-          />
-        ))}
-      </div>
-      
-      <div className="relative z-10">
+    <div className="min-h-screen relative scroll-smooth">
+      <div className="relative">
         <HeroSection />
         <StatsSection />
 
