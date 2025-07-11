@@ -1,5 +1,3 @@
-import { motion } from 'framer-motion';
-
 import { PageTransition } from '../components/page-transition';
 import LightningBackground from '../components/lightning-background';
 import UltrarealisticSmoke from '../components/ultrarealistic-smoke';
