@@ -1,3 +1,4 @@
+import { PageTransition } from '../components/page-transition';
 import LightningBackground from '../components/lightning-background';
 import UltrarealisticSmoke from '../components/ultrarealistic-smoke';
 import BottomLightBeam from '../components/bottom-light-beam';
@@ -5,7 +6,8 @@ import { Link } from 'wouter';
 
 export default function Welcome2() {
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-hidden">
+    <PageTransition>
+      <div className="relative min-h-screen bg-black text-white overflow-hidden">
         {/* Lightning Background */}
         <LightningBackground className="z-0" />
         
@@ -52,5 +54,6 @@ export default function Welcome2() {
           </div>
         </div>
       </div>
+    </PageTransition>
   );
 }

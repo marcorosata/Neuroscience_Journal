@@ -26,7 +26,9 @@ function JournalLayout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen flex flex-col relative">
       <Header />
       <main className="flex-1 relative z-10">
-        {children}
+        <PageTransition>
+          {children}
+        </PageTransition>
       </main>
       <Footer />
     </div>
@@ -35,30 +37,28 @@ function JournalLayout({ children }: { children: React.ReactNode }) {
 
 function Router() {
   return (
-    <PageTransition>
-      <Switch>
-        {/* Welcome page - default route with lightning and smoke background */}
-        <Route path="/" component={Welcome2} />
-        
-        {/* Brain demo page - just the brain visualization */}
-        <Route path="/brain-demo" component={BrainDemo} />
-        
-        {/* Dust physics simulator demo */}
-        <Route path="/dust-physics-demo" component={DustPhysicsDemo} />
-        
-        {/* Main journal pages with header/footer */}
-        <Route path="/home" component={() => <JournalLayout><Home /></JournalLayout>} />
-        <Route path="/about" component={() => <JournalLayout><About /></JournalLayout>} />
-        <Route path="/current-issue" component={() => <JournalLayout><CurrentIssue /></JournalLayout>} />
-        <Route path="/archive" component={() => <JournalLayout><Archive /></JournalLayout>} />
-        <Route path="/for-authors" component={() => <JournalLayout><ForAuthors /></JournalLayout>} />
-        <Route path="/for-reviewers" component={() => <JournalLayout><ForReviewers /></JournalLayout>} />
-        <Route path="/contact" component={() => <JournalLayout><Contact /></JournalLayout>} />
-        <Route path="/article/:id" component={() => <JournalLayout><Article /></JournalLayout>} />
-        
-        <Route component={NotFound} />
-      </Switch>
-    </PageTransition>
+    <Switch>
+      {/* Welcome page - default route with lightning and smoke background */}
+      <Route path="/" component={Welcome2} />
+      
+      {/* Brain demo page - just the brain visualization */}
+      <Route path="/brain-demo" component={BrainDemo} />
+      
+      {/* Dust physics simulator demo */}
+      <Route path="/dust-physics-demo" component={DustPhysicsDemo} />
+      
+      {/* Main journal pages with header/footer */}
+      <Route path="/home" component={() => <JournalLayout><Home /></JournalLayout>} />
+      <Route path="/about" component={() => <JournalLayout><About /></JournalLayout>} />
+      <Route path="/current-issue" component={() => <JournalLayout><CurrentIssue /></JournalLayout>} />
+      <Route path="/archive" component={() => <JournalLayout><Archive /></JournalLayout>} />
+      <Route path="/for-authors" component={() => <JournalLayout><ForAuthors /></JournalLayout>} />
+      <Route path="/for-reviewers" component={() => <JournalLayout><ForReviewers /></JournalLayout>} />
+      <Route path="/contact" component={() => <JournalLayout><Contact /></JournalLayout>} />
+      <Route path="/article/:id" component={() => <JournalLayout><Article /></JournalLayout>} />
+      
+      <Route component={NotFound} />
+    </Switch>
   );
 }
 
