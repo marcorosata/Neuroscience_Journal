@@ -160,9 +160,6 @@ export default function Home() {
                   <span className="text-purple-600 font-semibold text-sm uppercase tracking-wider">Our Team</span>
                 </div>
                 <h3 className="text-3xl font-bold text-maroon mb-4">Editorial Board</h3>
-                <p className="text-gray-600 max-w-2xl mx-auto">
-                  Meet the distinguished researchers and academics who guide our publication standards
-                </p>
               </div>
               
 {editorsLoading ? (
