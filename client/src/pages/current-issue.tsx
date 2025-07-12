@@ -72,21 +72,19 @@ export default function CurrentIssue() {
                 )}
                 
                 <div className="flex flex-col items-center space-y-4">
-                  {currentIssue.pdfUrl && (
-                    <div className="text-center">
-                      <Button 
-                        size="lg"
-                        className="bg-poppy hover:bg-berry text-white px-8 py-4 text-lg font-semibold"
-                        onClick={() => window.open(currentIssue.pdfUrl!, '_blank')}
-                      >
-                        <Download className="h-5 w-5 mr-2" />
-                        Download Full Issue
-                      </Button>
-                      <p className="text-sm text-gray-500 mt-2">
-                        PDF • {currentIssue.pdfSize}
-                      </p>
-                    </div>
-                  )}
+                  <div className="text-center">
+                    <Button 
+                      size="lg"
+                      className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 text-lg font-semibold"
+                      onClick={() => currentIssue.pdfUrl ? window.open(currentIssue.pdfUrl, '_blank') : alert('PDF not available yet')}
+                    >
+                      <Download className="h-5 w-5 mr-2" />
+                      Download Full Issue
+                    </Button>
+                    <p className="text-sm text-gray-500 mt-2">
+                      {currentIssue.pdfUrl ? `PDF • ${currentIssue.pdfSize || 'Available'}` : 'PDF coming soon'}
+                    </p>
+                  </div>
                   
                   <div className="flex items-center space-x-6 text-sm text-gray-600">
                     <div className="flex items-center space-x-1">
