@@ -9,22 +9,25 @@ interface PageTransitionProps {
 const pageVariants = {
   initial: {
     opacity: 0,
-    y: 24,
+    scale: 0.96,
+    y: 8,
   },
   in: {
     opacity: 1,
+    scale: 1,
     y: 0,
   },
   out: {
     opacity: 0,
-    y: -12,
+    scale: 1.02,
+    y: -4,
   },
 };
 
 const pageTransition = {
   type: "tween",
-  ease: [0.22, 1, 0.36, 1],
-  duration: 0.4,
+  ease: [0.25, 0.46, 0.45, 0.94], // Gentle ease curve
+  duration: 0.7,
 };
 
 export function PageTransition({ children }: PageTransitionProps) {
@@ -40,14 +43,14 @@ export function PageTransition({ children }: PageTransitionProps) {
 
   return (
     <div className="relative overflow-hidden">
-      {/* Minimal page transition overlay */}
+      {/* Gentle morphing overlay */}
       <motion.div
-        className="fixed inset-0 bg-white z-50 pointer-events-none"
+        className="fixed inset-0 bg-gradient-to-br from-white/5 to-transparent z-50 pointer-events-none"
         initial={{ opacity: 0 }}
         animate={{ 
-          opacity: transitionStage === "out" ? 0.3 : 0,
+          opacity: transitionStage === "out" ? 0.1 : 0,
         }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
+        transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
         onAnimationComplete={() => {
           if (transitionStage === "out") {
             setDisplayLocation(location);
@@ -64,6 +67,9 @@ export function PageTransition({ children }: PageTransitionProps) {
           exit="out"
           variants={pageVariants}
           transition={pageTransition}
+          style={{
+            transformOrigin: "center center",
+          }}
         >
           {children}
         </motion.div>
@@ -72,7 +78,7 @@ export function PageTransition({ children }: PageTransitionProps) {
   );
 }
 
-// Stagger animation for page sections
+// Gentle stagger animation for page sections
 export function PageSection({ 
   children, 
   delay = 0,
@@ -85,12 +91,12 @@ export function PageSection({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 12, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ 
-        duration: 0.6, 
-        delay: delay * 0.1,
-        ease: "easeOut"
+        duration: 0.8, 
+        delay: delay * 0.15,
+        ease: [0.25, 0.46, 0.45, 0.94]
       }}
     >
       {children}
@@ -98,14 +104,14 @@ export function PageSection({
   );
 }
 
-// Enhanced route transition hook
+// Enhanced route transition hook with gentle timing
 export function useRouteTransition() {
   const [location] = useLocation();
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     setIsTransitioning(true);
-    const timer = setTimeout(() => setIsTransitioning(false), 500);
+    const timer = setTimeout(() => setIsTransitioning(false), 800);
     return () => clearTimeout(timer);
   }, [location]);
 

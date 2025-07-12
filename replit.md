@@ -23,6 +23,7 @@ This is a full-stack web application for the CNS Journal - a student-run academi
 - **Interactive Controls**: Real-time physics parameter adjustment with simulation presets
 - **Advanced Physics**: Verlet integration, drag forces, temperature effects, and mouse interaction
 - **Removed Moving Background**: Eliminated dynamic particles from home page and other journal pages for cleaner interface
+- **Gentle Page Transitions**: Updated page transitions with smoother morphing effects, subtle scaling, and longer duration (0.7s) for fluid navigation
 
 - **3D fMRI Brain Visualization**: Created interactive 3D brain model with realistic anatomical shape
 - **Interactive Rotation**: Click and drag to manually rotate brain, auto-rotates when idle
