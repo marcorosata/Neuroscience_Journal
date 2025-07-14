@@ -76,7 +76,7 @@ export default function CurrentIssue() {
                     <div className="text-center">
                       <Button 
                         size="lg"
-                        className="bg-poppy hover:bg-berry text-white px-8 py-4 text-lg font-semibold"
+                        className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 text-lg font-semibold"
                         onClick={() => window.open(currentIssue.pdfUrl!, '_blank')}
                       >
                         <Download className="h-5 w-5 mr-2" />
