@@ -36,9 +36,9 @@ export default function CurrentIssue() {
             </div>
           ) : currentIssue ? (
             <div>
-              <h1 className="text-4xl font-bold text-maroon mb-4">
+              {/* <h1 className="text-4xl font-bold text-maroon mb-4">
                 Volume {currentIssue.volume}, Issue {currentIssue.issue}
-              </h1>
+              </h1> */}
               <div className="flex items-center justify-center space-x-4 mb-6">
                 <Badge variant="outline" className="bg-poppy text-white border-poppy">
                   Current Issue
@@ -50,9 +50,9 @@ export default function CurrentIssue() {
                   </div>
                 )}
               </div>
-              <h2 className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              {/* <h2 className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
                 {currentIssue.title}
-              </h2>
+              </h2> */}
               
               {/* Cover Image and Download Section */}
               <div className="mt-8 flex flex-col lg:flex-row items-center justify-center gap-8 max-w-4xl mx-auto">

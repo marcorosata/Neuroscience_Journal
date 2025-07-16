@@ -110,9 +110,9 @@ export default function Archive() {
 
                           <div className="p-6">
                             <div className="mb-4">
-                              <h3 className="font-bold text-white text-lg mb-2 group-hover:text-yellow transition-colors">
+                              {/* <h3 className="font-bold text-white text-lg mb-2 group-hover:text-yellow transition-colors">
                                 {issue.title}
-                              </h3>
+                              </h3> */}
                               {/* {issue.description && (
                                 <p className="text-white/70 text-sm line-clamp-2 mb-3">
                                   {issue.description}
