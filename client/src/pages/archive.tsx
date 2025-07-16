@@ -113,11 +113,11 @@ export default function Archive() {
                               <h3 className="font-bold text-white text-lg mb-2 group-hover:text-yellow transition-colors">
                                 {issue.title}
                               </h3>
-                              {issue.description && (
+                              {/* {issue.description && (
                                 <p className="text-white/70 text-sm line-clamp-2 mb-3">
                                   {issue.description}
                                 </p>
-                              )}
+                              )} */}
                               {issue.publishedAt && (
                                 <div className="flex items-center space-x-2 text-white/60 text-sm">
                                   <Calendar className="h-4 w-4 text-yellow" />

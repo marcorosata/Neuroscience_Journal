@@ -53,11 +53,6 @@ export default function CurrentIssue() {
               <h2 className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
                 {currentIssue.title}
               </h2>
-              {currentIssue.description && (
-                <p className="text-gray-500 mt-4 max-w-2xl mx-auto">
-                  {currentIssue.description}
-                </p>
-              )}
               
               {/* Cover Image and Download Section */}
               <div className="mt-8 flex flex-col lg:flex-row items-center justify-center gap-8 max-w-4xl mx-auto">
